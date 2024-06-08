@@ -1,5 +1,5 @@
 import { Stack, styled, useTheme } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { Outlet, ScrollRestoration, useNavigation } from "react-router-dom";
 import Footer from "./footer/Footer.tsx";
 import Header from "./header/Header";
@@ -46,7 +46,9 @@ const Layout: React.FC = () => {
             <Header />
             <ScrollRestoration />
             <StyledStack>
-                <Outlet />
+                <Suspense>
+                    <Outlet />
+                </Suspense>
             </StyledStack>
             <Footer />
         </StyledContainer>
