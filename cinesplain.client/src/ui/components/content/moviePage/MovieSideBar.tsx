@@ -25,7 +25,7 @@ const StyledStack = styled(Stack)`
 
 interface MovieSideBarProps {
     movie: Movie;
-    omdbDetails: omdbMovieDetails | null;
+    omdbDetails?: omdbMovieDetails | null;
 }
 
 const MovieSideBar: React.FC<MovieSideBarProps> = ({ movie, omdbDetails }) => (
