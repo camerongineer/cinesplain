@@ -1,11 +1,11 @@
 import { fileURLToPath, URL } from "node:url";
 
-import { defineConfig } from "vite";
 import plugin from "@vitejs/plugin-react";
+import child_process from "child_process";
 import fs from "fs";
 import path from "path";
-import child_process from "child_process";
 import { env } from "process";
+import { defineConfig } from "vite";
 import svgr from "vite-plugin-svgr";
 
 const baseFolder =
@@ -49,7 +49,7 @@ export default defineConfig({
                 target,
                 secure: false,
                 changeOrigin: true,
-                rewrite: (path) => path.replace(/^\/api/, "")
+                rewrite: (path) => path.replace(/^\/api/, "/api")
             }
         },
         port: 5173,
