@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.OutputCaching;
 namespace CineSplain.API.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class MoviesController : Controller {
     private readonly IConfiguration _config;
 

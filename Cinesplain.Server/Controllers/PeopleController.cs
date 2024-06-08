@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CineSplain.API.Controllers;
 
-[Route("[controller]")]
+[Route("api/[controller]")]
 [ApiController]
 public class PeopleController : ControllerBase {
     private readonly IConfiguration _config;
