@@ -17,7 +17,7 @@ const StyledCard = styled(Card)`
 
 interface RatingCardProps {
     movie: Movie;
-    omdbDetails: omdbMovieDetails | null;
+    omdbDetails?: omdbMovieDetails | null;
 }
 
 const RatingCard: React.FC<RatingCardProps> = ({ movie, omdbDetails }) => {
