@@ -22,8 +22,8 @@ const StyledGrid = styled(Grid)`
 
 interface MovieTitleDisplayProps {
     movie: Movie;
-    omdbDetails: omdbMovieDetails | null;
-    director: listDisplayMovieCrewCredit | undefined;
+    omdbDetails?: omdbMovieDetails | null;
+    director?: listDisplayMovieCrewCredit;
 }
 
 const MovieTitleDisplay: React.FC<MovieTitleDisplayProps> = ({ movie, omdbDetails, director }) => {
