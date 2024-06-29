@@ -20,6 +20,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.MapFallbackToFile("/index.html");
+
 app.UseOutputCache();
 
 app.Run();
