@@ -49,7 +49,7 @@ const MovieCastCreditsListRow: React.FC<MovieCastCreditsListRowProps> = ({ castC
                             height: 45
                         }}
                     />
-                    <Stack width="100%">
+                    <Stack width="100%" px={.5}>
                         <Typography
                             variant="subtitle1"
                             fontWeight="bold"
