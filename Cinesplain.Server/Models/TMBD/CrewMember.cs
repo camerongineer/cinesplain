@@ -1,4 +1,4 @@
-﻿namespace CineSplain.API.Models.TMBD;
+﻿namespace Cinesplain.API.Models.TMBD;
 
 public class CrewMember : Person, ICrewCredit {
     public string CreditId { get; set; }

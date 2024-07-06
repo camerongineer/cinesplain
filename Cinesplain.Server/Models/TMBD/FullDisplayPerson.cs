@@ -1,4 +1,4 @@
-﻿namespace CineSplain.API.Models.TMBD;
+﻿namespace Cinesplain.API.Models.TMBD;
 
 public class FullDisplayPerson : Person {
     public List<string> AlsoKnownAs { get; set; }

@@ -1,4 +1,4 @@
-﻿namespace CineSplain.API.Models.TMBD;
+﻿namespace Cinesplain.API.Models.TMBD;
 
 public class Video {
     public string Id { get; set; }

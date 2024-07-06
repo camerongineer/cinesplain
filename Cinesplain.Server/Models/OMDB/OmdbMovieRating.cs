@@ -1,4 +1,4 @@
-﻿namespace CineSplain.API.Models.OMDB;
+﻿namespace Cinesplain.API.Models.OMDB;
 
 public class OmdbMovieRating {
     public string Source { get; set; }

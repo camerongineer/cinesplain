@@ -1,4 +1,4 @@
-﻿namespace CineSplain.API.Models.TMBD;
+﻿namespace Cinesplain.API.Models.TMBD;
 
 public class Image {
     public double AspectRatio { get; set; }

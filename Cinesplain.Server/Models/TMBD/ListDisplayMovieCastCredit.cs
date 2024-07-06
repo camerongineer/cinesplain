@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CineSplain.API.Models.TMBD;
+namespace Cinesplain.API.Models.TMBD;
 
 public class ListDisplayMovieCastCredit: ListDisplayMovie {
     public string Character { get; set; }
