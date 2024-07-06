@@ -1,6 +1,7 @@
 ﻿namespace Cinesplain.API.Models.OMDB;
 
-public class OmdbMovieDetails {
+public class OmdbMovieDetails
+{
     public string Title { get; set; }
     public string Year { get; set; }
     public string Rated { get; set; }

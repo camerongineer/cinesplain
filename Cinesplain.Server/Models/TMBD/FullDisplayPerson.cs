@@ -1,6 +1,7 @@
 ﻿namespace Cinesplain.API.Models.TMBD;
 
-public class FullDisplayPerson : Person {
+public class FullDisplayPerson : Person
+{
     public List<string> AlsoKnownAs { get; set; }
     public string Biography { get; set; }
     public string? Birthday { get; set; }

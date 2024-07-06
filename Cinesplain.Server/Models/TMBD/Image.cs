@@ -1,6 +1,7 @@
 ﻿namespace Cinesplain.API.Models.TMBD;
 
-public class Image {
+public class Image
+{
     public double AspectRatio { get; set; }
     public int Height { get; set; }
     public string? Iso_639_1 { get; set; }

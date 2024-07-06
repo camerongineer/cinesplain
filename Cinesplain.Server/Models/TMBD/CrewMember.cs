@@ -1,6 +1,7 @@
 ﻿namespace Cinesplain.API.Models.TMBD;
 
-public class CrewMember : Person, ICrewCredit {
+public class CrewMember : Person, ICrewCredit
+{
     public string CreditId { get; set; }
     public string Department { get; set; }
     public int Gender { get; set; }

@@ -2,7 +2,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Cinesplain.API.Models.TMBD;
 
-public class Movie {
+public class Movie
+{
     public bool Adult { get; set; }
     public string? BackdropPath { get; set; }
     [Required] public int Id { get; set; }

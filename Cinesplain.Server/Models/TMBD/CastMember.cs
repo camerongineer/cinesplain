@@ -1,6 +1,7 @@
 ﻿namespace Cinesplain.API.Models.TMBD;
 
-public class CastMember {
+public class CastMember
+{
     public bool Adult { get; set; }
     public string BackdropPath { get; set; }
     public int CastId { get; set; }

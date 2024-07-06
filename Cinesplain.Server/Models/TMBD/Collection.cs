@@ -2,7 +2,8 @@
 
 namespace Cinesplain.API.Models.TMBD;
 
-public class Collection {
+public class Collection
+{
     [Required] public int Id { get; set; }
     [Required] public string Name { get; set; }
     public string? PosterPath { get; set; }
