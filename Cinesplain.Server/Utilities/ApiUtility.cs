@@ -1,38 +1,43 @@
-﻿using CineSplain.API.Models.TMBD;
+﻿using Cinesplain.API.Models.TMBD;
 using System.Text.Json;
 
-namespace CineSplain.API.Utilities;
+namespace Cinesplain.API.Utilities;
 
-public static class ApiUtility {
-    private static HttpResponseMessage GetAPIResponse(string baseUrl, string apiKey, string endpoint) {
+public static class ApiUtility
+{
+    private static readonly JsonSerializerOptions _jsonSerializerOptions =
+        new() { PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower, };
+
+    private static async Task<HttpResponseMessage> GetAPIResponseAsync(string baseUrl, string apiKey, string endpoint)
+    {
         using var client = new HttpClient();
         client.BaseAddress = new Uri(baseUrl);
         client.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
-        return client.GetAsync(endpoint).Result;
+        return await client.GetAsync(endpoint);
     }
 
-    public static T GetTMDBResponse<T>(IConfiguration config, string endpoint, Dictionary<string, string>? queryParams = null) {
-        var defaultQueryParams = new Dictionary<string, string> {
-            { "include_adult", "false" },
-            { "language", "en" },
-        };
+    public static async Task<T> GetTMDBResponseAsync<T>(
+        IConfiguration config,
+        string endpoint,
+        Dictionary<string, string>? queryParams = null
+    )
+    {
+        var defaultQueryParams = new Dictionary<string, string> { { "include_adult", "false" }, { "language", "en" }, };
 
         var defaultQueryString = BuildQueryString(defaultQueryParams);
         var queryString = BuildQueryString(queryParams);
         var fullEndpoint = $"{endpoint}?{defaultQueryString}" + (queryString != null ? $"&{queryString}" : "");
         var tmdbBaseUrl = config["TMDB_API_URL"] ?? "";
         var tmdbApiKey = config["TMDB_API_KEY"] ?? "";
-        var response = GetAPIResponse(tmdbBaseUrl, tmdbApiKey, fullEndpoint);
+        var response = await GetAPIResponseAsync(tmdbBaseUrl, tmdbApiKey, fullEndpoint);
 
-        if (response.IsSuccessStatusCode) {
-            var jsonSerializerOptions = new JsonSerializerOptions {
-                PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower,
-            };
-
+        if (response.IsSuccessStatusCode)
+        {
             var responseContent = response.Content.ReadAsStringAsync().Result;
-            var deserializedContent = JsonSerializer.Deserialize<T>(responseContent, jsonSerializerOptions);
+            var deserializedContent = JsonSerializer.Deserialize<T>(responseContent, _jsonSerializerOptions);
 
-            if (deserializedContent != null) {
+            if (deserializedContent != null)
+            {
                 return deserializedContent;
             }
         }
@@ -40,17 +45,19 @@ public static class ApiUtility {
         throw new Exception($"Error: {response.StatusCode}");
     }
 
-    public static T GetOMDBResponse<T>(IConfiguration config, string imdbId) {
+    public static async Task<T> GetOMDBResponseAsync<T>(IConfiguration config, string imdbId)
+    {
         var omdbBaseUrl = config["OMDB_API_URL"] ?? "";
         var omdbApiKey = config["OMDB_API_KEY"] ?? "";
-        var response = GetAPIResponse(omdbBaseUrl, omdbBaseUrl, $"?apikey={omdbApiKey}&i={imdbId}");
+        var response = await GetAPIResponseAsync(omdbBaseUrl, omdbBaseUrl, $"?apikey={omdbApiKey}&i={imdbId}");
 
-        if (response.IsSuccessStatusCode) {
-
+        if (response.IsSuccessStatusCode)
+        {
             var responseContent = response.Content.ReadAsStringAsync().Result;
             var deserializedContent = JsonSerializer.Deserialize<T>(responseContent);
 
-            if (deserializedContent != null) {
+            if (deserializedContent != null)
+            {
                 return deserializedContent;
             }
         }
@@ -58,8 +65,10 @@ public static class ApiUtility {
         throw new Exception($"Error: {response.StatusCode}");
     }
 
-    private static string? BuildQueryString(Dictionary<string, string>? queryParams) {
-        if (queryParams == null || queryParams.Count == 0) {
+    private static string? BuildQueryString(Dictionary<string, string>? queryParams)
+    {
+        if (queryParams == null || queryParams.Count == 0)
+        {
             return null;
         }
 
@@ -70,7 +79,8 @@ public static class ApiUtility {
         return string.Join("&", keyValuePairs);
     }
 
-    public static string GetFormattedDate(DateTime date, string format = "yyyy-MM-dd") {
+    public static string GetFormattedDate(DateTime date, string format = "yyyy-MM-dd")
+    {
         string year = date.Year.ToString();
         string month = date.Month.ToString().PadLeft(2, '0');
         string day = date.Day.ToString().PadLeft(2, '0');
@@ -78,15 +88,23 @@ public static class ApiUtility {
         return format.Replace("yyyy", year).Replace("MM", month).Replace("dd", day);
     }
 
-    public static IEnumerable<T> CombineCrewCredits<T>(List<T> crewCredits) where T : ICrewCredit {
+    public static IEnumerable<T> CombineCrewCredits<T>(IEnumerable<T> crewCredits)
+        where T : ICrewCredit
+    {
+        Dictionary<int, T> uniqueMovies = [];
 
-        Dictionary<int, T> uniqueMovies = new Dictionary<int, T>();
-
-        foreach (var credit in crewCredits.Where(credit => !uniqueMovies.TryAdd(credit.Id, credit))) {
-            uniqueMovies[credit.Id].Job = $"{uniqueMovies[credit.Id].Job}, {credit.Job}";
-            uniqueMovies[credit.Id].Department = $"{uniqueMovies[credit.Id].Department}, {credit.Department}";
+        foreach (var credit in crewCredits.Where(credit => !uniqueMovies.TryAdd(credit.Id, credit)))
+        {
+            if (!uniqueMovies[credit.Id].Job.Split(", ").Contains(credit.Job))
+            {
+                uniqueMovies[credit.Id].Job = $"{uniqueMovies[credit.Id].Job}, {credit.Job}";
+            }
+            if (!uniqueMovies[credit.Id].Department.Split(", ").Contains(credit.Department))
+            {
+                uniqueMovies[credit.Id].Department = $"{uniqueMovies[credit.Id].Department}, {credit.Department}";
+            }
         }
 
-        return uniqueMovies.Values.ToList();
+        return uniqueMovies.Values;
     }
 }
