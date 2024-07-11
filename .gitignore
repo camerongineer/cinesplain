@@ -361,5 +361,8 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Custom ignored files
 /Cinesplain.Server/appsettings.json
-/Cinesplain.Server/Migrations/20240630172527_Initial.cs
+/Cinesplain.Server/Migrations/*
+/cinesplain.client/.env
