@@ -26,7 +26,7 @@ jobs:
 
       - name: Authenticate private nuget repo
         run:
-          dotnet nuget add source --username ${{vars.USERNAME}} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{vars.USERNAME}}/index.json"
+          dotnet nuget add source --username ${{vars.USERNAME}} --password ${{ secrets.AUTH_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{vars.USERNAME}}/index.json"
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
