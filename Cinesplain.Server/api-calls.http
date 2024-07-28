@@ -1,0 +1,50 @@
+###Log In
+POST {{baseUrl}}/api/login?useSessionCookies=true
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}"
+}
+
+###GetUser
+GET {{baseUrl}}/api/user
+
+###GetFavorites
+GET {{baseUrl}}/api/user/favorites
+
+###AddFavorite
+POST {{baseUrl}}/api/user/favorites/add
+Content-Type: application/json
+
+{
+  "contentId": "14",
+  "contentType": "movies"
+}
+
+###RemoveFavorite
+DELETE {{baseUrl}}/api/user/favorites/remove
+Content-Type: application/json
+
+{
+  "contentId": "12",
+  "contentType": "movies"
+}
+
+###GetMovie
+GET {{baseUrl}}/api/movies/13
+
+###GetNowPlayingMovie
+GET {{baseUrl}}/api/movies/nowplaying
+
+###GetDiscoverMovies
+GET {{baseUrl}}/api/movies/discover
+
+###GetUpcomingMovies
+GET {{baseUrl}}/api/movies/upcoming
+
+###GetMoviesExtra
+GET {{baseUrl}}/api/movies/omdbtt0169547
+
+###GetPerson
+GET {{baseUrl}}/api/people/13
