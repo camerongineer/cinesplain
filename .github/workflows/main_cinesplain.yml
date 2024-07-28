@@ -19,13 +19,13 @@ jobs:
           dotnet-version: '8.x'
           include-prerelease: true
 
-      - name: Build with dotnet
-        run: dotnet build --configuration Release
-        
       - name: Create .npmrc file
         run: |
           echo "@camerongineer:registry=https://npm.pkg.github.com/" > cinesplain.client/.npmrc
           echo "//npm.pkg.github.com/:_authToken=${{ secrets.AUTH_TOKEN }}" >> cinesplain.client/.npmrc
+
+      - name: Build with dotnet
+        run: dotnet build --configuration Release
 
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
