@@ -1,5 +1,5 @@
-using Cinesplain.API.Models.TMBD;
-using Cinesplain.API.Utilities;
+using Cinesplain.Server.Utilities;
+using TMDBModels.Models;
 
 namespace Cinesplain.Test;
 
