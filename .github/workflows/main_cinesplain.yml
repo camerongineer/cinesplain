@@ -24,6 +24,21 @@ jobs:
           echo "@camerongineer:registry=https://npm.pkg.github.com/" > cinesplain.client/.npmrc
           echo "//npm.pkg.github.com/:_authToken=${{ secrets.AUTH_TOKEN }}" >> cinesplain.client/.npmrc
 
+      - name: Create nuget.config file
+        run: |
+          echo '<?xml version="1.0" encoding="utf-8"?>' > Cinesplain.Server/nuget.config
+          echo '<configuration>' >> Cinesplain.Server/nuget.config
+          echo '    <packageSources>' >> Cinesplain.Server/nuget.config
+          echo '        <add key="github" value="https://nuget.pkg.github.com/camerongineer/index.json" />' >> Cinesplain.Server/nuget.config
+          echo '    </packageSources>' >> Cinesplain.Server/nuget.config
+          echo '    <packageSourceCredentials>' >> Cinesplain.Server/nuget.config
+          echo '        <github>' >> Cinesplain.Server/nuget.config
+          echo '            <add key="Username" value="camerongineer"/>' >> Cinesplain.Server/nuget.config
+          echo '            <add key="ClearTextPassword" value="${{ secrets.AUTH_TOKEN }}"/>' >> Cinesplain.Server/nuget.config
+          echo '        </github>' >> Cinesplain.Server/nuget.config
+          echo '    </packageSourceCredentials>' >> Cinesplain.Server/nuget.config
+          echo '</configuration>' >> Cinesplain.Server/nuget.config
+
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
