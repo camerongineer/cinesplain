@@ -1,7 +1,7 @@
+import { roundedToTenth } from "@camerongineer/reuse/helpers/numberUtils.ts";
 import { Card, styled } from "@mui/material";
 import omdbMovieDetails from "../../../../types/OmdbMovieDetails.ts";
 import Movie from "../../../../types/movie.ts";
-import { roundedToTenth } from "../../../../utils/formatUtils.ts";
 import CSRatingDisplay from "./CSRatingDisplay.tsx";
 import ImdbRatingDisplay from "./ImdbRatingDisplay.tsx";
 import MetascoreDisplay from "./MetascoreDisplay.tsx";
