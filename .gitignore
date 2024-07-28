@@ -367,3 +367,4 @@ FodyWeavers.xsd
 /Cinesplain.Server/Migrations/*
 /cinesplain.client/.env
 /Cinesplain.Server/appsettings.json
+cinesplain.client/.npmrc
