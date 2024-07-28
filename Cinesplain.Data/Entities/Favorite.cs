@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Cinesplain.Data.Entities;
 
-public class Favorite(string userId, string contentId)
+public class Favorite(string userId, string contentId, string contentType)
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -17,4 +17,8 @@ public class Favorite(string userId, string contentId)
     [Required]
     [MaxLength(36)]
     public string ContentId { get; set; } = contentId;
+
+    [Required]
+    [MaxLength(10)]
+    public string ContentType { get; set; } = contentType;
 }
