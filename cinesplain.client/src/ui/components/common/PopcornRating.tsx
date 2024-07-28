@@ -1,6 +1,6 @@
+import { roundedToTenth } from "@camerongineer/reuse/helpers/numberUtils.ts";
 import { Box, styled } from "@mui/material";
 import { grey } from "@mui/material/colors";
-import { roundedToTenth } from "../../../utils/formatUtils.ts";
 import { getCSRatingColor } from "../../../utils/ratingUtils.ts";
 import CSPopcorn from "./CSPopcorn.tsx";
 
