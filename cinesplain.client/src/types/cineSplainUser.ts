@@ -1,10 +1,10 @@
+import Favorite from "./favorite";
+
 type CineSplainUser = {
-    id: string,
-    userName: string,
+    email: string,
     firstName: string,
     lastName: string,
-    email: string,
-    method: string
-}
+    favorites: Favorite[],
+};
 
 export default CineSplainUser;
