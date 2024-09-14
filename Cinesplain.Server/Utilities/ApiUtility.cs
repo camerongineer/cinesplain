@@ -1,7 +1,11 @@
-﻿using Cinesplain.API.Models.TMBD;
-using System.Text.Json;
+﻿using System.Text.Json;
+using Microsoft.AspNetCore.Authentication.BearerToken;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity.Data;
+using TMDBModels.Models;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace Cinesplain.API.Utilities;
+namespace Cinesplain.Server.Utilities;
 
 public static class ApiUtility
 {
@@ -106,5 +110,18 @@ public static class ApiUtility
         }
 
         return uniqueMovies.Values;
+    }
+
+    public static async Task<string> GetToken(string email, string password)
+    {
+        var client = new HttpClient();
+        var request = new LoginRequest() { Email = email, Password = password };
+        var response = await client.PostAsJsonAsync("https://localhost:7232/api/login", request);
+        if (response.IsSuccessStatusCode){
+            var responseObject = await response.Content.ReadFromJsonAsync<AccessTokenResponse>();
+            return responseObject?.AccessToken ?? "";
+        }
+
+        return "";
     }
 }
