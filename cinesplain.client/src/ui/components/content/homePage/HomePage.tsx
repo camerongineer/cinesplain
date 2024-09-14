@@ -1,4 +1,4 @@
-import { Grid, Stack } from "@mui/material";
+import { Grid2, Stack } from "@mui/material";
 import { blue, pink, purple, red } from "@mui/material/colors";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
@@ -30,40 +30,40 @@ const HomePage: React.FC = () => {
                 <RecentMoviesRow movies={recentMovies} />
                 <Hero />
             </Stack>
-            <Grid container className="full" paddingTop={2} margin={0} spacing={0}>
-                <Grid item xs={12} md={4} padding={1}>
+            <Grid2 container className="full" paddingTop={2} margin={0} spacing={0}>
+                <Grid2 size={{ xs: 12, md: 4 }} padding={1}>
                     <RatingList
                         movies={upcomingMovies}
                         backgroundOverlayColor={blue["900"]}
                         backdropInterval={25000}
                         labelText="Upcoming"
                     />
-                </Grid>
-                <Grid item xs={12} md={8} padding={1}>
+                </Grid2>
+                <Grid2 size={{ xs: 12, md: 8 }} padding={1}>
                     <RatingList
                         movies={lovedMovies}
                         backgroundOverlayColor={pink["900"]}
                         backdropInterval={27500}
                         labelText="Most Loved"
                     />
-                </Grid>
-                <Grid item xs={12} md={8} padding={1}>
+                </Grid2>
+                <Grid2 size={{ xs: 12, md: 8 }} padding={1}>
                     <RatingList
                         movies={hatedMovies}
                         backgroundOverlayColor={red["900"]}
                         backdropInterval={40000}
                         labelText="Most Hated"
                     />
-                </Grid>
-                <Grid item xs={12} md={4} padding={1}>
+                </Grid2>
+                <Grid2 size={{ xs: 12, md: 4 }} padding={1}>
                     <RatingList
                         movies={classicMovies}
                         backgroundOverlayColor={purple["900"]}
                         backdropInterval={22000}
                         labelText="Classics"
                     />
-                </Grid>
-            </Grid>
+                </Grid2>
+            </Grid2>
         </Stack>
     );
 };
