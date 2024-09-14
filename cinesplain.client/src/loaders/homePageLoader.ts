@@ -1,12 +1,13 @@
 import { FetchQueryOptions, QueryClient } from "@tanstack/react-query";
-import {
-    getClassicMoviesPath,
-    getMostHatedMoviesPath,
-    getMostLovedMoviesPath,
-    getNowPlayingMoviesPath,
-    getUpcomingMoviesPath,
-    retrieveMovies
-} from "../api/moviesApi";
+import
+    {
+        getClassicMoviesPath,
+        getMostHatedMoviesPath,
+        getMostLovedMoviesPath,
+        getNowPlayingMoviesPath,
+        getUpcomingMoviesPath,
+        retrieveMovies
+    } from "../api/moviesApi";
 import Movie from "../types/movie";
 
 interface LoaderData {
@@ -20,11 +21,18 @@ interface LoaderData {
 const homePageQuery: FetchQueryOptions<LoaderData> = {
     queryKey: ["homePage"],
     queryFn: async () => {
-        const recentMovies = await retrieveMovies(getNowPlayingMoviesPath());
-        const lovedMovies = await retrieveMovies(getMostLovedMoviesPath());
-        const hatedMovies = await retrieveMovies(getMostHatedMoviesPath());
-        const classicMovies = await retrieveMovies(getClassicMoviesPath());
-        const upcomingMovies = await retrieveMovies(getUpcomingMoviesPath());
+        const recentMoviesPromise = retrieveMovies(getNowPlayingMoviesPath());
+        const lovedMoviesPromise = retrieveMovies(getMostLovedMoviesPath());
+        const hatedMoviesPromise = retrieveMovies(getMostHatedMoviesPath());
+        const classicMoviesPromise = retrieveMovies(getClassicMoviesPath());
+        const upcomingMoviesPromise = retrieveMovies(getUpcomingMoviesPath());
+        const [recentMovies, lovedMovies, hatedMovies, classicMovies, upcomingMovies] = await Promise.all([
+            recentMoviesPromise,
+            lovedMoviesPromise,
+            hatedMoviesPromise,
+            classicMoviesPromise,
+            upcomingMoviesPromise
+        ]);
         return { recentMovies, lovedMovies, hatedMovies, classicMovies, upcomingMovies };
     }
 };
