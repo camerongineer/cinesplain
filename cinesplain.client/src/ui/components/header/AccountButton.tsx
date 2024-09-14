@@ -13,7 +13,7 @@ const StyledLoggedInDisplay = styled(Stack)`
 
 const AccountButton = () => {
     const queryClient = useQueryClient();
-    const { data: user, isLoading, isLoadingError } = useQuery<CineSplainUser>({ queryKey: ["user"] })
+    const { data: user, isLoading } = useQuery<CineSplainUser>({ queryKey: ["user"] })
     const location = useLocation();
 
     const handleLogout = async () => {
