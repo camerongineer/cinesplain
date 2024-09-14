@@ -1,10 +1,6 @@
-import Github from "@assets/github.svg?react";
-import Microsoft from "@assets/microsoft.svg?react";
-import { Box, Button, Paper, styled, Typography } from "@mui/material";
-import { redirect } from "react-router-dom";
-import { retrieveUser } from "../../../../api/usersApi.ts";
-import authLoader from "../../../../loaders/authLoader.ts";
-import UserInfo from "../../../../types/userInfo.ts";
+import { LoadingButton } from "@mui/lab";
+import { Box, Paper, Stack, styled, TextField, Typography } from "@mui/material";
+import { Form, useLocation, useNavigation } from "react-router-dom";
 import CSLoadingIcon from "../../common/CSLoadingIcon.tsx";
 
 const StyledBox = styled(Box)`
@@ -31,22 +27,14 @@ const StyledPaper = styled(Paper)`
     );
 `;
 
-const loginPageLoader = async (): Promise<UserInfo | null> => {
-    const userAuth = await authLoader();
-    let user;
-    if (userAuth) {
-        try {
-            user = await retrieveUser(userAuth.userId);
-        } catch (error) {
-            user = null;
-        }
-    }
-    if (userAuth && !user) throw redirect("/join");
-    if (user) throw redirect("/");
+const loginPageLoader = async () => {
     return null;
 };
 
 const LoginPage = () => {
+    const location = useLocation();
+    const navigation = useNavigation();
+
     return (
         <StyledBox>
             <StyledPaper>
@@ -54,16 +42,20 @@ const LoginPage = () => {
                 <Typography variant="overline" fontWeight="bold" fontSize="large" pb={4}>
                     Please sign in
                 </Typography>
-                <Box component="a" href={`/.auth/login/aad?post_login_redirect_uri=/login`}>
-                    <Button variant="contained" startIcon={<Microsoft />}>
-                        Log in with Microsoft
-                    </Button>
-                </Box>
-                <Box component="a" href={`/.auth/login/github?post_login_redirect_uri=/login`}>
-                    <Button variant="contained" startIcon={<Github />}>
-                        Log in with Github
-                    </Button>
-                </Box>
+                <Form method="post">
+                    <Stack minWidth={(theme) => theme.breakpoints.values.sm} spacing={3}>
+                        <input type="hidden" name="redirect" value={location.search.replace("?redirect=", "")} />
+                        <TextField type="text" name="email" label="Email" required />
+                        <TextField type="password" name="password" label="Password" required />
+                        <LoadingButton
+                            type="submit"
+                            disabled={navigation.state === "submitting"}
+                            loading={navigation.state === "submitting"}
+                        >
+                            <span>Send</span>
+                        </LoadingButton>
+                    </Stack>
+                </Form>
             </StyledPaper>
         </StyledBox>
     );
