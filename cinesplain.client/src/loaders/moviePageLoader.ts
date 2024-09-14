@@ -1,12 +1,13 @@
 import { FetchQueryOptions, QueryClient } from "@tanstack/react-query";
 import { Params } from "react-router-dom";
-import {
-    getRecommendedMoviesPath,
-    retrieveCredits,
-    retrieveMovie,
-    retrieveMovies,
-    retrieveOmdbMovieDetails
-} from "../api/moviesApi";
+import
+    {
+        getRecommendedMoviesPath,
+        retrieveCredits,
+        retrieveMovie,
+        retrieveMovies,
+        retrieveOmdbMovieDetails
+    } from "../api/moviesApi";
 import Credits from "../types/credits";
 import Movie from "../types/movie";
 import { getNumericId } from "../utils/formatUtils";
@@ -19,11 +20,15 @@ interface LoaderData {
 const moviePageQuery = (movieId: string | undefined): FetchQueryOptions<LoaderData> => ({
     queryKey: ["moviePage", movieId],
     queryFn: async (): Promise<LoaderData> => {
-        const movie = await retrieveMovie(getNumericId(movieId ?? ""));
+        if (!movieId) {
+            throw new Error("This page doesn't not exist.");
+        }
+        const moviePromise = await retrieveMovie(getNumericId(movieId ?? ""));
+        const creditsPromise = await retrieveCredits(parseInt(movieId));
+        const [movie, credits] = await Promise.all([moviePromise, creditsPromise]);
         if (!movie) {
             throw new Error("This page doesn't not exist.");
         }
-        const credits = await retrieveCredits(movie.id);
 
         return { movie, credits };
     }
