@@ -19,6 +19,15 @@ jobs:
           dotnet-version: '8.x'
           include-prerelease: true
 
+      - name: Create .npmrc file
+        run: |
+          echo "@${{vars.USERNAME}}:registry=https://npm.pkg.github.com/" > cinesplain.client/.npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.AUTH_TOKEN }}" >> cinesplain.client/.npmrc
+
+      - name: Authenticate private nuget repo
+        run:
+          dotnet nuget add source --username ${{vars.USERNAME}} --password ${{ secrets.AUTH_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{vars.USERNAME}}/index.json"
+
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
