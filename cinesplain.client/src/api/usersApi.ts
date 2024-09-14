@@ -1,23 +1,36 @@
 import axios, { isAxiosError } from "axios";
-import CineSplainUser from "../types/cineSplainUser.ts";
+import CineSplainUser from "../types/cineSplainUser";
+import JoinSubmitDto from "../types/joinSubmitDto";
+import LoginSubmitDto from "../types/loginSubmitDto";
 
-export const retrieveUser = async (userId: string): Promise<CineSplainUser | null> => {
+export const loginUser = async (submission: LoginSubmitDto) => {
     try {
-        const res = await axios.get(getCineSplainUserPath(userId));
-        const user = res.data.data;
-        return user.results;
+        return await axios.post("/api/login", submission);
     } catch (error) {
-        if (isAxiosError(error) && error?.response?.status === 404) {
-            throw new Error("User doesn't exist");
+        if (isAxiosError(error) && error?.response?.status === 401) {
+            throw new Error("Invalid email or password");
         }
         console.error(error);
         return null;
     }
 };
 
-export const createUser = async (newUser: CineSplainUser): Promise<CineSplainUser | null> => {
+export const retrieveUser = async (): Promise<CineSplainUser | null> => {
     try {
-        const res = await axios.post(postCineSplainUserPath(), newUser);
+        const res = await axios.get(getCineSplainUserPath());
+        return res.data;
+    } catch (error) {
+        if (isAxiosError(error) && error?.response?.status === 401) {
+            throw new Error("User is not authenticated");
+        }
+        console.error(error);
+        return null;
+    }
+};
+
+export const createUser = async (submission: JoinSubmitDto): Promise<CineSplainUser | null> => {
+    try {
+        const res = await axios.post(postCineSplainUserPath(), submission);
         return res.data.data.results;
     } catch (error) {
         if (isAxiosError(error) && error?.response?.status === 404) {
@@ -28,5 +41,5 @@ export const createUser = async (newUser: CineSplainUser): Promise<CineSplainUse
     }
 };
 
-const getCineSplainUserPath = (userId: string) => `/api/user/${userId}`;
-const postCineSplainUserPath = () => "/api/user/create";
+const getCineSplainUserPath = () => `/api/user`;
+const postCineSplainUserPath = () => "/api/register";
