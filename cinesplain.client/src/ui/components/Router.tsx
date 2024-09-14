@@ -9,7 +9,7 @@ import Loading from "./common/Loading";
 import NotFound from "./common/NotFound.tsx";
 import { headerLoader } from "./header/Header";
 
-const queryClient = new QueryClient({
+export const queryClient = new QueryClient({
     defaultOptions: {
         queries: {
             staleTime: 1000 * 3600
