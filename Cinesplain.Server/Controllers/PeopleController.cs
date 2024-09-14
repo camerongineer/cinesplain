@@ -1,9 +1,8 @@
-﻿using Cinesplain.API.Models.TMBD;
-using Cinesplain.API.Utilities;
-using Cinesplain.Server.Controllers;
+﻿using Cinesplain.Server.Utilities;
 using Microsoft.AspNetCore.Mvc;
+using TMDBModels.Models;
 
-namespace Cinesplain.API.Controllers;
+namespace Cinesplain.Server.Controllers;
 
 public class PeopleController(IConfiguration config, ILogger<PeopleController> logger) : CinesplainController
 {

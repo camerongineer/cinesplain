@@ -1,11 +1,10 @@
-﻿using Cinesplain.API.Models.OMDB;
-using Cinesplain.API.Models.TMBD;
-using Cinesplain.API.Utilities;
-using Cinesplain.Server.Controllers;
+﻿using Cinesplain.Server.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
+using OMDBModels.Models;
+using TMDBModels.Models;
 
-namespace Cinesplain.API.Controllers;
+namespace Cinesplain.Server.Controllers;
 
 public class MoviesController(IConfiguration config, ILogger<MoviesController> logger) : CinesplainController
 {
@@ -328,12 +327,12 @@ public class MoviesController(IConfiguration config, ILogger<MoviesController> l
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [OutputCache(Duration = 604800)]
-    public async Task<ActionResult<OmdbMovieDetails>> GetOmdbMovieDetails(string id)
+    public async Task<ActionResult<MovieDetails>> GetOmdbMovieDetails(string id)
     {
         try
         {
-            var omdbMovieDetails = await ApiUtility.GetOMDBResponseAsync<OmdbMovieDetails>(_config, id);
-            var ratingDetails = new OmdbMovieRatingDetails
+            var omdbMovieDetails = await ApiUtility.GetOMDBResponseAsync<MovieDetails>(_config, id);
+            var ratingDetails = new MovieRatingDetails
             {
                 ImdbRating = double.TryParse(omdbMovieDetails.imdbRating, out var iResult) ? iResult : (double?)null,
 
