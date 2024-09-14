@@ -7,6 +7,7 @@ namespace Cinesplain.Data.Contexts;
 public class CinesplainDbContext(DbContextOptions<CinesplainDbContext> options) : IdentityDbContext<CinesplainUser>(options)
 {
     public DbSet<Favorite> Favorites { get; set; }
+    public DbSet<Comment> Comments { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
