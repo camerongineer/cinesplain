@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
+		api-calls.http = api-calls.http
+		httpenv.json = httpenv.json
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cinesplain.Test", "Cinesplain.Test\Cinesplain.Test.csproj", "{99C0F89C-77F5-4E10-BCD5-F2CD8F8AB589}"
