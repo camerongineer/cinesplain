@@ -1,4 +1,4 @@
-import { Box, Grid, styled, Typography, useTheme } from "@mui/material";
+import { Box, Grid2, styled, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import useMovieBackdrop from "../../../../hooks/UseMovieBackdrop";
 import listDisplayMovieCrewCredit from "../../../../types/listDisplayMovieCrewCredit.ts";
@@ -14,7 +14,7 @@ import RuntimeDisplay from "../common/RuntimeDisplay";
 import TitleDisplay from "../common/TitleDisplay";
 import MovieCard from "./MovieCard";
 
-const StyledGrid = styled(Grid)`
+const StyledGrid = styled(Grid2)`
     width: 100%;
     padding: 5% 0;
     transition: opacity ${(props) => props.theme.transitions.duration.short}ms ease-in-out;
@@ -39,22 +39,22 @@ const MovieTitleDisplay: React.FC<MovieTitleDisplayProps> = ({ movie, omdbDetail
         minHeight: "calc(100dvh - 70px)",
         [theme.breakpoints.up("sm")]: {
             minHeight: movie?.posterPath || movie?.backdropPath ? "600px" : "400px",
-            height: movie?.posterPath ? "50vh" : "auto"
-        }
+            height: movie?.posterPath ? "50vh" : "auto",
+        },
     };
 
     return (
         <StyledGrid container sx={backgroundStyle}>
-            <Grid item xs={0} sm={1} />
+            <Grid2 size={{ xs: 0, sm: 1 }} />
             {movie.posterPath && (
-                <Grid item xs={12} sm={4}>
+                <Grid2 size={{ xs: 12, sm: 4 }}>
                     <Box
                         style={{
                             display: "flex",
                             flexDirection: "column",
                             height: "100%",
                             alignItems: "center",
-                            justifyContent: "center"
+                            justifyContent: "center",
                         }}
                     >
                         <MovieCard
@@ -62,23 +62,21 @@ const MovieTitleDisplay: React.FC<MovieTitleDisplayProps> = ({ movie, omdbDetail
                                 height: "auto",
                                 width: "auto",
                                 maxWidth: "min(240px, 75%)",
-                                minWidth: 120
+                                minWidth: 120,
                             }}
                             movie={movie}
                             onHover={() => {}}
                             isExpandable={false}
                         />
                     </Box>
-                </Grid>
+                </Grid2>
             )}
-            <Grid item xs={0} sm={1} />
-            <Grid
-                item
-                xs={12}
-                sm={movie.posterPath ? 5 : 12}
+            <Grid2 size={{ xs: 0, sm: 1 }} />
+            <Grid2
+                size={{ xs: 12, sm: movie.posterPath ? 5 : 12 }}
                 p={{
                     xs: 3,
-                    sm: 0
+                    sm: 0,
                 }}
                 display="flex"
                 flexDirection="column"
@@ -110,7 +108,7 @@ const MovieTitleDisplay: React.FC<MovieTitleDisplayProps> = ({ movie, omdbDetail
                         to={`/person/${getFormattedPersonLinkId(director as unknown as Person)}`}
                         p={0.75}
                         paddingBottom={2}
-                        color={(theme) => theme.palette.getContrastText("rgba(0, 0, 0, 0.4)")}
+                        sx={{ color: theme.palette.getContrastText("rgba(0, 0, 0, 0.4)") }}
                     >
                         <strong>Directed&nbsp;By:&nbsp;</strong>
                         {director.name}
@@ -122,8 +120,8 @@ const MovieTitleDisplay: React.FC<MovieTitleDisplayProps> = ({ movie, omdbDetail
                     </>
                 )}
                 {movie.genres && <GenreDisplay genres={movie.genres} />}
-            </Grid>
-            <Grid item xs={0} sm={1} />
+            </Grid2>
+            <Grid2 size={{ xs: 0, sm: 1 }} />
         </StyledGrid>
     );
 };
