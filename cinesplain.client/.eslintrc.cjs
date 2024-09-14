@@ -7,17 +7,17 @@ module.exports = {
     plugins: ["react-refresh"],
     rules: {
         "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
-        // "sort-imports": [
-        //     "error",
-        //     {
-        //         ignoreCase: false,
-        //         ignoreDeclarationSort: true,
-        //         ignoreMemberSort: false,
-        //         memberSyntaxSortOrder: ["none", "all", "multiple", "single"],
-        //         allowSeparatedGroups: true
-        //     }
-        // ],
-        // 'import/no-unresolved': 'error',
+        "sort-imports": [
+            "error",
+            {
+                ignoreCase: false,
+                ignoreDeclarationSort: true,
+                ignoreMemberSort: false,
+                memberSyntaxSortOrder: ["none", "all", "multiple", "single"],
+                allowSeparatedGroups: true
+            }
+        ],
+        'import/no-unresolved': 'error',
         'import/order': [
           'error',
           {
