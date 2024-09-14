@@ -1,22 +1,17 @@
-import { redirect } from "react-router-dom";
 import { createUser } from "../api/usersApi.ts";
-import authLoader from "../loaders/authLoader.ts";
-import CineSplainUser from "../types/cineSplainUser.ts";
+import JoinSubmitDto from "../types/joinSubmitDto.ts";
 
 const joinAction = async (params: { request: { formData: () => any; }; }) => {
-    const auth = await authLoader();
-    if (!auth) redirect("/login");
     const data = await params.request.formData();
     
-    const newUser: CineSplainUser = {
-        id: auth?.userId ?? "",
-        userName: data.get("userName"),
+    const submission: JoinSubmitDto = {
+        email: data.get("email"),
         firstName: data.get("firstName"),
         lastName: data.get("lastName"),
-        email: data.get("email"),
-        method: auth?.identityProvider ?? ""
+        password: data.get("password"),
+        confirmPassword: data.get("confirmPassword")
     };
-    return await createUser(newUser);
+    return await createUser(submission);
 };
 
 export default joinAction;
