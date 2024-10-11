@@ -39,7 +39,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: .net-app
-          path: ${{ github.workspace }}\cinesplain
+          path: ${{ github.workspace }}
 
   deploy:
     runs-on: windows-latest
