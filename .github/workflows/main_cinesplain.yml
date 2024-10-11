@@ -22,22 +22,31 @@ jobs:
 
       - name: Get node_modules and nuget cache
         uses: actions/cache@v4
-        id: node_modules_nuget
+        id: node_modules_cache
         with:
           path: |
             **/node_modules
-            **/.nuget/packages
-          key: ${{ runner.os }}-node_modules_nuget-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-node_modules_nuget-
+            ${{ runner.os }}-node_modules-
 
-      - if: ${{ steps.node_modules_nuget.outputs.cache-hit != 'true' }}
+      - name: Get nuget cache
+        uses: actions/cache@v4
+        id: nuget_cache
+        with:
+          path: |
+            **/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/Cinesplain.Server.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - if: ${{ steps.node_modules_cache.outputs.cache-hit != 'true' }}
         name: Create .npmrc file
         run: |
           echo "@${{vars.USERNAME}}:registry=https://npm.pkg.github.com/" > cinesplain.client/.npmrc
           echo "//npm.pkg.github.com/:_authToken=${{ secrets.AUTH_TOKEN }}" >> cinesplain.client/.npmrc
 
-      - if: ${{ steps.node_modules_nuget.outputs.cache-hit != 'true' }}
+      - if: ${{ steps.nuget_cache.outputs.cache-hit != 'true' }}
         name: Authenticate private nuget repo
         run:
           dotnet nuget add source --username ${{vars.USERNAME}} --password ${{ secrets.AUTH_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{vars.USERNAME}}/index.json"
