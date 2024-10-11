@@ -30,16 +30,16 @@ jobs:
           dotnet nuget add source --username ${{vars.USERNAME}} --password ${{ secrets.AUTH_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{vars.USERNAME}}/index.json"
 
       - name: Build with dotnet
-        run: dotnet build -c Release --property:OutputPath=${{env.DOTNET_ROOT}}
+        run: dotnet build -c Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release --property:PublishDir=${{env.DOTNET_ROOT}}/cinesplain
+        run: dotnet publish -c Release
         
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/cinesplain
+          path: cinesplain
 
   deploy:
     runs-on: windows-latest
