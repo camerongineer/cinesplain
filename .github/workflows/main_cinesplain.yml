@@ -38,7 +38,6 @@ jobs:
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          path: ${{ github.workspace }}\cinesplain
           retention-days: 1
 
   deploy:
@@ -53,8 +52,6 @@ jobs:
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
-        with:
-          path: ${{ github.workspace }}\cinesplain
       
       - name: Login to Azure
         uses: azure/login@v2
