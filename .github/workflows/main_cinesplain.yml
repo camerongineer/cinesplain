@@ -30,7 +30,7 @@ jobs:
           dotnet nuget add source --username ${{vars.USERNAME}} --password ${{ secrets.AUTH_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{vars.USERNAME}}/index.json"
 
       - name: Build with dotnet
-        run: dotnet build -c Release --property:OutputPath=${{env.DOTNET_ROOT}}/cinesplain
+        run: dotnet build -c Release --property:OutputPath=${{env.DOTNET_ROOT}}
 
       - name: dotnet publish
         run: dotnet publish -c Release --property:PublishDir=${{env.DOTNET_ROOT}}/cinesplain
