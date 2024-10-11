@@ -20,7 +20,6 @@ jobs:
         with:
           dotnet-version: '8.0.402'
           cache: true
-      - run: dotnet restore --locked-mode
 
       - name: Create .npmrc file
         run: |
