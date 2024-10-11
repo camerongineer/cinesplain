@@ -33,13 +33,12 @@ jobs:
         run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release --property:PackageOutputPath==${{ github.workspace }}\cinesplain\cinesplain
-
+        run: dotnet publish -c Release --property:PackageOutputPath==${{ github.workspace }}\cinesplain
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{ github.workspace }}\cinesplain
+          path: cinesplain
 
   deploy:
     runs-on: windows-latest
