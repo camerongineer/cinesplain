@@ -33,12 +33,12 @@ jobs:
         run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release --property:PackageOutputPath=${{ github.workspace }}/cinesplain
+        run: dotnet publish -c Release --property:PackageOutputPath=${{ github.workspace }}
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          path: ${{ github.workspace }}/cinesplain
+          path: ${{ github.workspace }}\cinesplain
           retention-days: 1
 
   deploy:
