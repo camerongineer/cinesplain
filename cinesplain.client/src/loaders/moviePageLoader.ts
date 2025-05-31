@@ -7,18 +7,11 @@ import {
     retrieveMovies,
     retrieveOmdbMovieDetails
 } from "../api/moviesApi";
-import Credits from "../types/credits";
-import Movie from "../types/movie";
 import { getNumericId } from "../utils/formatUtils";
-
-interface LoaderData {
-    movie: Movie;
-    credits: Credits | null;
-}
 
 const moviePageQuery = (movieId: string | undefined) => queryOptions({
     queryKey: ["moviePage", movieId],
-    queryFn: async (): Promise<LoaderData> => {
+    queryFn: async () => {
         const movie = await retrieveMovie(getNumericId(movieId ?? ""));
         if (!movie) {
             throw new Error("This page doesn't not exist.");
@@ -29,7 +22,7 @@ const moviePageQuery = (movieId: string | undefined) => queryOptions({
     }
 });
 
-const movieRecommendationsQuery = (movieId: number) => ({
+const movieRecommendationsQuery = (movieId: number) => queryOptions({
     queryKey: ["movieRecommendations", movieId],
     queryFn: async () => {
         let recommendations = await retrieveMovies(getRecommendedMoviesPath(movieId));
@@ -37,7 +30,7 @@ const movieRecommendationsQuery = (movieId: number) => ({
     }
 });
 
-const omdbQuery = (imdbId: string) => ({
+const omdbQuery = (imdbId: string) => queryOptions({
     queryKey: ["moviePageOmdb", imdbId],
     queryFn: async () => retrieveOmdbMovieDetails(imdbId)
 });
