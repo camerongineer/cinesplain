@@ -1,5 +1,5 @@
+import CopyrightDisplay from "@camerongineer/reuse/components/CopywriteDisplay.tsx";
 import { Stack, styled } from "@mui/material";
-import CopyrightDisplay from "./CopyrightDisplay.tsx";
 import DataCreditDisplay from "./DataCreditDisplay.tsx";
 import FooterLogoDisplay from "./FooterLogoDisplay.tsx";
 import LibraryIconDisplay from "./LibraryIconDisplay.tsx";
@@ -36,7 +36,7 @@ const Footer: React.FC = () => (
             <SourceCodeDisplay />
             <Stack justifyContent="space-evenly" spacing={0.5} margin=".5em 1em" order={{ xs: 1, md: 0 }}>
                 <FooterLogoDisplay />
-                <CopyrightDisplay />
+                <CopyrightDisplay startYear={2023} endYear={2025} onLogoClick={() => window.open("https://www.linkedin.com/in/c-em/", "_blank")} />
                 <LibraryIconDisplay />
             </Stack>
             <DataCreditDisplay />
