@@ -41,12 +41,12 @@ jobs:
         name: Create .npmrc file
         run: |
           echo "@${{ vars.GH_OWNER }}:registry=https://npm.pkg.github.com/" > cinesplain.client/.npmrc
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GH_READ_PACKAGES_TOKEN }}" >> cinesplain.client/.npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> cinesplain.client/.npmrc
 
       - if: ${{ steps.nuget_cache.outputs.cache-hit != 'true' }}
         name: Authenticate private nuget repo
         run:
-          dotnet nuget add source --username ${{ vars.GH_OWNER }} --password ${{ secrets.GH_READ_PACKAGES_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ vars.GH_OWNER }}/index.json"
+          dotnet nuget add source --username ${{ vars.GH_OWNER }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ vars.GH_OWNER }}/index.json"
 
       - name: Build with dotnet
         run: dotnet build -c Release
