@@ -20,11 +20,18 @@ interface LoaderData {
 const homePageQuery: FetchQueryOptions<LoaderData> = {
     queryKey: ["homePage"],
     queryFn: async () => {
-        const recentMovies = await retrieveMovies(getNowPlayingMoviesPath());
-        const lovedMovies = await retrieveMovies(getMostLovedMoviesPath());
-        const hatedMovies = await retrieveMovies(getMostHatedMoviesPath());
-        const classicMovies = await retrieveMovies(getClassicMoviesPath());
-        const upcomingMovies = await retrieveMovies(getUpcomingMoviesPath());
+        const recentMoviesTask = retrieveMovies(getNowPlayingMoviesPath());
+        const lovedMoviesTask = retrieveMovies(getMostLovedMoviesPath());
+        const hatedMoviesTask = retrieveMovies(getMostHatedMoviesPath());
+        const classicMoviesTask = retrieveMovies(getClassicMoviesPath());
+        const upcomingMoviesTask = retrieveMovies(getUpcomingMoviesPath());
+        const [recentMovies, lovedMovies, hatedMovies, classicMovies, upcomingMovies] = await Promise.all([
+            recentMoviesTask,
+            lovedMoviesTask,
+            hatedMoviesTask,
+            classicMoviesTask,
+            upcomingMoviesTask
+        ]);
         return { recentMovies, lovedMovies, hatedMovies, classicMovies, upcomingMovies };
     }
 };
