@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{166DE9E6-F966-401E-8567-574349B24216}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		.github\workflows\main_cinesplain.yml = .github\workflows\main_cinesplain.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cinesplain.Server.Test", "Cinesplain.Server.Test\Cinesplain.Server.Test.csproj", "{309D53D9-51EC-4B2D-ADF6-1A3A41AD51A7}"

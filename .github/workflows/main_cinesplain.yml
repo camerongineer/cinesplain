@@ -1,10 +1,9 @@
-name: Build and deploy ASP.Net Core app to Azure Web App - cinesplain
+name: Build and deploy to Azure
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:
 
 jobs:
   build:
@@ -14,22 +13,52 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Set up .NET Core
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.x'
-          include-prerelease: true
+          dotnet-version: '8.0.402'
+
+      - name: Get node_modules cache
+        uses: actions/cache@v4
+        id: node_modules_cache
+        with:
+          path: |
+            **/node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node_modules-
+
+      - name: Get nuget cache
+        uses: actions/cache@v4
+        id: nuget_cache
+        with:
+          path: |
+            **/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/Cinesplain.Server.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
+      - if: ${{ steps.node_modules_cache.outputs.cache-hit != 'true' }}
+        name: Create .npmrc file
+        run: |
+          echo "@${{ var.GH_OWNER }}:registry=https://npm.pkg.github.com/" > cinesplain.client/.npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GH_READ_PACKAGES_TOKEN }}" >> cinesplain.client/.npmrc
+
+      - if: ${{ steps.nuget_cache.outputs.cache-hit != 'true' }}
+        name: Authenticate private nuget repo
+        run:
+          dotnet nuget add source --username ${{ var.GH_OWNER }} --password ${{ secrets.GH_READ_PACKAGES_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ var.GH_OWNER }}/index.json"
 
       - name: Build with dotnet
-        run: dotnet build --configuration Release
+        run: dotnet build -c Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
-
+        run: dotnet publish -c Release -property:PublishDir="${{ env.DOTNET_ROOT }}/cinesplain"
+        
       - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          path: "${{ env.DOTNET_ROOT }}/cinesplain"
 
   deploy:
     runs-on: windows-latest
@@ -42,12 +71,12 @@ jobs:
 
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: .net-app
       
       - name: Login to Azure
-        uses: azure/login@v1
+        uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_9CA1B234455C4A2598C8270BCBC67114 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_8682499B5FB1430BBCCEEB99F19FF03D }}
