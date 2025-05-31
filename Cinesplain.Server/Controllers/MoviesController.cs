@@ -79,7 +79,7 @@ public class MoviesController(IConfiguration config) : Controller
         {
             var credits = ApiUtility.GetTMDBResponse<MovieCreditCategory>(_config, $"movie/{id}/credits");
             var crewCredits = ApiUtility.CombineCrewCredits(credits?.Crew);
-            credits.Crew = (List<CrewMember>)crewCredits;
+            credits.Crew = crewCredits;
             return Ok(credits);
         }
         catch (Exception e)

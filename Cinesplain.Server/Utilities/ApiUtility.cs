@@ -90,9 +90,13 @@ public static class ApiUtility
         return format.Replace("yyyy", year).Replace("MM", month).Replace("dd", day);
     }
 
-    public static IEnumerable<T> CombineCrewCredits<T>(IEnumerable<T> crewCredits)
+    public static List<T> CombineCrewCredits<T>(IEnumerable<T>? crewCredits)
         where T : ICrewCredit
     {
+        if (crewCredits == null)
+        {
+            return [];
+        }
         Dictionary<int, T> uniqueMovies = [];
 
         foreach (var credit in crewCredits.Where(credit => !uniqueMovies.TryAdd(credit.Id, credit)))
@@ -107,6 +111,6 @@ public static class ApiUtility
             }
         }
 
-        return uniqueMovies.Values;
+        return [.. uniqueMovies.Values];
     }
 }
