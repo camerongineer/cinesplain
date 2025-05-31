@@ -41,9 +41,7 @@ const personPageLoader =
     (queryClient: QueryClient) =>
     async ({ params }: { params: Params }) => {
         const personId = params.personId;
-        const query = personPageQuery(personId);
-        const data: LoaderData | null | undefined = queryClient.getQueryData(query.queryKey);
-        return data ?? (await queryClient.fetchQuery(personPageQuery(personId)));
+        await queryClient.ensureQueryData(personPageQuery(personId));
     };
 
 export { personPageLoader, personPageQuery };

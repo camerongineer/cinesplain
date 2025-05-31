@@ -1,4 +1,4 @@
-import { FetchQueryOptions, QueryClient } from "@tanstack/react-query";
+import { QueryClient, queryOptions } from "@tanstack/react-query";
 import { Params } from "react-router-dom";
 import {
     getRecommendedMoviesPath,
@@ -16,7 +16,7 @@ interface LoaderData {
     credits: Credits | null;
 }
 
-const moviePageQuery = (movieId: string | undefined): FetchQueryOptions<LoaderData> => ({
+const moviePageQuery = (movieId: string | undefined) => queryOptions({
     queryKey: ["moviePage", movieId],
     queryFn: async (): Promise<LoaderData> => {
         const movie = await retrieveMovie(getNumericId(movieId ?? ""));
@@ -46,9 +46,7 @@ const moviePageLoader =
     (queryClient: QueryClient) =>
     async ({ params }: { params: Params }) => {
         const movieId = params.movieId;
-        const query = moviePageQuery(movieId);
-        const data: LoaderData | undefined = queryClient.getQueryData(query.queryKey);
-        return data ?? (await queryClient.fetchQuery(moviePageQuery(movieId)));
+        await queryClient.ensureQueryData(moviePageQuery(movieId));
     };
 
 export { moviePageLoader, moviePageQuery, movieRecommendationsQuery, omdbQuery };

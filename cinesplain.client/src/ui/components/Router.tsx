@@ -23,6 +23,7 @@ const router = createBrowserRouter([
         element: <Layout />,
         errorElement: <NotFound />,
         loader: headerLoader(queryClient),
+        HydrateFallback: Loading,
         children: [
             {
                 index: true,
@@ -54,7 +55,7 @@ const router = createBrowserRouter([
 
 const Router: React.FC = () => (
     <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} fallbackElement={<Loading />} />
+        <RouterProvider router={router} />
     </QueryClientProvider>
 );
 

@@ -1,7 +1,6 @@
 import { AppBar, styled, Toolbar } from "@mui/material";
-import { QueryClient, useQuery } from "@tanstack/react-query";
+import { QueryClient, queryOptions, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { useRouteLoaderData } from "react-router-dom";
 import { getPopularMoviesPath, retrieveMovies } from "../../../api/moviesApi.ts";
 import SearchModal from "../content/search/SearchModal";
 import NavBar from "./NavBar";
@@ -21,23 +20,22 @@ const CenteredToolbar = styled(Toolbar)`
     margin-top: 6px;
 `;
 
-const headerQuery = () => ({
+const headerQuery = queryOptions({
     queryKey: ["headerData"],
     queryFn: async () => await retrieveMovies(getPopularMoviesPath(1))
 });
 
 const headerLoader = (queryClient: QueryClient) => async () => {
-    return queryClient.getQueryData(headerQuery().queryKey) ?? (await queryClient.fetchQuery(headerQuery()));
+    await queryClient.ensureQueryData(headerQuery);
 };
 
 const Header: React.FC = () => {
     const [animateLogo, setAnimateLogo] = useState(true);
     const [searchModalOpen, setSearchModalOpen] = useState<boolean>(false);
+    
+    const { data } = useQuery(headerQuery);
 
-    const initialData = useRouteLoaderData("root") as Awaited<ReturnType<ReturnType<typeof headerLoader>>>;
-    const { data } = useQuery({ ...headerQuery(), initialData });
-
-    const popularMovieTitles = data.map((movie: { title: string }) => movie.title);
+    const popularMovieTitles = data?.map((movie: { title: string }) => movie.title) ?? [];
 
     useEffect(() => {
         const timer = setTimeout(() => {

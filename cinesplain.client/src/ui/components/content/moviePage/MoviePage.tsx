@@ -1,8 +1,8 @@
 import { Stack, styled } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { useLoaderData, useParams } from "react-router-dom";
-import { moviePageLoader, moviePageQuery, movieRecommendationsQuery, omdbQuery } from "../../../../loaders/moviePageLoader.ts";
+import { useParams } from "react-router-dom";
+import { moviePageQuery, movieRecommendationsQuery, omdbQuery } from "../../../../loaders/moviePageLoader.ts";
 import CastMemberRow from "../common/CastMemberRow";
 import MovieCreditsListsDisplay from "./MovieCreditsListsDisplay.tsx";
 import MovieRecommendations from "./MovieRecommendations";
@@ -16,9 +16,10 @@ const StyledMoviePage = styled(Stack)`
 `;
 
 const MoviePage: React.FC = () => {
-    const initialData = useLoaderData() as Awaited<ReturnType<ReturnType<typeof moviePageLoader>>>;
     const params = useParams();
-    const { data: { movie, credits} } = useQuery({ ...moviePageQuery(params.movieId), initialData });
+    const { data: movieData } = useQuery(moviePageQuery(params.movieId));
+    if (!movieData) return null;
+    const { movie, credits } = movieData;
     const { data: omdbDetails } = useQuery(omdbQuery(movie.imdbId));
     const { data: recommendations } = useQuery(movieRecommendationsQuery(movie.id));
 

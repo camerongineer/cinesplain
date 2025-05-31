@@ -1,8 +1,8 @@
 import { Stack, styled, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { useLoaderData, useParams } from "react-router-dom";
-import { personPageLoader, personPageQuery } from "../../../../loaders/personPageLoader.ts";
+import { useParams } from "react-router-dom";
+import { personPageQuery } from "../../../../loaders/personPageLoader.ts";
 import CreditsListsDisplay from "./CreditsListsDisplay.tsx";
 import PersonSideBar from "./PersonSideBar.tsx";
 import ProfileCard from "./ProfileCard.tsx";
@@ -12,11 +12,10 @@ const StyledStack = styled(Stack)`
 `;
 
 const PersonPage: React.FC = () => {
-    const initialData = useLoaderData() as Awaited<ReturnType<ReturnType<typeof personPageLoader>>>;
     const params = useParams();
-    const {
-        data: { person, movieCastCredits, movieCrewCredits }
-    } = useQuery({ ...personPageQuery(params.personId), initialData });
+    const { data } = useQuery(personPageQuery(params.personId));
+    if (!data) return null;
+    const { person, movieCastCredits, movieCrewCredits } = data;
     const theme = useTheme();
     const isXSScreen = useMediaQuery(theme.breakpoints.down("sm"));
     const isSMScreen = useMediaQuery(theme.breakpoints.down("md"));

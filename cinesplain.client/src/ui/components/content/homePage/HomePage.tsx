@@ -2,17 +2,17 @@ import { Grid, Stack } from "@mui/material";
 import { blue, pink, purple, red } from "@mui/material/colors";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { useLoaderData } from "react-router-dom";
-import { homePageLoader, homePageQuery } from "../../../../loaders/homePageLoader";
+import { homePageQuery } from "../../../../loaders/homePageLoader";
 import Hero from "./Hero";
 import RatingList from "./RatingList";
 import RecentMoviesRow from "./RecentMoviesRow";
 
 const HomePage: React.FC = () => {
-    const initialData = useLoaderData() as Awaited<ReturnType<ReturnType<typeof homePageLoader>>>;
-    const {
-        data: { recentMovies, lovedMovies, hatedMovies, classicMovies, upcomingMovies }
-    } = useQuery({ ...homePageQuery, initialData });
+    const { data } = useQuery(homePageQuery);
+    if (!data) {
+        return null;
+    }
+    const { recentMovies, lovedMovies, hatedMovies, classicMovies, upcomingMovies } = data;
 
     useEffect(() => {
         document.title = "CineSplain - The Movie Info App";

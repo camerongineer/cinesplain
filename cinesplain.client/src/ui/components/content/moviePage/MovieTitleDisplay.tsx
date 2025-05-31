@@ -108,7 +108,7 @@ const MovieTitleDisplay: React.FC<MovieTitleDisplayProps> = ({ movie, omdbDetail
                         to={`/person/${getFormattedPersonLinkId(director as unknown as Person)}`}
                         p={0.75}
                         paddingBottom={2}
-                        color={(theme) => theme.palette.getContrastText("rgba(0, 0, 0, 0.4)")}
+                        sx={({palette}) =>({ color: palette.getContrastText("rgba(0, 0, 0, 0.4)") })}
                     >
                         <strong>Directed&nbsp;By:&nbsp;</strong>
                         {director.name}

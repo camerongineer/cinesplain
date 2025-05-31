@@ -24,13 +24,13 @@ export const retrieveOmdbMovieDetails = async (imdbId: string): Promise<OmdbMovi
     }
 };
 
-export const retrieveMovies = async (url: string) => {
+export const retrieveMovies = async (url: string): Promise<Movie[]> => {
     try {
         const res = await retrieveData(url);
         return res.results;
     } catch (error) {
         console.error(error);
-        return null;
+        return [];
     }
 };
 
