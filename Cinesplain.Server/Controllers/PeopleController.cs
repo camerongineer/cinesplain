@@ -1,6 +1,6 @@
-﻿using Cinesplain.API.Models.TMBD;
-using Cinesplain.Server.Utilities;
+﻿using Cinesplain.Server.Utilities;
 using Microsoft.AspNetCore.Mvc;
+using TMDBModels.Models;
 
 namespace Cinesplain.Server.Controllers;
 

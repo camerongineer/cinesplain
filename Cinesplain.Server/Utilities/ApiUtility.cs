@@ -1,5 +1,5 @@
-﻿using Cinesplain.API.Models.TMBD;
-using System.Text.Json;
+﻿using System.Text.Json;
+using TMDBModels.Models;
 
 namespace Cinesplain.Server.Utilities;
 
@@ -90,17 +90,23 @@ public static class ApiUtility
         return format.Replace("yyyy", year).Replace("MM", month).Replace("dd", day);
     }
 
-    public static IEnumerable<T> CombineCrewCredits<T>(List<T> crewCredits) where T : ICrewCredit
+    public static IEnumerable<T> CombineCrewCredits<T>(IEnumerable<T> crewCredits)
+        where T : ICrewCredit
     {
-
-        Dictionary<int, T> uniqueMovies = new Dictionary<int, T>();
+        Dictionary<int, T> uniqueMovies = [];
 
         foreach (var credit in crewCredits.Where(credit => !uniqueMovies.TryAdd(credit.Id, credit)))
         {
-            uniqueMovies[credit.Id].Job = $"{uniqueMovies[credit.Id].Job}, {credit.Job}";
-            uniqueMovies[credit.Id].Department = $"{uniqueMovies[credit.Id].Department}, {credit.Department}";
+            if (!uniqueMovies[credit.Id].Job.Split(", ").Contains(credit.Job))
+            {
+                uniqueMovies[credit.Id].Job = $"{uniqueMovies[credit.Id].Job}, {credit.Job}";
+            }
+            if (!uniqueMovies[credit.Id].Department.Split(", ").Contains(credit.Department))
+            {
+                uniqueMovies[credit.Id].Department = $"{uniqueMovies[credit.Id].Department}, {credit.Department}";
+            }
         }
 
-        return uniqueMovies.Values.ToList();
+        return uniqueMovies.Values;
     }
 }
