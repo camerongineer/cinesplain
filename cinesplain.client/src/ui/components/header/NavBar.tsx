@@ -10,7 +10,7 @@ interface NavBarProps {
 
 const NavBar: React.FC<NavBarProps> = ({ onSearchButtonClicked, animateLogo }) => {
     return (
-        <Grid container spacing={1}>
+        <Grid container spacing={1} width="100%">
             <Grid size={{ xs: 4, sm: 4, lg: 2 }}>
                 <Link to="/">
                     <SlidingLogoDisplay animateLogo={animateLogo} />
