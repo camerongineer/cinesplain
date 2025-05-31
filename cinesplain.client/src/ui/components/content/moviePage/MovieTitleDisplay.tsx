@@ -45,9 +45,9 @@ const MovieTitleDisplay: React.FC<MovieTitleDisplayProps> = ({ movie, omdbDetail
 
     return (
         <StyledGrid container sx={backgroundStyle}>
-            <Grid item xs={0} sm={1} />
+            <Grid size={{ xs: 0, sm: 1 }} />
             {movie.posterPath && (
-                <Grid item xs={12} sm={4}>
+                <Grid size={{ xs: 12, sm: 4 }}>
                     <Box
                         style={{
                             display: "flex",
@@ -71,11 +71,9 @@ const MovieTitleDisplay: React.FC<MovieTitleDisplayProps> = ({ movie, omdbDetail
                     </Box>
                 </Grid>
             )}
-            <Grid item xs={0} sm={1} />
+            <Grid size={{ xs: 0, sm: 1 }} />
             <Grid
-                item
-                xs={12}
-                sm={movie.posterPath ? 5 : 12}
+                size={{ xs: 12, sm: movie.posterPath ? 5 : 1 }}
                 p={{
                     xs: 3,
                     sm: 0
@@ -123,7 +121,7 @@ const MovieTitleDisplay: React.FC<MovieTitleDisplayProps> = ({ movie, omdbDetail
                 )}
                 {movie.genres && <GenreDisplay genres={movie.genres} />}
             </Grid>
-            <Grid item xs={0} sm={1} />
+            <Grid size={{ xs: 0, sm: 1 }} />
         </StyledGrid>
     );
 };
