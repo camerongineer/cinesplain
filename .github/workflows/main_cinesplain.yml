@@ -51,6 +51,9 @@ jobs:
         run:
           dotnet nuget add source --username ${{ vars.GH_OWNER }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ vars.GH_OWNER }}/index.json"
 
+      - name: Make certs directory
+        run: mkdir $env:APPDATA/ASP.NET/https
+
       - name: Build with dotnet
         run: dotnet build -c Release
 
