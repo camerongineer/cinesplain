@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+env:
+  NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages # This is needed to reduce the size of the cache. See https://github.com/actions/setup-dotnet?tab=readme-ov-file#caching-nuget-packages-in-monorepos
+
 jobs:
   build:
     runs-on: windows-latest
@@ -15,7 +18,7 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.0.402'
+          dotnet-version: '8.x'
 
       - name: Get node_modules cache
         uses: actions/cache@v4
