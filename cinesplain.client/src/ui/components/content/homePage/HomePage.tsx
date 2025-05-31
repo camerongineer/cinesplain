@@ -31,7 +31,7 @@ const HomePage: React.FC = () => {
                 <Hero />
             </Stack>
             <Grid container className="full" paddingTop={2} margin={0} spacing={0}>
-                <Grid size={{ xs: 12, md: 4 }} padding={1}>
+                <Grid size={{ xs: 12, md: 5 }} padding={1}>
                     <RatingList
                         movies={upcomingMovies}
                         backgroundOverlayColor={blue["900"]}
@@ -39,7 +39,7 @@ const HomePage: React.FC = () => {
                         labelText="Upcoming"
                     />
                 </Grid>
-                <Grid size={{ xs: 12, md: 4 }} padding={1}>
+                <Grid size={{ xs: 12, md: 7 }} padding={1}>
                     <RatingList
                         movies={lovedMovies}
                         backgroundOverlayColor={pink["900"]}
@@ -47,7 +47,7 @@ const HomePage: React.FC = () => {
                         labelText="Most Loved"
                     />
                 </Grid>
-                <Grid size={{ xs: 12, md: 4 }} padding={1}>
+                <Grid size={{ xs: 12, md: 7 }} padding={1}>
                     <RatingList
                         movies={hatedMovies}
                         backgroundOverlayColor={red["900"]}
@@ -55,7 +55,7 @@ const HomePage: React.FC = () => {
                         labelText="Most Hated"
                     />
                 </Grid>
-                <Grid size={{ xs: 12, md: 4 }} padding={1}>
+                <Grid size={{ xs: 12, md: 5 }} padding={1}>
                     <RatingList
                         movies={classicMovies}
                         backgroundOverlayColor={purple["900"]}
