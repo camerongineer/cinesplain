@@ -1,27 +1,25 @@
-﻿using CineSplain.API.Models.OMDB;
-using CineSplain.API.Models.TMBD;
-using CineSplain.API.Utilities;
+﻿using Cinesplain.API.Models.OMDB;
+using Cinesplain.API.Models.TMBD;
+using Cinesplain.Server.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 
-namespace CineSplain.API.Controllers;
+namespace Cinesplain.Server.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class MoviesController : Controller {
-    private readonly IConfiguration _config;
-
-    public MoviesController(IConfiguration config)
-    {
-        _config = config;
-    }
+public class MoviesController(IConfiguration config) : Controller
+{
+    private readonly IConfiguration _config = config;
 
     [HttpGet("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [OutputCache(Duration = 86400)]
-    public ActionResult<FullDisplayMovie> GetMovie(int id) {
-        try {
+    public ActionResult<FullDisplayMovie> GetMovie(int id)
+    {
+        try
+        {
             var queryParams = new Dictionary<string, string> {
                 { "append_to_response", "images,videos" },
             };
@@ -29,25 +27,32 @@ public class MoviesController : Controller {
 
             var movie = ApiUtility.GetTMDBResponse<FullDisplayMovie>(_config, $"movie/{id}", queryParams);
 
-            if (movie?.Videos?.Results != null) {
+            if (movie?.Videos?.Results != null)
+            {
 
                 var trailers = movie.Videos.Results
                     .Where(video => video.Type == "Trailer" || video.Type == "Teaser")
                     .ToList();
 
-                trailers.Sort((a, b) => {
+                trailers.Sort((a, b) =>
+                {
                     var aIsOfficial =
                         a.Official && a.Name.Contains("trailer", StringComparison.CurrentCultureIgnoreCase);
 
                     var bIsOfficial =
                         b.Official && b.Name.Contains("trailer", StringComparison.CurrentCultureIgnoreCase);
 
-                    if (a.Type == "Teaser" && b.Type != "Teaser") {
+                    if (a.Type == "Teaser" && b.Type != "Teaser")
+                    {
                         return 1;
-                    } else if (b.Type == "Teaser" && a.Type != "Teaser") {
+                    }
+                    else if (b.Type == "Teaser" && a.Type != "Teaser")
+                    {
                         return -1;
-                    } else {
-                        return (aIsOfficial == bIsOfficial) ? 0 : (aIsOfficial ? -1 : 1);
+                    }
+                    else
+                    {
+                        return aIsOfficial == bIsOfficial ? 0 : aIsOfficial ? -1 : 1;
                     }
                 });
 
@@ -55,7 +60,9 @@ public class MoviesController : Controller {
             }
 
             return Ok(movie);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             Console.WriteLine(e);
         }
 
@@ -66,13 +73,17 @@ public class MoviesController : Controller {
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [OutputCache(Duration = 10800)]
-    public ActionResult<MovieCreditCategory> GetMovieCredits(int id) {
-        try {
+    public ActionResult<MovieCreditCategory> GetMovieCredits(int id)
+    {
+        try
+        {
             var credits = ApiUtility.GetTMDBResponse<MovieCreditCategory>(_config, $"movie/{id}/credits");
             var crewCredits = ApiUtility.CombineCrewCredits(credits?.Crew);
             credits.Crew = (List<CrewMember>)crewCredits;
             return Ok(credits);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             Console.WriteLine(e);
         }
 
@@ -83,11 +94,15 @@ public class MoviesController : Controller {
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [OutputCache(Duration = 86400)]
-    public ActionResult<MovieListPage> GetSimilarMovies(int id) {
-        try {
+    public ActionResult<MovieListPage> GetSimilarMovies(int id)
+    {
+        try
+        {
             var similarMovies = ApiUtility.GetTMDBResponse<MovieListPage>(_config, $"movie/{id}/similar");
             return Ok(similarMovies);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             Console.WriteLine(e);
         }
 
@@ -98,11 +113,15 @@ public class MoviesController : Controller {
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [OutputCache(Duration = 86400)]
-    public ActionResult<MovieListPage> GetRecommendedMovies(int id) {
-        try {
+    public ActionResult<MovieListPage> GetRecommendedMovies(int id)
+    {
+        try
+        {
             var recommendedMovies = ApiUtility.GetTMDBResponse<MovieListPage>(_config, $"movie/{id}/recommendations");
             return Ok(recommendedMovies);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             Console.WriteLine(e);
         }
 
@@ -112,8 +131,10 @@ public class MoviesController : Controller {
     [HttpGet("Search")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult<MovieListPage> SearchMovies([FromQuery] string query, [FromQuery] int page = 1) {
-        try {
+    public ActionResult<MovieListPage> SearchMovies([FromQuery] string query, [FromQuery] int page = 1)
+    {
+        try
+        {
             var queryParams = new Dictionary<string, string> {
                 { "query", query },
                 { "page", $"{page}" }
@@ -121,7 +142,9 @@ public class MoviesController : Controller {
 
             var movieList = ApiUtility.GetTMDBResponse<MovieListPage>(_config, $"search/movie", queryParams);
             return Ok(movieList);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             Console.WriteLine(e);
         }
 
@@ -132,11 +155,15 @@ public class MoviesController : Controller {
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [OutputCache(Duration = 21600)]
-    public ActionResult<MovieListPage> GetNowPlayingMovies() {
-        try {
+    public ActionResult<MovieListPage> GetNowPlayingMovies()
+    {
+        try
+        {
             var movieList = ApiUtility.GetTMDBResponse<MovieListPage>(_config, $"movie/now_playing");
             return Ok(movieList);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             Console.WriteLine(e);
         }
 
@@ -147,11 +174,15 @@ public class MoviesController : Controller {
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [OutputCache(Duration = 21600)]
-    public ActionResult<MovieListPage> GetDiscoverMovies() {
-        try {
+    public ActionResult<MovieListPage> GetDiscoverMovies()
+    {
+        try
+        {
             var movieList = ApiUtility.GetTMDBResponse<MovieListPage>(_config, $"discover/movie");
             return Ok(movieList);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             Console.WriteLine(e);
         }
 
@@ -162,8 +193,10 @@ public class MoviesController : Controller {
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [OutputCache(Duration = 21600)]
-    public ActionResult<MovieListPage> GetUpcomingMovies() {
-        try {
+    public ActionResult<MovieListPage> GetUpcomingMovies()
+    {
+        try
+        {
             var queryParams = new Dictionary<string, string> {
                 { "primary_release_date.gte", ApiUtility.GetFormattedDate(DateTime.Now) },
                 { "primary_release_date.lte", ApiUtility.GetFormattedDate(DateTime.Now + TimeSpan.FromHours(2190)) },
@@ -175,7 +208,9 @@ public class MoviesController : Controller {
             var movieListSubset = movieList.Results?.Take(10);
             movieList.Results = movieListSubset;
             return Ok(movieList);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             Console.WriteLine(e);
         }
 
@@ -186,8 +221,10 @@ public class MoviesController : Controller {
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [OutputCache(Duration = 21600)]
-    public ActionResult<MovieListPage> GetClassicMovies() {
-        try {
+    public ActionResult<MovieListPage> GetClassicMovies()
+    {
+        try
+        {
             var queryParams = new Dictionary<string, string> {
                 { "sort_by", "vote_average.desc" },
                 { "vote_count.gte", "1000" },
@@ -199,7 +236,9 @@ public class MoviesController : Controller {
             var movieListSubset = movieList.Results?.Take(12);
             movieList.Results = movieListSubset;
             return Ok(movieList);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             Console.WriteLine(e);
         }
 
@@ -210,8 +249,10 @@ public class MoviesController : Controller {
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [OutputCache(Duration = 21600)]
-    public ActionResult<MovieListPage> GetMostLovedMovies() {
-        try {
+    public ActionResult<MovieListPage> GetMostLovedMovies()
+    {
+        try
+        {
             var queryParams = new Dictionary<string, string> {
                 { "primary_release_date.gte", ApiUtility.GetFormattedDate(DateTime.Now - TimeSpan.FromHours(2190)) },
                 { "sort_by", "vote_average.desc" },
@@ -224,7 +265,9 @@ public class MoviesController : Controller {
             var movieListSubset = movieList.Results?.Where(movie => movie.Popularity > 25).Take(8);
             movieList.Results = movieListSubset;
             return Ok(movieList);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             Console.WriteLine(e);
         }
 
@@ -235,8 +278,10 @@ public class MoviesController : Controller {
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [OutputCache(Duration = 21600)]
-    public ActionResult<MovieListPage> GetMostHatedMovies() {
-        try {
+    public ActionResult<MovieListPage> GetMostHatedMovies()
+    {
+        try
+        {
             var queryParams = new Dictionary<string, string> {
                 { "primary_release_date.gte", ApiUtility.GetFormattedDate(DateTime.Now - TimeSpan.FromHours(2190)) },
                 { "sort_by", "vote_average.asc" },
@@ -249,7 +294,9 @@ public class MoviesController : Controller {
             var movieListSubset = movieList.Results?.Where(movie => movie.Popularity > 25).Take(8);
             movieList.Results = movieListSubset;
             return Ok(movieList);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             Console.WriteLine(e);
         }
 
@@ -260,26 +307,30 @@ public class MoviesController : Controller {
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [OutputCache(Duration = 604800)]
-    public ActionResult<OmdbMovieDetails> GetOmdbMovieDetails(string id) {
-        try {
+    public ActionResult<OmdbMovieDetails> GetOmdbMovieDetails(string id)
+    {
+        try
+        {
             var omdbMovieDetails = ApiUtility.GetOMDBResponse<OmdbMovieDetails>(_config, id);
             var ratingDetails = new OmdbMovieRatingDetails();
 
             ratingDetails.ImdbRating =
-                double.TryParse(omdbMovieDetails.imdbRating, out var iResult) ? iResult : (double?)null;
+                double.TryParse(omdbMovieDetails.imdbRating, out var iResult) ? iResult : null;
 
-            ratingDetails.Metascore = int.TryParse(omdbMovieDetails.Metascore, out var mResult) ? mResult : (int?)null;
+            ratingDetails.Metascore = int.TryParse(omdbMovieDetails.Metascore, out var mResult) ? mResult : null;
 
             var rottenTomatoesScore = omdbMovieDetails.Ratings
                 .FirstOrDefault(rating => rating.Source == "Rotten Tomatoes")?.Value;
 
             ratingDetails.RottenTomatoesScore =
-                int.TryParse(rottenTomatoesScore?.Trim('%'), out var rResult) ? rResult : (int?)null;
+                int.TryParse(rottenTomatoesScore?.Trim('%'), out var rResult) ? rResult : null;
 
             omdbMovieDetails.RatingDetails = ratingDetails;
 
             return Ok(omdbMovieDetails);
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             Console.WriteLine(e);
         }
 
