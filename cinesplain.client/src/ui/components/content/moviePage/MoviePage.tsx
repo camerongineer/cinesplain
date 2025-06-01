@@ -57,7 +57,7 @@ const MoviePage: React.FC = () => {
                                 lg: 2
                             }}
                         >
-                            {movie.trailer && <TrailerDisplay movie={movie} trailer={movie.trailer} />}
+                            <TrailerDisplay movie={movie} trailer={movie.trailer} />
                             <MovieCreditsListsDisplay credits={credits} />
                         </Stack>
                         <MovieSideBar movie={movie} omdbDetails={omdbDetails} />
