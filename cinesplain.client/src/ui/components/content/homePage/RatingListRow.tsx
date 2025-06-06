@@ -1,5 +1,4 @@
 import { Link as MuiLink, styled, TableCell, TableRow, useTheme } from "@mui/material";
-import { grey } from "@mui/material/colors";
 import { Link as RouterLink } from "react-router-dom";
 import Movie from "../../../../types/movie.ts";
 import PopcornRating from "../../common/PopcornRating";
@@ -13,10 +12,11 @@ const StyledTableRow = styled(TableRow)`
 interface RatingListRowProps {
     movie: Movie;
     link: string;
+    backgroundColor: string;
 }
 
-const RatingListRow: React.FC<RatingListRowProps> = ({ movie, link }) => {
-    const theme = useTheme();
+const RatingListRow: React.FC<RatingListRowProps> = ({ movie, link, backgroundColor }) => {
+    const { palette } = useTheme();
 
     return (
         <StyledTableRow>
@@ -25,15 +25,15 @@ const RatingListRow: React.FC<RatingListRowProps> = ({ movie, link }) => {
                     <MuiLink
                         component="span"
                         variant="overline"
-                        fontWeight="bolder"
                         fontStyle="italic"
                         fontSize="medium"
                         underline="none"
-                        color={grey[100]}
                         sx={{
+                            color: palette.getContrastText(backgroundColor),
+                            fontWeight: 600,
                             "&:hover": {
-                                color: theme.palette.text.primary,
-                                fontStyle: "normal"
+                                fontStyle: "normal",
+                                fontWeight: 900
                             }
                         }}
                     >

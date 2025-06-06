@@ -58,6 +58,7 @@ const RatingList: React.FC<RatingListProps> = ({
                             <ListLabel
                                 labelText={labelText}
                                 color={(theme) => theme.palette.getContrastText(backgroundOverlayColor)}
+                                fontWeight={900}
                                 pb={2}
                                 zIndex={1}
                             />
@@ -76,6 +77,7 @@ const RatingList: React.FC<RatingListProps> = ({
                                         key={movie.id}
                                         movie={movie}
                                         link={`/movies/${getFormattedMovieLinkId(movie)}`}
+                                        backgroundColor={backgroundOverlayColor}
                                     />
                                 ))}
                             </TableBody>
