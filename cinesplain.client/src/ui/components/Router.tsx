@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { lazy } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { homePageLoader } from "../../loaders/homePageLoader.ts";
@@ -56,6 +57,7 @@ const router = createBrowserRouter([
 const Router: React.FC = () => (
     <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
+        <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
 );
 
