@@ -11,7 +11,7 @@ const StyledStack = styled(Stack)<{ $transition?: boolean }>`
     transform: translate(-50%, -50%);
     overflow: hidden;
     opacity: ${({ $transition }) => ($transition ? 1 : 0)};
-    transition: opacity 100ms ease;
+    transition: opacity 50ms ease;
 `;
 
 const WobblingStack = styled(Stack)<{ $transition?: boolean }>`
@@ -43,9 +43,7 @@ const Loading = () => {
     const { palette } = useTheme();
 
     useEffect(() => {
-        setTimeout(() => {
-            setInitialState(false);
-        }, 150);
+        setInitialState(false);
     }, []);
 
     useEffect(() => {
