@@ -10,7 +10,7 @@ const StyledTableRow = styled(TableRow)`
     cursor: pointer;
 
     &:hover {
-        background-color: #00000060;
+        background-color: #00000030;
     }
 
     & td,
