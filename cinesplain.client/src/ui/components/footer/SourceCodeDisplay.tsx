@@ -7,13 +7,12 @@ const StyledStack = styled(Stack)`
     margin: 0.5em 1em;
 `;
 
-const SourceCodeDisplay: React.FC = () => (
+const SourceCodeDisplay = () => (
     <StyledStack>
         <Typography variant="overline" style={{ userSelect: "none" }}>
             Source Code
         </Typography>
-        <GithubLink link="https://github.com/camerongineer/cinesplain-react" title="cinesplain-react" />
-        <GithubLink link="https://github.com/camerongineer/cinesplain-api-dotnet" title="cinesplain-api-dotnet" />
+        <GithubLink link="https://github.com/camerongineer/cinesplain" title="cinesplain" />
     </StyledStack>
 );
 
