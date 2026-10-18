@@ -8,7 +8,7 @@ export const retrieveUser = async (userId: string): Promise<CineSplainUser | nul
         return user.results;
     } catch (error) {
         if (isAxiosError(error) && error?.response?.status === 404) {
-            throw new Error("User doesn't exist");
+            throw new Error("User doesn't exist", { cause: error });
         }
         console.error(error);
         return null;
@@ -21,7 +21,7 @@ export const createUser = async (newUser: CineSplainUser): Promise<CineSplainUse
         return res.data.data.results;
     } catch (error) {
         if (isAxiosError(error) && error?.response?.status === 404) {
-            throw new Error("User doesn't exist");
+            throw new Error("User doesn't exist", { cause: error });
         }
         console.error(error);
         return null;

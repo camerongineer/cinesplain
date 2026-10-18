@@ -1,10 +1,12 @@
 import DownIcon from "@assets/cinesplain_logo_down.svg?react";
 import UpIcon from "@assets/cinesplain_logo_up.svg?react";
-import { Box, BoxProps, styled } from "@mui/material";
+import { Box, styled } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigation } from "react-router-dom";
 
-interface CSLoadingIconProps extends BoxProps {
+interface CSLoadingIconProps {
+    width?: number | string | { [breakpoint: string]: number | string };
+    height?: number | string;
     loadRotationMilliseconds?: number;
 }
 
@@ -16,12 +18,16 @@ const StyledUpIcon = styled(UpIcon)`
     height: 100%;
 `;
 
-const CSLoadingIcon: React.FC<CSLoadingIconProps> = ({ loadRotationMilliseconds = 600, ...props }) => {
+const CSLoadingIcon: React.FC<CSLoadingIconProps> = ({
+    width,
+    height,
+    loadRotationMilliseconds = 600
+}) => {
     const navigation = useNavigation();
     const [iconIndex, setIconIndex] = useState(0);
 
     useEffect(() => {
-        let intervalId: NodeJS.Timeout | null = null;
+        let intervalId: ReturnType<typeof setInterval> | null = null;
 
         if (navigation.state === "loading") {
             intervalId = setInterval(() => {
@@ -55,8 +61,12 @@ const CSLoadingIcon: React.FC<CSLoadingIconProps> = ({ loadRotationMilliseconds 
     };
 
     return (
-        <Box sx={getAnimationStyle()} {...props}>
-            {navigation.state === "loading" && iconIndex === 1 ? <StyledDownIcon /> : <StyledUpIcon />}
+        <Box sx={{ width, height, ...getAnimationStyle() }}>
+            {navigation.state === "loading" && iconIndex === 1 ? (
+                <StyledDownIcon />
+            ) : (
+                <StyledUpIcon />
+            )}
         </Box>
     );
 };

@@ -45,13 +45,15 @@ const RecentMoviesRow: React.FC<RecentMoviesRowProps> = ({ movies }) => {
         >
             <Typography
                 variant="h5"
-                width="fit-content"
                 color={theme.palette.getContrastText(theme.palette.common.black)}
-                fontWeight="bolder"
-                alignSelf="end"
-                zIndex={1}
-                mr={3}
                 style={{ userSelect: "none" }}
+                sx={{
+                    width: "fit-content",
+                    fontWeight: "bolder",
+                    alignSelf: "end",
+                    zIndex: 1,
+                    mr: 3
+                }}
             >
                 Now In Theaters
             </Typography>

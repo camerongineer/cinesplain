@@ -6,12 +6,28 @@ interface ImdbRatingDisplayProps {
 }
 
 const ImdbRatingDisplay: React.FC<ImdbRatingDisplayProps> = ({ imdbRating }) => (
-    <Stack direction="row" alignItems="center" spacing={0.5}>
+    <Stack
+        direction="row"
+        spacing={0.5}
+        sx={{
+            alignItems: "center"
+        }}
+    >
         <IMDB height={15} />
-        <Typography display="inline" fontWeight="bold">
+        <Typography
+            sx={{
+                display: "inline",
+                fontWeight: "bold"
+            }}
+        >
             Rating:
         </Typography>
-        <Typography display="inline" variant="h6">
+        <Typography
+            variant="h6"
+            sx={{
+                display: "inline"
+            }}
+        >
             {imdbRating}
         </Typography>
     </Stack>

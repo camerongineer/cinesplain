@@ -6,12 +6,28 @@ interface RottenTomatoesDisplayProps {
 }
 
 const RottenTomatoesDisplay: React.FC<RottenTomatoesDisplayProps> = ({ rottenTomatoesScore }) => (
-    <Stack direction="row" alignItems="center" spacing={0.5}>
+    <Stack
+        direction="row"
+        spacing={0.5}
+        sx={{
+            alignItems: "center"
+        }}
+    >
         <RottenTomatoes width={20} />
-        <Typography display="inline" fontWeight="bold">
+        <Typography
+            sx={{
+                display: "inline",
+                fontWeight: "bold"
+            }}
+        >
             Score:
         </Typography>
-        <Typography display="inline" variant="h6">
+        <Typography
+            variant="h6"
+            sx={{
+                display: "inline"
+            }}
+        >
             {rottenTomatoesScore}%
         </Typography>
     </Stack>

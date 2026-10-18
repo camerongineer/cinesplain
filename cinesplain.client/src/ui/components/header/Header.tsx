@@ -1,7 +1,7 @@
 import { AppBar, styled, Toolbar } from "@mui/material";
-import { QueryClient, queryOptions, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { getPopularMoviesPath, retrieveMovies } from "../../../api/moviesApi.ts";
+import { headerQuery } from "../../../loaders/headerLoader.ts";
 import SearchModal from "../content/search/SearchModal";
 import NavBar from "./NavBar";
 
@@ -20,19 +20,10 @@ const CenteredToolbar = styled(Toolbar)`
     margin-top: 6px;
 `;
 
-const headerQuery = queryOptions({
-    queryKey: ["headerData"],
-    queryFn: async () => await retrieveMovies(getPopularMoviesPath(1))
-});
-
-const headerLoader = (queryClient: QueryClient) => async () => {
-    await queryClient.ensureQueryData(headerQuery);
-};
-
 const Header: React.FC = () => {
     const [animateLogo, setAnimateLogo] = useState(true);
     const [searchModalOpen, setSearchModalOpen] = useState<boolean>(false);
-    
+
     const { data } = useQuery(headerQuery);
 
     const popularMovieTitles = data?.map((movie: { title: string }) => movie.title) ?? [];
@@ -69,5 +60,4 @@ const Header: React.FC = () => {
     );
 };
 
-export { headerLoader };
 export default Header;

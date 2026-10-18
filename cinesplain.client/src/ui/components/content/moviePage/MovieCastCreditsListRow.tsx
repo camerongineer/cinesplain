@@ -28,15 +28,27 @@ interface MovieCastCreditsListRowProps {
 
 const MovieCastCreditsListRow: React.FC<MovieCastCreditsListRowProps> = ({ castCredit }) => {
     const navigate = useNavigate();
-    const onRowClick = () => navigate(`/person/${getFormattedPersonLinkId(castCredit as unknown as Person)}`);
+    const onRowClick = () =>
+        navigate(`/person/${getFormattedPersonLinkId(castCredit as unknown as Person)}`);
 
     const altSilhouette =
-        castCredit.gender === 1 ? femaleSilhouette : castCredit.gender === 2 ? maleSilhouette : neutralSilhouette;
+        castCredit.gender === 1
+            ? femaleSilhouette
+            : castCredit.gender === 2
+              ? maleSilhouette
+              : neutralSilhouette;
 
     return (
         <StyledTableRow onClick={onRowClick}>
             <TableCell>
-                <Stack direction="row" justifyContent="start" alignItems="center" spacing={2}>
+                <Stack
+                    direction="row"
+                    spacing={2}
+                    sx={{
+                        justifyContent: "start",
+                        alignItems: "center"
+                    }}
+                >
                     <Avatar
                         src={
                             castCredit.profilePath
@@ -49,12 +61,20 @@ const MovieCastCreditsListRow: React.FC<MovieCastCreditsListRowProps> = ({ castC
                             height: 45
                         }}
                     />
-                    <Stack width="100%" px={.5}>
+                    <Stack
+                        sx={{
+                            width: "100%",
+                            px: 0.5
+                        }}
+                    >
                         <Typography
                             variant="subtitle1"
-                            fontWeight="bold"
-                            textAlign={{
-                                xs: "end"
+                            sx={{
+                                fontWeight: "bold",
+
+                                textAlign: {
+                                    xs: "end"
+                                }
                             }}
                         >
                             {castCredit.name}
@@ -62,9 +82,12 @@ const MovieCastCreditsListRow: React.FC<MovieCastCreditsListRowProps> = ({ castC
                         {castCredit.character && (
                             <Typography
                                 variant="subtitle1"
-                                fontSize="small"
-                                textAlign={{
-                                    xs: "end"
+                                sx={{
+                                    fontSize: "small",
+
+                                    textAlign: {
+                                        xs: "end"
+                                    }
                                 }}
                             >
                                 as {castCredit.character}

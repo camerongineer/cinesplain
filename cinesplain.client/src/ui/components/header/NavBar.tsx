@@ -10,7 +10,13 @@ interface NavBarProps {
 
 const NavBar: React.FC<NavBarProps> = ({ onSearchButtonClicked, animateLogo }) => {
     return (
-        <Grid container spacing={1} width="100%">
+        <Grid
+            container
+            spacing={1}
+            sx={{
+                width: "100%"
+            }}
+        >
             <Grid size={{ xs: 4, sm: 4, lg: 2 }}>
                 <Link to="/">
                     <SlidingLogoDisplay animateLogo={animateLogo} />
@@ -18,8 +24,18 @@ const NavBar: React.FC<NavBarProps> = ({ onSearchButtonClicked, animateLogo }) =
             </Grid>
             <Grid size={{ xs: 4, sm: 4 }} />
             <Grid size={{ xs: 3, sm: 3, lg: 5 }} />
-            <Grid size={1} display="flex" justifyContent="end">
-                <IconButton sx={{ marginLeft: "auto" }} onClick={onSearchButtonClicked} title="search">
+            <Grid
+                size={1}
+                sx={{
+                    display: "flex",
+                    justifyContent: "end"
+                }}
+            >
+                <IconButton
+                    sx={{ marginLeft: "auto" }}
+                    onClick={onSearchButtonClicked}
+                    title="search"
+                >
                     <SearchIcon />
                 </IconButton>
             </Grid>

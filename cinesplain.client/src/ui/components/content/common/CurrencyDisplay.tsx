@@ -12,7 +12,8 @@ interface CurrencyDisplayProps {
 const CurrencyDisplay: React.FC<CurrencyDisplayProps> = ({ labelText, currencyAmount, sx }) => (
     <>
         <Typography variant="body1" sx={sx}>
-            <b>{labelText}:</b>&nbsp;{currencyAmount > 0 ? getFormattedCurrencyAmount(currencyAmount) : "Unknown"}
+            <b>{labelText}:</b>&nbsp;
+            {currencyAmount > 0 ? getFormattedCurrencyAmount(currencyAmount) : "Unknown"}
         </Typography>
     </>
 );

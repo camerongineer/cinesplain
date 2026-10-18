@@ -29,17 +29,38 @@ const JoinForm = ({ userInfo }: { userInfo: UserInfo | null }) => {
 
     return (
         <StyledStack>
-            <Typography variant="overline" fontWeight="bold" fontSize="large">
+            <Typography
+                variant="overline"
+                sx={{
+                    fontWeight: "bold",
+                    fontSize: "large"
+                }}
+            >
                 Please enter your details below
             </Typography>
-            {userInfo && <Box component="img" src={provider === "aad" ? Microsoft : Github} alt={`${provider} Logo`} />}
+            {userInfo && (
+                <Box
+                    component="img"
+                    src={provider === "aad" ? Microsoft : Github}
+                    alt={`${provider} Logo`}
+                />
+            )}
             <Form method="post">
-                <Stack minWidth={theme.breakpoints.values.sm} spacing={3}>
+                <Stack
+                    spacing={3}
+                    sx={{
+                        minWidth: theme.breakpoints.values.sm
+                    }}
+                >
                     <TextField type="text" name="userName" label="Username" required />
                     <TextField type="text" name="firstName" label="First Name" required />
                     <TextField type="text" name="lastName" label="Last Name" required />
                     <TextField type="text" name="email" label="Email" required />
-                    <LoadingButton type="submit" disabled={disabled} loading={navigation.state === "submitting"}>
+                    <LoadingButton
+                        type="submit"
+                        disabled={disabled}
+                        loading={navigation.state === "submitting"}
+                    >
                         <span>Send</span>
                     </LoadingButton>
                 </Stack>

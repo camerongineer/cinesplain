@@ -2,13 +2,13 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { lazy } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { headerLoader } from "../../loaders/headerLoader.ts";
 import { homePageLoader } from "../../loaders/homePageLoader.ts";
 import { moviePageLoader } from "../../loaders/moviePageLoader.ts";
 import { personPageLoader } from "../../loaders/personPageLoader.ts";
 import Layout from "./Layout";
 import Loading from "./common/Loading";
 import NotFound from "./common/NotFound.tsx";
-import { headerLoader } from "./header/Header";
 
 const queryClient = new QueryClient({
     defaultOptions: {

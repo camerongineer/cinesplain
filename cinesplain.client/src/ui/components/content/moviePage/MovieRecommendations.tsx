@@ -25,16 +25,24 @@ const MovieRecommendations: React.FC<MovieRecommendationsProps> = ({ recommended
     return (
         <StyledStack className="full center">
             <Box
-                display="flex"
-                alignItems="center"
-                padding=".5em 1em 0"
-                alignSelf={{
-                    xs: "center",
-                    md: "end"
+                sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    padding: ".5em 1em 0",
+
+                    alignSelf: {
+                        xs: "center",
+                        md: "end"
+                    }
                 }}
             >
                 <CSLoadingIcon height={30} />
-                <Typography variant="h5" fontWeight="bold">
+                <Typography
+                    variant="h5"
+                    sx={{
+                        fontWeight: "bold"
+                    }}
+                >
                     Recommendations
                 </Typography>
             </Box>

@@ -27,9 +27,9 @@ interface SlidingLogoDisplayProps {
 
 const SlidingLogoDisplay: React.FC<SlidingLogoDisplayProps> = ({ animateLogo }) => (
     <SlidingLogo
-        display="flex"
-        alignItems="center"
         sx={{
+            display: "flex",
+            alignItems: "center",
             animation: `${animateLogo ? "slideIn 2s forwards" : "none"}`
         }}
     >

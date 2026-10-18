@@ -9,7 +9,9 @@ import { defineConfig } from "vite";
 import svgr from "vite-plugin-svgr";
 
 const baseFolder =
-    env.APPDATA !== undefined && env.APPDATA !== "" ? `${env.APPDATA}/ASP.NET/https` : `${env.HOME}/.aspnet/https`;
+    env.APPDATA !== undefined && env.APPDATA !== ""
+        ? `${env.APPDATA}/ASP.NET/https`
+        : `${env.HOME}/.aspnet/https`;
 
 const certificateName = "cinesplain.client";
 const certFilePath = path.join(baseFolder, `${certificateName}.pem`);
@@ -20,7 +22,15 @@ if (!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) {
         0 !==
         child_process.spawnSync(
             "dotnet",
-            ["dev-certs", "https", "--export-path", certFilePath, "--format", "Pem", "--no-password"],
+            [
+                "dev-certs",
+                "https",
+                "--export-path",
+                certFilePath,
+                "--format",
+                "Pem",
+                "--no-password"
+            ],
             { stdio: "inherit" }
         ).status
     ) {
@@ -31,8 +41,8 @@ if (!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) {
 const target = env.ASPNETCORE_HTTPS_PORT
     ? `https://localhost:${env.ASPNETCORE_HTTPS_PORT}`
     : env.ASPNETCORE_URLS
-    ? env.ASPNETCORE_URLS.split(";")[0]
-    : "https://localhost:7232";
+      ? env.ASPNETCORE_URLS.split(";")[0]
+      : "https://localhost:7232";
 
 // https://vitejs.dev/config/
 export default defineConfig({

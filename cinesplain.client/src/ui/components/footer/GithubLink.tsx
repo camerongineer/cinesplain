@@ -8,9 +8,33 @@ interface GithubLinkProps {
 }
 
 const GithubLink: React.FC<GithubLinkProps> = ({ link, title }) => (
-    <Stack component={Link} to={link} target="_blank" rel="noopener noreferrer" alignItems="center" direction="row">
-        <Box component="img" height={15} pr={0.5} src={github as unknown as string} alt={`Link to ${title}`} />
-        <Typography component="span" variant="overline" color="text.secondary" lineHeight={2}>
+    <Stack
+        component={Link}
+        to={link}
+        target="_blank"
+        rel="noopener noreferrer"
+        direction="row"
+        sx={{
+            alignItems: "center"
+        }}
+    >
+        <Box
+            component="img"
+            src={github as unknown as string}
+            alt={`Link to ${title}`}
+            sx={{
+                height: 15,
+                pr: 0.5
+            }}
+        />
+        <Typography
+            component="span"
+            variant="overline"
+            sx={{
+                color: "text.secondary",
+                lineHeight: 2
+            }}
+        >
             {title}
         </Typography>
     </Stack>

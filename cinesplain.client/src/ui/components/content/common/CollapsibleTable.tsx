@@ -15,7 +15,7 @@ import { toggleParams } from "../../../../utils/urlUtils.ts";
 import CollapsibleTableFooter from "./CollapsibleTableFooter.tsx";
 
 interface CollapsibleTableProps extends TableContainerProps {
-    label?: String;
+    label?: string;
     tableHeaderRow: ReactNode;
     truncatedAmount: number;
     paramKey: string;
@@ -24,10 +24,13 @@ interface CollapsibleTableProps extends TableContainerProps {
 
 const CollapsibleTable: React.FC<CollapsibleTableProps> = (props) => {
     const { label, tableHeaderRow, elements, truncatedAmount, paramKey, ...rest } = props;
-    let [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const handleExpand = () =>
-        setSearchParams(toggleParams(searchParams, paramKey), { replace: true, preventScrollReset: true });
+        setSearchParams(toggleParams(searchParams, paramKey), {
+            replace: true,
+            preventScrollReset: true
+        });
 
     const isExpanded = !!searchParams.get(paramKey);
 
@@ -44,9 +47,11 @@ const CollapsibleTable: React.FC<CollapsibleTableProps> = (props) => {
                             <TableCell colSpan={2} align="right">
                                 <Typography
                                     variant="overline"
-                                    fontSize="large"
-                                    fontWeight="bold"
                                     style={{ userSelect: "none" }}
+                                    sx={{
+                                        fontSize: "large",
+                                        fontWeight: "bold"
+                                    }}
                                 >
                                     {label}
                                 </Typography>
@@ -68,7 +73,10 @@ const CollapsibleTable: React.FC<CollapsibleTableProps> = (props) => {
                         <TableBody>
                             {collapsedElements}
                             {collapsedElements && (
-                                <CollapsibleTableFooter onClick={handleExpand} expanded={isExpanded} />
+                                <CollapsibleTableFooter
+                                    onClick={handleExpand}
+                                    expanded={isExpanded}
+                                />
                             )}
                         </TableBody>
                     </Table>

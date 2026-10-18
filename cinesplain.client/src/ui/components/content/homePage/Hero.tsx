@@ -30,9 +30,19 @@ const Hero: React.FC = () => {
                 }}
                 loadRotationMilliseconds={1250}
             />
-            <Stack alignItems="center" width="clamp(220px, 50%, 500px)">
+            <Stack
+                sx={{
+                    alignItems: "center",
+                    width: "clamp(220px, 50%, 500px)"
+                }}
+            >
                 <CSLogoText width="90%" />
-                <Typography variant="h6" pt={1}>
+                <Typography
+                    variant="h6"
+                    sx={{
+                        pt: 1
+                    }}
+                >
                     Your home for all-things cinema
                 </Typography>
                 <Typography variant="subtitle2">We've got some 'splaining to do...</Typography>

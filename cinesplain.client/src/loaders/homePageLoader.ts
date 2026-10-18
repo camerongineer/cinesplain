@@ -16,13 +16,14 @@ const homePageQuery = queryOptions({
         const hatedMoviesTask = retrieveMovies(getMostHatedMoviesPath());
         const classicMoviesTask = retrieveMovies(getClassicMoviesPath());
         const upcomingMoviesTask = retrieveMovies(getUpcomingMoviesPath());
-        const [recentMovies, lovedMovies, hatedMovies, classicMovies, upcomingMovies] = await Promise.all([
-            recentMoviesTask,
-            lovedMoviesTask,
-            hatedMoviesTask,
-            classicMoviesTask,
-            upcomingMoviesTask
-        ]);
+        const [recentMovies, lovedMovies, hatedMovies, classicMovies, upcomingMovies] =
+            await Promise.all([
+                recentMoviesTask,
+                lovedMoviesTask,
+                hatedMoviesTask,
+                classicMoviesTask,
+                upcomingMoviesTask
+            ]);
         return { recentMovies, lovedMovies, hatedMovies, classicMovies, upcomingMovies };
     }
 });
@@ -32,4 +33,3 @@ const homePageLoader = (queryClient: QueryClient) => async () => {
 };
 
 export { homePageLoader, homePageQuery };
-

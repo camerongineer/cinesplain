@@ -1,10 +1,6 @@
 import Github from "@assets/github.svg?react";
 import Microsoft from "@assets/microsoft.svg?react";
 import { Box, Button, Paper, styled, Typography } from "@mui/material";
-import { redirect } from "react-router-dom";
-import { retrieveUser } from "../../../../api/usersApi.ts";
-import authLoader from "../../../../loaders/authLoader.ts";
-import UserInfo from "../../../../types/userInfo.ts";
 import CSLoadingIcon from "../../common/CSLoadingIcon.tsx";
 
 const StyledBox = styled(Box)`
@@ -31,27 +27,19 @@ const StyledPaper = styled(Paper)`
     );
 `;
 
-const loginPageLoader = async (): Promise<UserInfo | null> => {
-    const userAuth = await authLoader();
-    let user;
-    if (userAuth) {
-        try {
-            user = await retrieveUser(userAuth.userId);
-        } catch (error) {
-            user = null;
-        }
-    }
-    if (userAuth && !user) throw redirect("/join");
-    if (user) throw redirect("/");
-    return null;
-};
-
 const LoginPage = () => {
     return (
         <StyledBox>
             <StyledPaper>
                 <CSLoadingIcon height={150} />
-                <Typography variant="overline" fontWeight="bold" fontSize="large" pb={4}>
+                <Typography
+                    variant="overline"
+                    sx={{
+                        fontWeight: "bold",
+                        fontSize: "large",
+                        pb: 4
+                    }}
+                >
                     Please sign in
                 </Typography>
                 <Box component="a" href={`/.auth/login/aad?post_login_redirect_uri=/login`}>
@@ -69,5 +57,4 @@ const LoginPage = () => {
     );
 };
 
-export { loginPageLoader };
 export default LoginPage;

@@ -20,12 +20,12 @@ interface BackdropImageListRowProps {
 
 const BackdropImageListRow: React.FC<BackdropImageListRowProps> = ({ movies, cardStyle }) => (
     <OuterCarousel
-        padding={2}
         sx={{
             scrollSnapType: "x mandatory",
             scrollBehavior: "smooth",
             overflow: "auto",
-            width: "99%"
+            width: "99%",
+            padding: 2
         }}
     >
         <StyledStack>

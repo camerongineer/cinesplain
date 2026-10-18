@@ -1,15 +1,15 @@
-import {
-    useEffect,
-    useState
-} from "react";
+import { useEffect, useState } from "react";
 import { getImagePath } from "../api/moviesApi.ts";
 import { BACKDROP_SIZE } from "../constants/ImageSizes";
 import Movie from "../types/movie.ts";
 
-const useMovieBackdrop = (movie: Movie, imageSize: string = BACKDROP_SIZE.MAX): [string, boolean] => {
+const useMovieBackdrop = (
+    movie: Movie,
+    imageSize: string = BACKDROP_SIZE.MAX
+): [string, boolean] => {
     const [backgroundImage, setBackgroundImage] = useState<string>("");
     const [backgroundImageLoading, setBackgroundImageLoading] = useState<boolean>(true);
-    
+
     useEffect(() => {
         if (!movie) return;
         if (movie.backdropPath) {
@@ -19,12 +19,15 @@ const useMovieBackdrop = (movie: Movie, imageSize: string = BACKDROP_SIZE.MAX): 
             backgroundImg.alt = `${movie.title} backdrop`;
             backgroundImg.onload = () => setBackgroundImageLoading(false);
         } else {
+            // setState here preserves the original instant-hide behavior for movies without a backdrop
+            // oxlint-disable-next-line react/set-state-in-effect
             setBackgroundImageLoading(false);
         }
     }, [backgroundImage, movie]);
-    
+
     useEffect(() => {
         if (movie && movie.backdropPath) {
+            // oxlint-disable-next-line react/set-state-in-effect
             setBackgroundImage(getImagePath(movie.backdropPath, imageSize));
         }
     }, [movie, imageSize]);

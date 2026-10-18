@@ -1,4 +1,14 @@
-import { Box, Card, CardContent, CardHeader, CardMedia, CardProps, Stack, styled, Typography } from "@mui/material";
+import {
+    Box,
+    Card,
+    CardContent,
+    CardHeader,
+    CardMedia,
+    CardProps,
+    Stack,
+    styled,
+    Typography
+} from "@mui/material";
 import { useState } from "react";
 import { getImagePath } from "../../../../api/moviesApi.ts";
 import { POSTER_SIZE } from "../../../../constants/ImageSizes";
@@ -9,7 +19,9 @@ import PopcornRating from "../../common/PopcornRating.tsx";
 const StyledCard = styled(Card)`
     position: relative;
     background: ${(props) => props.theme.palette.background.paper};
-    transition: height 2s ease-in-out, opacity ${(props) => props.theme.transitions.duration.complex}ms ease-in-out;
+    transition:
+        height 2s ease-in-out,
+        opacity ${(props) => props.theme.transitions.duration.complex}ms ease-in-out;
     @keyframes Card-Wobble {
         from {
             transform: rotate(-1deg);
@@ -80,16 +92,32 @@ const MovieCard: React.FC<MovieCardProps> = ({
                 >
                     <CardHeader
                         title={
-                            <Stack direction="row" justifyContent="space-between">
+                            <Stack
+                                direction="row"
+                                sx={{
+                                    justifyContent: "space-between"
+                                }}
+                            >
                                 <Stack>
                                     <Typography variant="h6">{movie.title}</Typography>
                                     {movie.releaseDate && (
-                                        <Typography>{getFormattedDisplayedDate(movie.releaseDate)}</Typography>
+                                        <Typography>
+                                            {getFormattedDisplayedDate(movie.releaseDate)}
+                                        </Typography>
                                     )}
                                 </Stack>
                                 {movie.voteCount > 5 && movie.voteAverage && (
-                                    <Stack fontSize="smaller" mr={0.5} mt={0.5}>
-                                        <PopcornRating voteAverage={movie.voteAverage} width="50px" />
+                                    <Stack
+                                        sx={{
+                                            fontSize: "smaller",
+                                            mr: 0.5,
+                                            mt: 0.5
+                                        }}
+                                    >
+                                        <PopcornRating
+                                            voteAverage={movie.voteAverage}
+                                            width="50px"
+                                        />
                                     </Stack>
                                 )}
                             </Stack>
@@ -97,7 +125,12 @@ const MovieCard: React.FC<MovieCardProps> = ({
                     />
                     {movie.overview && (
                         <CardContent>
-                            <Typography variant="body2" color="text.secondary">
+                            <Typography
+                                variant="body2"
+                                sx={{
+                                    color: "text.secondary"
+                                }}
+                            >
                                 {`${movie.overview.substring(0, 200)}${movie.overview.length > 200 ? "..." : ""}`}
                             </Typography>
                         </CardContent>
