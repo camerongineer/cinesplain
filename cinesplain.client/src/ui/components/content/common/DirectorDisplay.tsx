@@ -6,10 +6,22 @@ interface DirectorDisplayProps {
 
 const DirectorDisplay: React.FC<DirectorDisplayProps> = ({ director }) => (
     <Stack>
-        <Typography display="inline" variant="overline" fontWeight="bold">
+        <Typography
+            variant="overline"
+            sx={{
+                display: "inline",
+                fontWeight: "bold"
+            }}
+        >
             Director
         </Typography>
-        <Typography display="inline">{director}</Typography>
+        <Typography
+            sx={{
+                display: "inline"
+            }}
+        >
+            {director}
+        </Typography>
     </Stack>
 );
 

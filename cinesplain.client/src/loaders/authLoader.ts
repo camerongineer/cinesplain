@@ -13,7 +13,7 @@ const authLoader = async (): Promise<UserInfo | null> => {
             clientPrincipal.identityDetails = null;
         }
         return clientPrincipal;
-    } catch (error) {
+    } catch {
         return null;
     }
 };

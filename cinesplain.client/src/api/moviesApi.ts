@@ -15,7 +15,9 @@ export const retrieveMovie = async (movieId: number): Promise<Movie | null> => {
     }
 };
 
-export const retrieveOmdbMovieDetails = async (imdbId: string): Promise<OmdbMovieDetails | null> => {
+export const retrieveOmdbMovieDetails = async (
+    imdbId: string
+): Promise<OmdbMovieDetails | null> => {
     try {
         return await retrieveData(getOmdbMovieDetailsPath(imdbId));
     } catch (error) {
@@ -79,11 +81,13 @@ export const getMoviePath = (movieId: number) => `/api/movies/${movieId}`;
 export const getOmdbMovieDetailsPath = (imdbId: string) => `/api/movies/omdb${imdbId}`;
 export const getMovieTrailersPath = (movieId: string) => `/api/movies/${movieId}/trailers`;
 
-export const getYouTubeTrailerPath = (videoKey: string) => `https://www.youtube.com/embed/${videoKey}`;
+export const getYouTubeTrailerPath = (videoKey: string) =>
+    `https://www.youtube.com/embed/${videoKey}`;
 export const getImdbMoviePath = (imdbId: string) => `https://www.imdb.com/title/${imdbId}`;
 export const getImdbPersonPath = (imdbId: string) => `https://www.imdb.com/name/${imdbId}`;
 
-export const getMoviesSearchPath = (searchQuery: string) => `/api/movies/search?query=${searchQuery}`;
+export const getMoviesSearchPath = (searchQuery: string) =>
+    `/api/movies/search?query=${searchQuery}`;
 export const getPopularMoviesPath = (page: number) => `/api/movies/discover?page=${page}`;
 export const getHomePageMoviesListsPath = () => "/api/movies/home_page_lists";
 export const getTop200MovieTitlesPath = () => "/api/movies/top_200_titles";

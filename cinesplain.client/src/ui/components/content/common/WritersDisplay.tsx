@@ -6,10 +6,22 @@ interface WritersDisplayProps {
 
 const WritersDisplay: React.FC<WritersDisplayProps> = ({ writers }) => (
     <Stack>
-        <Typography display="inline" variant="overline" fontWeight="bold">
+        <Typography
+            variant="overline"
+            sx={{
+                display: "inline",
+                fontWeight: "bold"
+            }}
+        >
             Writers
         </Typography>
-        <Typography display="inline">{writers}</Typography>
+        <Typography
+            sx={{
+                display: "inline"
+            }}
+        >
+            {writers}
+        </Typography>
     </Stack>
 );
 

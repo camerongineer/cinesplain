@@ -16,10 +16,10 @@ type Movie = {
     homepage: string | null;
     id: number;
     images: {
-        backdrops: Image[] | null,
-        logos: Image[] | null,
-        posters: Image[] | null
-    }
+        backdrops: Image[] | null;
+        logos: Image[] | null;
+        posters: Image[] | null;
+    };
     imdbId: string;
     mediaType: string;
     originalLanguage: string;
@@ -39,7 +39,7 @@ type Movie = {
     trailer: Video;
     video: boolean;
     videos: {
-        results: Video[] | null
+        results: Video[] | null;
     };
     voteAverage: number | null;
     voteCount: number;

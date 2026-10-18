@@ -1,7 +1,14 @@
 import femaleSilhouette from "@assets/silhouette_female.svg";
 import maleSilhouette from "@assets/silhouette_male.svg";
 import neutralSilhouette from "@assets/silhouette_neutral.svg";
-import { Card, CardMedia, ImageListItem, ImageListItemBar, styled, Typography } from "@mui/material";
+import {
+    Card,
+    CardMedia,
+    ImageListItem,
+    ImageListItemBar,
+    styled,
+    Typography
+} from "@mui/material";
 import { SxProps } from "@mui/system";
 import { useState } from "react";
 import { getImagePath } from "../../../../api/moviesApi.ts";
@@ -27,7 +34,11 @@ const CastMemberCard: React.FC<CastMemberCardProps> = ({ castMember, sx }) => {
     const [loading, setLoading] = useState<boolean>(true);
 
     const altSilhouette =
-        castMember.gender === 1 ? femaleSilhouette : castMember.gender === 2 ? maleSilhouette : neutralSilhouette;
+        castMember.gender === 1
+            ? femaleSilhouette
+            : castMember.gender === 2
+              ? maleSilhouette
+              : neutralSilhouette;
 
     const handleViewDetails = () => setIsHovered(true);
     const handleCloseDetails = () => setIsHovered(false);
@@ -60,13 +71,23 @@ const CastMemberCard: React.FC<CastMemberCardProps> = ({ castMember, sx }) => {
                     <ImageListItemBar
                         title={
                             castMember.character && (
-                                <Typography variant="body2" whiteSpace="pre-wrap">
+                                <Typography
+                                    variant="body2"
+                                    sx={{
+                                        whiteSpace: "pre-wrap"
+                                    }}
+                                >
                                     "<strong>{castMember.character}</strong>"
                                 </Typography>
                             )
                         }
                         subtitle={
-                            <Typography variant="body2" whiteSpace="pre-wrap">
+                            <Typography
+                                variant="body2"
+                                sx={{
+                                    whiteSpace: "pre-wrap"
+                                }}
+                            >
                                 {castMember.name}
                             </Typography>
                         }

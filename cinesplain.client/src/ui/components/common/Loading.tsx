@@ -38,13 +38,8 @@ const StyledLogo = styled(CsLogoText)`
 
 const Loading = () => {
     const [degrees, setDegrees] = useState(0);
-    const [initialState, setInitialState] = useState(true);
     const [splainingState, setSplainingState] = useState(false);
     const { palette } = useTheme();
-
-    useEffect(() => {
-        setInitialState(false);
-    }, []);
 
     useEffect(() => {
         const degreesIntervalId = setInterval(() => {
@@ -75,7 +70,7 @@ const Loading = () => {
 
     return (
         <StyledStack className="full center" sx={loadingStyle}>
-            <WobblingStack>{splainingState || initialState ? <UpIcon /> : <DownIcon />}</WobblingStack>
+            <WobblingStack>{splainingState ? <UpIcon /> : <DownIcon />}</WobblingStack>
             <StyledLogo />
         </StyledStack>
     );

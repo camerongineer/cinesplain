@@ -13,7 +13,11 @@ export const getFormattedDisplayedDate = (dateString: string | undefined) => {
 };
 
 export const getFormattedCurrencyAmount = (dollarAmount: number) => {
-    return dollarAmount.toLocaleString("en-us", { style: "currency", currency: "USD", minimumFractionDigits: 0 });
+    return dollarAmount.toLocaleString("en-us", {
+        style: "currency",
+        currency: "USD",
+        minimumFractionDigits: 0
+    });
 };
 
 export const getFormattedRuntime = (runtimeMinutes: number) => {

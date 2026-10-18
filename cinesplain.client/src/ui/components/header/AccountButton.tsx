@@ -11,10 +11,21 @@ const StyledLoggedInDisplay = styled(Stack)`
 
 const AccountButton = ({ user }: { user: CineSplainUser | null }) => {
     return (
-        <Stack alignItems="end" mr={1}>
+        <Stack
+            sx={{
+                alignItems: "end",
+                mr: 1
+            }}
+        >
             {user ? (
                 <StyledLoggedInDisplay>
-                    <Typography variant="overline" color="text.primary" style={{ userSelect: "none" }}>
+                    <Typography
+                        variant="overline"
+                        style={{ userSelect: "none" }}
+                        sx={{
+                            color: "text.primary"
+                        }}
+                    >
                         Logged in as {user.userName}
                     </Typography>
                     <a href={`/.auth/logout`}>

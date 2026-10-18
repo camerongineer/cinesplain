@@ -1,7 +1,5 @@
 import { Box, styled } from "@mui/material";
-import { redirect, useLoaderData } from "react-router-dom";
-import { retrieveUser } from "../../../../api/usersApi.ts";
-import authLoader from "../../../../loaders/authLoader.ts";
+import { useLoaderData } from "react-router-dom";
 import UserInfo from "../../../../types/userInfo.ts";
 import JoinForm from "./JoinForm.tsx";
 
@@ -14,21 +12,6 @@ const StyledBox = styled(Box)`
     gap: 1em;
 `;
 
-const joinPageLoader = async (): Promise<UserInfo | null> => {
-    const userAuth = await authLoader();
-    if (!userAuth) throw redirect("/login");
-    let user;
-    if (userAuth) {
-        try {
-            user = await retrieveUser(userAuth.userId);
-        } catch (error) {
-            return userAuth;
-        }
-    }
-    if (user) window.location.replace("/");
-    return null;
-};
-
 const JoinPage: React.FC = () => {
     const userInfo = useLoaderData() as UserInfo;
 
@@ -39,5 +22,4 @@ const JoinPage: React.FC = () => {
     );
 };
 
-export { joinPageLoader };
 export default JoinPage;

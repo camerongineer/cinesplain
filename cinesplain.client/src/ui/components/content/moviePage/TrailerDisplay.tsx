@@ -28,7 +28,12 @@ const TrailerDisplay: React.FC<TrailerCardProps> = ({ movie, trailer }) => {
     return (
         <StyledStack>
             <Stack
-                sx={{ position: "relative", width: "100%", paddingTop: "56.25%", display: isLoading ? "flex" : "none" }}
+                sx={{
+                    position: "relative",
+                    width: "100%",
+                    paddingTop: "56.25%",
+                    display: isLoading ? "flex" : "none"
+                }}
             >
                 <Skeleton
                     variant="rectangular"

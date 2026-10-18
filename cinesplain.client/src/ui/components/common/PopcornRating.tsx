@@ -1,4 +1,4 @@
-import { roundedToTenth } from "@camerongineer/reuse/helpers/numberUtils.ts";
+import { roundedToTenth } from "../../../utils/numberUtils.ts";
 import { Box, styled } from "@mui/material";
 import { grey } from "@mui/material/colors";
 import { getCSRatingColor } from "../../../utils/ratingUtils.ts";
@@ -26,9 +26,14 @@ const PopcornRating: React.FC<CSRatingProps> = ({ voteAverage, width = "45px" })
     if (!voteAverage) return null;
     const ratingColor = getCSRatingColor(voteAverage);
     return (
-        <Box position="relative" width="fit-content">
+        <Box
+            sx={{
+                position: "relative",
+                width: "fit-content"
+            }}
+        >
             <CSPopcorn width={width} color={ratingColor} />
-            <RatingCircle className="center" bgcolor={ratingColor}>
+            <RatingCircle className="center" style={{ backgroundColor: ratingColor }}>
                 {roundedToTenth(voteAverage)}
             </RatingCircle>
         </Box>

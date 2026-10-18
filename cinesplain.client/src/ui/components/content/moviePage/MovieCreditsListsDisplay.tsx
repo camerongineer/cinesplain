@@ -10,13 +10,17 @@ interface MovieCreditsListsDisplayProps {
 const MovieCreditsListsDisplay: React.FC<MovieCreditsListsDisplayProps> = ({ credits }) => (
     <Stack
         direction={{ sm: "row" }}
-        width="100%"
-        justifyContent="space-evenly"
-        alignItems={{
-            xs: "center",
-            sm: "start"
+        sx={{
+            width: "100%",
+            justifyContent: "space-evenly",
+
+            alignItems: {
+                xs: "center",
+                sm: "start"
+            },
+
+            gap: 3
         }}
-        gap={3}
     >
         {!!credits?.cast?.length && <MovieCastCreditsList castCredits={credits.cast} />}
         {!!credits?.crew?.length && <MovieCrewCreditsList crewCredits={credits.crew} />}

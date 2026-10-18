@@ -8,7 +8,7 @@ const StyledCSText = styled(CSText)<CSLogoTextProps>`
     }
 `;
 
-interface CSLogoTextProps extends SVGProps<any> {
+interface CSLogoTextProps extends SVGProps<SVGSVGElement> {
     color?: string;
 }
 

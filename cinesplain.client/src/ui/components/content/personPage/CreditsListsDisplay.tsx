@@ -20,14 +20,20 @@ const CreditsListsDisplay: React.FC<CreditsListsDisplayProps> = ({
     showCrewFirst
 }) => (
     <>
-        <StyledStack order={showCrewFirst ? 1 : 0}>
+        <StyledStack sx={{ order: showCrewFirst ? 1 : 0 }}>
             {!!movieCastCredits.length && (
-                <CastCreditsList castCredits={movieCastCredits} truncatedCreditsSize={showCrewFirst ? 5 : 8} />
+                <CastCreditsList
+                    castCredits={movieCastCredits}
+                    truncatedCreditsSize={showCrewFirst ? 5 : 8}
+                />
             )}
         </StyledStack>
         <StyledStack>
             {!!movieCrewCredits.length && (
-                <CrewCreditsList crewCredits={movieCrewCredits} truncatedCreditsSize={showCrewFirst ? 8 : 5} />
+                <CrewCreditsList
+                    crewCredits={movieCrewCredits}
+                    truncatedCreditsSize={showCrewFirst ? 8 : 5}
+                />
             )}
         </StyledStack>
     </>

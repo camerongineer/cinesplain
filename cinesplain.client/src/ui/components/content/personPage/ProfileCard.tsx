@@ -11,7 +11,9 @@ const StyledCard = styled(Card)`
     width: 280px;
     max-height: 632px;
     background: ${(props) => props.theme.palette.background.paper};
-    transition: height 2s ease-in-out, opacity ${(props) => props.theme.transitions.duration.short}ms ease-in-out;
+    transition:
+        height 2s ease-in-out,
+        opacity ${(props) => props.theme.transitions.duration.short}ms ease-in-out;
 `;
 
 interface ProfileCardProps {
@@ -21,7 +23,11 @@ interface ProfileCardProps {
 const ProfileCard: React.FC<ProfileCardProps> = ({ person }) => {
     const [imageLoaded, setImageLoaded] = useState(false);
     const altSilhouette =
-        person.gender === 1 ? femaleSilhouette : person.gender === 2 ? maleSilhouette : neutralSilhouette;
+        person.gender === 1
+            ? femaleSilhouette
+            : person.gender === 2
+              ? maleSilhouette
+              : neutralSilhouette;
 
     const handleImageLoad = () => {
         setImageLoaded(true);
@@ -37,7 +43,11 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ person }) => {
             <CardMedia
                 component="img"
                 loading="lazy"
-                image={person.profilePath ? getImagePath(person.profilePath, PROFILE_SIZE.LG_H632) : altSilhouette}
+                image={
+                    person.profilePath
+                        ? getImagePath(person.profilePath, PROFILE_SIZE.LG_H632)
+                        : altSilhouette
+                }
                 alt={person.name}
                 onLoad={handleImageLoad}
                 sx={{ height: "100%", objectFit: "cover" }}

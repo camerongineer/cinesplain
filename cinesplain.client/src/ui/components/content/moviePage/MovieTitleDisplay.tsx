@@ -74,22 +74,33 @@ const MovieTitleDisplay: React.FC<MovieTitleDisplayProps> = ({ movie, omdbDetail
             <Grid size={{ xs: 0, sm: 1 }} />
             <Grid
                 size={{ xs: 12, sm: movie.posterPath ? 5 : 1 }}
-                p={{
-                    xs: 3,
-                    sm: 0
+                sx={{
+                    p: {
+                        xs: 3,
+                        sm: 0
+                    },
+
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center"
                 }}
-                display="flex"
-                flexDirection="column"
-                alignItems="center"
-                justifyContent="center"
             >
                 {!!movie?.images?.logos?.length && <LogoDisplay logos={movie.images.logos} />}
                 {!movie?.images?.logos?.length && <TitleDisplay title={movie.title} />}
-                <Box display="flex" flexDirection="row" padding={0.75}>
+                <Box
+                    sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        padding: 0.75
+                    }}
+                >
                     {movie.releaseDate && <ReleaseDateDisplay releaseDate={movie.releaseDate} />}
                     {!!movie.runtime && (
                         <>
-                            {movie.releaseDate && <Typography>&nbsp;&nbsp;•&nbsp;&nbsp;</Typography>}
+                            {movie.releaseDate && (
+                                <Typography>&nbsp;&nbsp;•&nbsp;&nbsp;</Typography>
+                            )}
                             <RuntimeDisplay runtime={movie.runtime} />
                         </>
                     )}
@@ -106,9 +117,15 @@ const MovieTitleDisplay: React.FC<MovieTitleDisplayProps> = ({ movie, omdbDetail
                     <Typography
                         component={Link}
                         to={`/person/${getFormattedPersonLinkId(director as unknown as Person)}`}
-                        p={0.75}
-                        paddingBottom={2}
-                        sx={({palette}) =>({ color: palette.getContrastText("rgba(0, 0, 0, 0.4)") })}
+                        sx={[
+                            {
+                                p: 0.75,
+                                paddingBottom: 2
+                            },
+                            ({ palette }) => ({
+                                color: palette.getContrastText("rgba(0, 0, 0, 0.4)")
+                            })
+                        ]}
                     >
                         <strong>Directed&nbsp;By:&nbsp;</strong>
                         {director.name}

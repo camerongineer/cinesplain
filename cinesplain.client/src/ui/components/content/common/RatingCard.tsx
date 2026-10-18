@@ -1,4 +1,4 @@
-import { roundedToTenth } from "@camerongineer/reuse/helpers/numberUtils.ts";
+import { roundedToTenth } from "../../../../utils/numberUtils.ts";
 import { Card, styled } from "@mui/material";
 import omdbMovieDetails from "../../../../types/OmdbMovieDetails.ts";
 import Movie from "../../../../types/movie.ts";
@@ -31,7 +31,9 @@ const RatingCard: React.FC<RatingCardProps> = ({ movie, omdbDetails }) => {
         return null;
     return (
         <StyledCard elevation={3}>
-            {!!movie.voteAverage && <CSRatingDisplay voteAverage={roundedToTenth(movie.voteAverage)} />}
+            {!!movie.voteAverage && (
+                <CSRatingDisplay voteAverage={roundedToTenth(movie.voteAverage)} />
+            )}
             {!!ratings?.rottenTomatoesScore && (
                 <RottenTomatoesDisplay rottenTomatoesScore={ratings.rottenTomatoesScore} />
             )}

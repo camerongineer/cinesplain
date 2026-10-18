@@ -14,15 +14,19 @@ const StyledStack = styled(Stack)`
 const PersonPage: React.FC = () => {
     const params = useParams();
     const { data } = useQuery(personPageQuery(params.personId));
-    if (!data) return null;
-    const { person, movieCastCredits, movieCrewCredits } = data;
     const theme = useTheme();
     const isXSScreen = useMediaQuery(theme.breakpoints.down("sm"));
     const isSMScreen = useMediaQuery(theme.breakpoints.down("md"));
+    const personName = data?.person.name;
 
     useEffect(() => {
-        document.title = `${person.name} - CineSplain - The Movie Info App`;
-    }, [person.name]);
+        if (personName) {
+            document.title = `${personName} - CineSplain - The Movie Info App`;
+        }
+    }, [personName]);
+
+    if (!data) return null;
+    const { person, movieCastCredits, movieCrewCredits } = data;
 
     return (
         <StyledStack className="full center">
@@ -32,22 +36,35 @@ const PersonPage: React.FC = () => {
                         xs: "column",
                         sm: "row"
                     }}
-                    justifyContent="space-evenly"
+                    sx={{
+                        justifyContent: "space-evenly"
+                    }}
                 >
                     <Stack
-                        minHeight="100%"
-                        alignItems={{
-                            xs: "center",
-                            sm: "end"
-                        }}
-                        textAlign={{
-                            xs: "center",
-                            sm: "right"
-                        }}
-                        padding={2}
                         spacing={2}
+                        sx={{
+                            minHeight: "100%",
+
+                            alignItems: {
+                                xs: "center",
+                                sm: "end"
+                            },
+
+                            textAlign: {
+                                xs: "center",
+                                sm: "right"
+                            },
+
+                            padding: 2
+                        }}
                     >
-                        <Typography component="h1" variant="h3" fontWeight="bolder">
+                        <Typography
+                            component="h1"
+                            variant="h3"
+                            sx={{
+                                fontWeight: "bolder"
+                            }}
+                        >
                             {person.name}
                         </Typography>
                         {person.alsoKnownAs.length > 0 && (
@@ -63,7 +80,13 @@ const PersonPage: React.FC = () => {
                             </Stack>
                         )}
                         {isXSScreen && <PersonSideBar person={person} />}
-                        <Typography component="p" variant="body1" maxWidth="clamp(30em, 40em, 50em)">
+                        <Typography
+                            component="p"
+                            variant="body1"
+                            sx={{
+                                maxWidth: "clamp(30em, 40em, 50em)"
+                            }}
+                        >
                             {person.biography}
                         </Typography>
                         {!isSMScreen && (
@@ -75,15 +98,19 @@ const PersonPage: React.FC = () => {
                         )}
                     </Stack>
                     <Stack
-                        alignItems={{
-                            xs: "center",
-                            sm: "right"
-                        }}
                         spacing={2}
-                        padding={1}
-                        order={{
-                            xs: -1,
-                            sm: 0
+                        sx={{
+                            alignItems: {
+                                xs: "center",
+                                sm: "right"
+                            },
+
+                            padding: 1,
+
+                            order: {
+                                xs: -1,
+                                sm: 0
+                            }
                         }}
                     >
                         <ProfileCard person={person} />

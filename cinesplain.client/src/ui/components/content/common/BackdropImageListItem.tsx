@@ -31,11 +31,20 @@ interface BackdropImageListItemProps extends CardProps {
     cardStyle?: SxProps;
 }
 
-const BackdropImageListItem: React.FC<BackdropImageListItemProps> = ({ movie, cardStyle, ...props }) => {
+const BackdropImageListItem: React.FC<BackdropImageListItemProps> = ({
+    movie,
+    cardStyle,
+    ...props
+}) => {
     const [loading, setLoading] = useState(true);
 
     return (
-        <StyledCard elevation={5} sx={cardStyle} style={{ opacity: loading ? "0" : "1" }} {...props}>
+        <StyledCard
+            elevation={5}
+            sx={cardStyle}
+            style={{ opacity: loading ? "0" : "1" }}
+            {...props}
+        >
             <StyledImageListItem>
                 <CardMedia
                     component="img"

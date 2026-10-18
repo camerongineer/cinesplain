@@ -3,17 +3,18 @@ import { createUser } from "../api/usersApi.ts";
 import authLoader from "../loaders/authLoader.ts";
 import CineSplainUser from "../types/cineSplainUser.ts";
 
-const joinAction = async (params: { request: { formData: () => any; }; }) => {
+const joinAction = async (params: { request: { formData: () => FormData } }) => {
     const auth = await authLoader();
-    if (!auth) redirect("/login");
+    if (!auth) throw redirect("/login");
     const data = await params.request.formData();
-    
+    const asString = (value: FormDataEntryValue | null) => (typeof value === "string" ? value : "");
+
     const newUser: CineSplainUser = {
         id: auth?.userId ?? "",
-        userName: data.get("userName"),
-        firstName: data.get("firstName"),
-        lastName: data.get("lastName"),
-        email: data.get("email"),
+        userName: asString(data.get("userName")),
+        firstName: asString(data.get("firstName")),
+        lastName: asString(data.get("lastName")),
+        email: asString(data.get("email")),
         method: auth?.identityProvider ?? ""
     };
     return await createUser(newUser);

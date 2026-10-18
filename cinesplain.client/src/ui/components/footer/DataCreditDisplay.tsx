@@ -10,14 +10,33 @@ const StyledStack = styled(Stack)`
 
 const DataCreditDisplay: React.FC = () => (
     <StyledStack>
-        <Typography variant="overline" textAlign="center" style={{ userSelect: "none" }}>
+        <Typography
+            variant="overline"
+            style={{ userSelect: "none" }}
+            sx={{
+                textAlign: "center"
+            }}
+        >
             Data Provided By
         </Typography>
         <Link to="https://www.themoviedb.org/" target="_blank" rel="noopener noreferrer">
-            <Box component="img" height={12} src={tmdb as unknown as string} alt="Link to TMDB" />
+            <Box
+                component="img"
+                src={tmdb as unknown as string}
+                alt="Link to TMDB"
+                sx={{
+                    height: 12
+                }}
+            />
         </Link>
         <Link to="https://www.omdbapi.com/" target="_blank" rel="noopener noreferrer">
-            <Typography fontFamily="Open Sans" fontWeight="bold" color="text.secondary">
+            <Typography
+                sx={{
+                    fontFamily: "Open Sans",
+                    fontWeight: "bold",
+                    color: "text.secondary"
+                }}
+            >
                 OMDb API
             </Typography>
         </Link>
