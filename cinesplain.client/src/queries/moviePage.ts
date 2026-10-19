@@ -16,10 +16,14 @@ export const moviePageQuery = (movieId: string | undefined) =>
             if (!movie) {
                 throw new Error("This page doesn't not exist.");
             }
-            const credits = await retrieveCredits(movie.id);
-
-            return { movie, credits };
+            return movie;
         }
+    });
+
+export const movieCreditsQuery = (movieId: number) =>
+    queryOptions({
+        queryKey: ["movieCredits", movieId],
+        queryFn: () => retrieveCredits(movieId)
     });
 
 export const movieRecommendationsQuery = (movieId: number) =>

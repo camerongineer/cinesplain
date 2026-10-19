@@ -1,7 +1,5 @@
 import { AppBar, styled, Toolbar } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
-import { headerQuery } from "../../../queries/header.ts";
+import { Suspense, useEffect, useState } from "react";
 import SearchModal from "../content/search/SearchModal";
 import NavBar from "./NavBar";
 
@@ -24,10 +22,6 @@ const Header: React.FC = () => {
     const [animateLogo, setAnimateLogo] = useState(true);
     const [searchModalOpen, setSearchModalOpen] = useState<boolean>(false);
 
-    const { data } = useQuery(headerQuery);
-
-    const popularMovieTitles = data?.map((movie: { title: string }) => movie.title) ?? [];
-
     useEffect(() => {
         const timer = setTimeout(() => {
             setAnimateLogo(false);
@@ -45,11 +39,9 @@ const Header: React.FC = () => {
     return (
         <>
             {searchModalOpen && (
-                <SearchModal
-                    modalOpen={searchModalOpen}
-                    onModalEvent={handleToggleModal}
-                    autoCompleteList={popularMovieTitles}
-                />
+                <Suspense fallback={null}>
+                    <SearchModal modalOpen={searchModalOpen} onModalEvent={handleToggleModal} />
+                </Suspense>
             )}
             <StyledAppBar className="center">
                 <CenteredToolbar>

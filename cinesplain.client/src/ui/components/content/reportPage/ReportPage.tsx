@@ -1,5 +1,5 @@
 import { Box, styled } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { authQuery } from "../../../../queries/auth.ts";
 import LoginPage from "../loginPage/LoginPage.tsx";
 import ReportForm from "./ReportForm.tsx";
@@ -14,7 +14,7 @@ const StyledBox = styled(Box)`
 `;
 
 const ReportPage: React.FC = () => {
-    const { data: userInfo } = useQuery(authQuery);
+    const { data: userInfo } = useSuspenseQuery(authQuery);
 
     return userInfo ? (
         <StyledBox>

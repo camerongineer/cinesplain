@@ -6,10 +6,9 @@ import { createRootRouteWithContext } from "@tanstack/react-router";
 import { HeadContent, Outlet, Scripts, useRouterState } from "@tanstack/react-router";
 import { CssBaseline, Stack, ThemeProvider, styled, useTheme } from "@mui/material";
 import { Suspense, useEffect, useState, type ReactNode } from "react";
-import { headerQuery } from "../queries/header";
+import NotFound from "../ui/components/common/NotFound.tsx";
 import Footer from "../ui/components/footer/Footer.tsx";
 import Header from "../ui/components/header/Header";
-import NotFound from "../ui/components/common/NotFound.tsx";
 import defaultTheme from "../ui/themes/defaultTheme";
 import "../ui/styles/index.css";
 
@@ -112,7 +111,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
             }
         ]
     }),
-    loader: ({ context }) => context.queryClient.ensureQueryData(headerQuery),
     component: RootDocument,
     notFoundComponent: NotFound,
     errorComponent: NotFound

@@ -1,6 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
 import { createFileRoute } from "@tanstack/react-router";
-import { authQuery } from "../queries/auth";
 import ReportPage from "../ui/components/content/reportPage/ReportPage";
 
 const reportIssue = createServerFn({ method: "POST" })
@@ -13,7 +12,6 @@ const reportIssue = createServerFn({ method: "POST" })
     });
 
 export const Route = createFileRoute("/report")({
-    loader: ({ context }) => context.queryClient.ensureQueryData(authQuery),
     component: ReportPage
 });
 
