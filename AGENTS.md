@@ -31,6 +31,10 @@ Updated all NuGet and npm packages to latest, migrated ESLint to oxlint + oxfmt,
 
 General rule: match the style of the surrounding code exactly. When in doubt, look at neighboring files before writing.
 
+## Merge readiness
+
+- Before finishing any task whose output is ready to merge (a PR, merge commit, or other integration into `main`), pull the latest changes from `main` (`git fetch origin main` then `git merge origin main` / rebase), resolve any conflicts, and re-check the checks before declaring the work done. Never leave a PR in a conflicted state or merge it against stale `main`.
+
 ## Components and functions
 
 - Always declare React components and helper functions as `const` arrow functions. Never use function declarations (`function Foo() {}`).
