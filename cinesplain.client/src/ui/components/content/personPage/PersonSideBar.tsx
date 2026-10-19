@@ -55,7 +55,12 @@ const PersonSideBar: React.FC<PersonSideBarProps> = ({ person }) => (
                 </MuiLink>
             )}
             {person.imdbId && (
-                <Box component="a" href={getImdbPersonPath(person.imdbId)} target="_blank" rel="noopener noreferrer">
+                <Box
+                    component="a"
+                    href={getImdbPersonPath(person.imdbId)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
                     <Box
                         component="img"
                         src={imdb as unknown as string}

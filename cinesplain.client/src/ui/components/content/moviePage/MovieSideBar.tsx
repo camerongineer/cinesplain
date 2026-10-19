@@ -1,5 +1,5 @@
 import imdb from "@assets/imdb_logo.svg";
-import { Box, Link as MuiLink, Stack, styled, Typography } from "@mui/material";
+import { Box, Link as MuiLink, Stack, styled } from "@mui/material";
 import { getImdbMoviePath } from "../../../../api/moviesApi.ts";
 import omdbMovieDetails from "../../../../types/OmdbMovieDetails.ts";
 import Movie from "../../../../types/movie.ts";

@@ -1,3 +1,4 @@
+/* oxlint-disable react/only-export-components -- TanStack file-based routes must export Route alongside components */
 import createCache from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
 import { QueryClient } from "@tanstack/react-query";
@@ -40,7 +41,8 @@ const Providers = ({ children }: { children: ReactNode }) => {
     );
 };
 
-const ShellAroundOutlet = () => {    const [degrees, setDegrees] = useState(100);
+const ShellAroundOutlet = () => {
+    const [degrees, setDegrees] = useState(100);
     const theme = useTheme();
     const isPending = useRouterState({ select: (state) => state.status === "pending" });
 
@@ -95,6 +97,7 @@ const RootDocument = () => {
 };
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+    validateSearch: (search: Record<string, string | undefined>) => search,
     head: () => ({
         meta: [
             {

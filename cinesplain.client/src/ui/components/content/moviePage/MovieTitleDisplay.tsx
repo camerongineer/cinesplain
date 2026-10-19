@@ -116,7 +116,9 @@ const MovieTitleDisplay: React.FC<MovieTitleDisplayProps> = ({ movie, omdbDetail
                 {director && (
                     <Link
                         to="/person/$personId"
-                        params={{ personId: getFormattedPersonLinkId(director as unknown as Person) }}
+                        params={{
+                            personId: getFormattedPersonLinkId(director as unknown as Person)
+                        }}
                         style={{ textDecoration: "none" }}
                     >
                         <Typography

@@ -1,7 +1,6 @@
 import { Box, styled } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { authQuery } from "../../../../queries/auth.ts";
-import UserInfo from "../../../../types/userInfo.ts";
 import JoinForm from "./JoinForm.tsx";
 
 const StyledBox = styled(Box)`

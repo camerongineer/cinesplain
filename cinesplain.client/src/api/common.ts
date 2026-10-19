@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createServerFn } from "@tanstack/react-start";
-import { serverRequest } from "./serverData.server.ts";
+import { serverRequest } from "./backend.server.ts";
 
 const serverHttpCall = createServerFn({ method: "POST" })
     .validator((input: { url: string; method: "GET" | "POST"; body?: string }) => input)
@@ -31,7 +31,9 @@ export const retrieveData = async (url: string) => {
 export const postData = async (url: string, payload: unknown) => {
     if (typeof window === "undefined") {
         // SSR: resolve the caller's origin and forward their cookies
-        return await serverHttpCall({ data: { url, method: "POST", body: JSON.stringify(payload) } });
+        return await serverHttpCall({
+            data: { url, method: "POST", body: JSON.stringify(payload) }
+        });
     }
     return await getClientPayload(url, payload);
 };

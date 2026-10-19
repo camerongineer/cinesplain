@@ -26,16 +26,17 @@ const CollapsibleTable: React.FC<CollapsibleTableProps> = (props) => {
     const { label, tableHeaderRow, elements, truncatedAmount, paramKey, ...rest } = props;
     const navigate = useNavigate();
     const location = useLocation();
-    const searchParams = new URLSearchParams(location.search);
+    const searchParams = location.search;
 
     const handleExpand = () =>
         navigate({
-            search: (prev: Record<string, string | undefined> | undefined) => toggleParams(prev, paramKey),
+            to: ".",
+            search: (prev: Record<string, string | undefined>) => toggleParams(prev, paramKey),
             replace: true,
-            preventScrollReset: true
+            resetScroll: false
         });
 
-    const isExpanded = !!searchParams.get(paramKey);
+    const isExpanded = !!searchParams[paramKey];
 
     const allElements = elements ? [...elements] : [];
     const persistentElements = allElements.slice(0, truncatedAmount);

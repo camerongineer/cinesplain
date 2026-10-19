@@ -46,7 +46,11 @@ const MovieSearchRow: React.FC<MovieSearchRowProps> = ({ movies }) => {
                         {movies.length > 0 &&
                             movies.slice(0, 20).map((movie) => {
                                 return (
-                                    <Link to="/movies/$movieId" params={{ movieId: getFormattedMovieLinkId(movie) }} key={movie.id}>
+                                    <Link
+                                        to="/movies/$movieId"
+                                        params={{ movieId: getFormattedMovieLinkId(movie) }}
+                                        key={movie.id}
+                                    >
                                         <MovieCard
                                             key={movie.id}
                                             movie={movie}

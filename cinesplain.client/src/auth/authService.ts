@@ -20,7 +20,7 @@ export const retrieveAuthenticatedPrincipal = async (): Promise<UserInfo | null>
             }
         }
         return clientPrincipal;
-    } catch (error) {
+    } catch {
         return null;
     }
 };
@@ -37,7 +37,9 @@ export const retrieveCineSplainUser = async (userId: string): Promise<CineSplain
 /**
  * Creates a CineSplain user profile for the given Easy Auth user.
  */
-export const createCineSplainUser = async (newUser: CineSplainUser): Promise<CineSplainUser | null> => {
+export const createCineSplainUser = async (
+    newUser: CineSplainUser
+): Promise<CineSplainUser | null> => {
     const payload = await postData("/api/user/create", newUser);
     return payload.results ?? null;
 };

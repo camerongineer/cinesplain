@@ -56,7 +56,11 @@ const JoinForm = ({ userInfo }: { userInfo: UserInfo | null }) => {
                 Please enter your details below
             </Typography>
             {userInfo && (
-                <Box component="img" src={provider === "aad" ? Microsoft : Github} alt={`${provider} Logo`} />
+                <Box
+                    component="img"
+                    src={provider === "aad" ? Microsoft : Github}
+                    alt={`${provider} Logo`}
+                />
             )}
             <form onSubmit={handleSubmit}>
                 <Stack

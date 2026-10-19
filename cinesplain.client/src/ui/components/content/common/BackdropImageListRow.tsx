@@ -30,7 +30,11 @@ const BackdropImageListRow: React.FC<BackdropImageListRowProps> = ({ movies, car
     >
         <StyledStack>
             {movies.map((movie) => (
-                <Link to="/movies/$movieId" params={{ movieId: getFormattedMovieLinkId(movie) }} key={movie.id}>
+                <Link
+                    to="/movies/$movieId"
+                    params={{ movieId: getFormattedMovieLinkId(movie) }}
+                    key={movie.id}
+                >
                     <BackdropImageListItem movie={movie} cardStyle={cardStyle} />
                 </Link>
             ))}

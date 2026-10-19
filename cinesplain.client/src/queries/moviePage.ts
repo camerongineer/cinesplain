@@ -27,7 +27,10 @@ export const movieRecommendationsQuery = (movieId: number) =>
         queryKey: ["movieRecommendations", movieId],
         queryFn: async () => {
             const recommendations = await retrieveMovies(getRecommendedMoviesPath(movieId));
-            return recommendations?.filter((movie: { backdropPath: string }) => movie.backdropPath) ?? null;
+            return (
+                recommendations?.filter((movie: { backdropPath: string }) => movie.backdropPath) ??
+                null
+            );
         }
     });
 

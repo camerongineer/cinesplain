@@ -121,7 +121,15 @@ const ReportForm: React.FC<ReportFormProps> = ({ userInfo }) => {
                         }}
                     />
                     <TextField type="text" name="title" label="Title" required />
-                    <TextField type="text" name="issue" label="Issue" multiline required fullWidth minRows={8} />
+                    <TextField
+                        type="text"
+                        name="issue"
+                        label="Issue"
+                        multiline
+                        required
+                        fullWidth
+                        minRows={8}
+                    />
                     <LoadingButton type="submit" disabled={disabled} loading={submitting}>
                         <span>Send</span>
                     </LoadingButton>

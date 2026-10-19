@@ -1,7 +1,11 @@
 import { Stack, styled } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { moviePageQuery, movieRecommendationsQuery, omdbQuery } from "../../../../queries/moviePage.ts";
+import {
+    moviePageQuery,
+    movieRecommendationsQuery,
+    omdbQuery
+} from "../../../../queries/moviePage.ts";
 import CastMemberRow from "../common/CastMemberRow";
 import MovieCreditsListsDisplay from "./MovieCreditsListsDisplay.tsx";
 import MovieRecommendations from "./MovieRecommendations";
@@ -21,13 +25,15 @@ const MoviePage: React.FC<{ movieId: string }> = ({ movieId }) => {
         ...omdbQuery(movieImdbId ?? ""),
         enabled: !!movieImdbId
     });
-    const movieId = movieData?.movie.id;
+    const numericMovieId = movieData?.movie.id;
     const { data: recommendations } = useQuery({
-        ...movieRecommendationsQuery(movieId ?? 0),
-        enabled: !!movieId
+        ...movieRecommendationsQuery(numericMovieId ?? 0),
+        enabled: !!numericMovieId
     });
 
-    const releaseYear = movieData ? new Date(movieData.movie.releaseDate ?? "").getFullYear() : null;
+    const releaseYear = movieData
+        ? new Date(movieData.movie.releaseDate ?? "").getFullYear()
+        : null;
     useEffect(() => {
         if (movieData?.movie.title) {
             document.title = `${movieData.movie.title} ${releaseYear ? `(${releaseYear}) ` : ""} - CineSplain - The Movie Info App`;
@@ -43,7 +49,12 @@ const MoviePage: React.FC<{ movieId: string }> = ({ movieId }) => {
         <>
             {movie && (
                 <StyledMoviePage className="full" key={movie.id}>
-                    <MovieTitleDisplay key={movie.id} movie={movie} omdbDetails={omdbDetails} director={director} />
+                    <MovieTitleDisplay
+                        key={movie.id}
+                        movie={movie}
+                        omdbDetails={omdbDetails}
+                        director={director}
+                    />
                     {displayedCast && <CastMemberRow castMembers={displayedCast} />}
                     <Stack
                         sx={{
@@ -78,7 +89,9 @@ const MoviePage: React.FC<{ movieId: string }> = ({ movieId }) => {
                         <MovieSideBar movie={movie} omdbDetails={omdbDetails} />
                     </Stack>
 
-                    {!!recommendations?.length && <MovieRecommendations recommendedMovies={recommendations} />}
+                    {!!recommendations?.length && (
+                        <MovieRecommendations recommendedMovies={recommendations} />
+                    )}
                 </StyledMoviePage>
             )}
         </>

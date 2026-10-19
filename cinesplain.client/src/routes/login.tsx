@@ -11,7 +11,7 @@ export const Route = createFileRoute("/login")({
         let user = null;
         try {
             user = await context.queryClient.ensureQueryData(csUserQuery(principal));
-        } catch (error) {
+        } catch {
             user = null;
         }
         if (user) {

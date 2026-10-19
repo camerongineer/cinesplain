@@ -44,7 +44,10 @@ const RatingListRow: React.FC<RatingListRowProps> = ({ movie, backgroundColor })
             </TableCell>
             {!!movie.voteAverage && (
                 <TableCell width={30} sx={{ borderBottom: "none" }}>
-                    <Link to="/movies/$movieId" params={{ movieId: getFormattedMovieLinkId(movie) }}>
+                    <Link
+                        to="/movies/$movieId"
+                        params={{ movieId: getFormattedMovieLinkId(movie) }}
+                    >
                         {movie?.voteCount > 5 && <PopcornRating voteAverage={movie.voteAverage} />}
                     </Link>
                 </TableCell>

@@ -31,7 +31,11 @@ const CastMemberRow: React.FC<CastMemberRowProps> = ({ castMembers }) => {
                         {castMembers.map((castMember) => (
                             <Link
                                 to="/person/$personId"
-                                params={{ personId: getFormattedPersonLinkId(castMember as unknown as Person) }}
+                                params={{
+                                    personId: getFormattedPersonLinkId(
+                                        castMember as unknown as Person
+                                    )
+                                }}
                                 key={castMember.creditId}
                             >
                                 <CastMemberCard

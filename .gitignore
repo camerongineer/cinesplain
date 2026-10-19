@@ -365,3 +365,4 @@ FodyWeavers.xsd
 /Cinesplain.Server/Migrations/20240630172527_Initial.cs
 /cinesplain.client/.npmrc
 /cinesplain.client/.env
+/cinesplain.client/.output
