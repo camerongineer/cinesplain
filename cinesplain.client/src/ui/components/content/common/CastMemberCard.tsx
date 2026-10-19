@@ -7,12 +7,12 @@ import {
     ImageListItem,
     ImageListItemBar,
     styled,
-    Typography
+    Typography,
+    useTheme
 } from "@mui/material";
 import { SxProps } from "@mui/system";
-import { useRef, useState } from "react";
-import { getImagePath } from "../../../../api/moviesApi.ts";
-import useImageLoaded from "../../../../hooks/UseImageLoaded";
+import { useState } from "react";
+import useProgressiveImage from "../../../../hooks/UseProgressiveImage";
 import { PROFILE_SIZE } from "../../../../constants/ImageSizes";
 import listDisplayMovieCastCredit from "../../../../types/listDisplayMovieCastCredit.ts";
 
@@ -31,8 +31,13 @@ interface CastMemberCardProps {
 }
 
 const CastMemberCard: React.FC<CastMemberCardProps> = ({ castMember, sx }) => {
-    const imageRef = useRef<HTMLImageElement>(null);
-    const { imageLoaded, markImageLoaded } = useImageLoaded(imageRef);
+    const theme = useTheme();
+    const { lowRef, highRef, lowUrl, highUrl, lowLoaded, highLoaded, markLowLoaded, markHighLoaded } =
+        useProgressiveImage(
+            castMember.profilePath ?? "",
+            castMember.profilePath ? PROFILE_SIZE.SM_W45 : PROFILE_SIZE.MD_W185,
+            PROFILE_SIZE.MD_W185
+        );
     const [isHovered, setIsHovered] = useState<boolean>(false);
 
     const altSilhouette =
@@ -49,7 +54,7 @@ const CastMemberCard: React.FC<CastMemberCardProps> = ({ castMember, sx }) => {
         <StyledCard
             elevation={5}
             sx={sx}
-            style={{ opacity: imageLoaded ? "1" : "0" }}
+            style={{ opacity: lowLoaded ? "1" : "0" }}
             onMouseEnter={handleViewDetails}
             onMouseLeave={handleCloseDetails}
             onTouchStart={handleViewDetails}
@@ -58,18 +63,39 @@ const CastMemberCard: React.FC<CastMemberCardProps> = ({ castMember, sx }) => {
             <ImageListItem>
                 <CardMedia
                     component="img"
-                    ref={imageRef}
+                    ref={lowRef}
                     loading="lazy"
                     image={
                         castMember.profilePath
-                            ? getImagePath(castMember.profilePath, PROFILE_SIZE.MD_W185)
+                            ? lowUrl
                             : altSilhouette
                     }
                     alt={castMember.name}
                     height={210}
                     style={{ objectPosition: "50% 15%" }}
-                    onLoad={markImageLoaded}
+                    onLoad={markLowLoaded}
                 />
+                {castMember.profilePath && (
+                    <CardMedia
+                        component="img"
+                        ref={highRef}
+                        loading="lazy"
+                        image={highUrl}
+                        alt=""
+                        aria-hidden="true"
+                        style={{
+                            position: "absolute",
+                            inset: 0,
+                            width: "100%",
+                            height: 210,
+                            objectFit: "cover",
+                            objectPosition: "50% 15%",
+                            opacity: highLoaded ? 1 : 0,
+                            transition: `opacity ${theme.transitions.duration.standard}ms ease-in-out`
+                        }}
+                        onLoad={markHighLoaded}
+                    />
+                )}
                 {isHovered && (
                     <ImageListItemBar
                         title={

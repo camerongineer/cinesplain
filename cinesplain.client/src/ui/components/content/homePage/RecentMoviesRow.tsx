@@ -11,15 +11,14 @@ interface RecentMoviesRowProps {
 
 const RecentMoviesRow: React.FC<RecentMoviesRowProps> = ({ movies }) => {
     const randomMovie = useRandomMovie(movies, 20000);
-    const [movieBackdrop, movieBackdropLoading] = useMovieBackdrop(randomMovie);
+    const [movieBackdrop, movieBackdropPreview, movieBackdropLoaded] = useMovieBackdrop(randomMovie);
     const theme = useTheme();
-
     const backdropStyle = {
         flex: 4,
         alignItems: "center",
         justifyContent: "end",
         width: "100%",
-        opacity: movieBackdropLoading ? 0 : 1,
+        opacity: movieBackdropLoaded ? 1 : 0,
         transition: `opacity ${theme.transitions.duration.short}ms ease-in-out`,
         justifySelf: "end"
     };
@@ -41,6 +40,7 @@ const RecentMoviesRow: React.FC<RecentMoviesRowProps> = ({ movies }) => {
         <OverlaidImageBox
             sx={backdropStyle}
             backgroundImageUrl={movieBackdrop}
+            lowResolutionImageUrl={movieBackdropPreview}
             imageAlt={`${randomMovie.title} backdrop`}
             imageGrayScalePercentage={75}
             overlayColor={"#000000"}

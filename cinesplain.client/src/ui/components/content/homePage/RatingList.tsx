@@ -41,7 +41,7 @@ const RatingList: React.FC<RatingListProps> = ({
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
     const randomMovie = useRandomMovie(movies, backdropInterval, true);
-    const [movieBackdrop, movieBackdropLoading] = useMovieBackdrop(
+    const [movieBackdrop, movieBackdropPreview, movieBackdropLoaded] = useMovieBackdrop(
         randomMovie,
         BACKDROP_SIZE.LG_W1280
     );
@@ -55,13 +55,14 @@ const RatingList: React.FC<RatingListProps> = ({
             <StyledStack
                 sx={{
                     ...outerSx,
-                    opacity: movieBackdropLoading ? 0 : 1
+                    opacity: movieBackdropLoaded ? 1 : 0
                 }}
             >
                 {!isSmallScreen && <ListLabel labelText={labelText} sx={{ pb: 1, pr: 3 }} />}
                 <OverlaidImageBox
                     sx={innerSx}
                     backgroundImageUrl={movieBackdrop}
+                    lowResolutionImageUrl={movieBackdropPreview}
                     imageAlt={`${labelText} backdrop`}
                     overlayColor={backgroundOverlayColor}
                     borderRadius="10px"
