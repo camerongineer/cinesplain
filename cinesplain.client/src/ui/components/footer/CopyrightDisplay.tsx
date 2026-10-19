@@ -1,12 +1,12 @@
-import { styled, Typography } from "@mui/material";
+import MarrLogo from "@assets/marr_logo.svg?react";
+import { Stack, styled, Typography } from "@mui/material";
 
-const StyledTypography = styled(Typography)`
-    user-select: none;
-    cursor: pointer;
-
-    &:hover {
-        opacity: 0.8;
-    }
+const StyledStack = styled(Stack)`
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    gap: 0.5em;
+    padding: 0.5em;
 `;
 
 interface CopyrightDisplayProps {
@@ -16,9 +16,21 @@ interface CopyrightDisplayProps {
 }
 
 const CopyrightDisplay: React.FC<CopyrightDisplayProps> = ({ startYear, endYear, onLogoClick }) => (
-    <StyledTypography variant="overline" onClick={onLogoClick}>
-        {`© ${startYear}-${endYear}`}
-    </StyledTypography>
+    <StyledStack direction={{ sm: "row" }}>
+        <Typography
+            variant="overline"
+            sx={{
+                fontSize: "large",
+                textAlign: "center",
+                userSelect: "none",
+                lineHeight: 0,
+                mt: { xs: 1, sm: 0 }
+            }}
+        >
+            {`© ${startYear}-${endYear} by`}
+        </Typography>
+        <MarrLogo height={40} style={{ cursor: "pointer" }} onClick={onLogoClick} />
+    </StyledStack>
 );
 
 export default CopyrightDisplay;

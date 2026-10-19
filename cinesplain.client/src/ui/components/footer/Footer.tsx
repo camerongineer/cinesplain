@@ -65,7 +65,7 @@ const Footer: React.FC = () => {
                     <FooterLogoDisplay />
                     <CopyrightDisplay
                         startYear={2023}
-                        endYear={2025}
+                        endYear={2026}
                         onLogoClick={() =>
                             window.open("https://www.linkedin.com/in/c-em/", "_blank")
                         }
