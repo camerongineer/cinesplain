@@ -19,8 +19,9 @@ const StyledUpIcon = styled(UpIcon)`
 `;
 
 const CSLoadingIcon: React.FC<CSLoadingIconProps> = ({
-    loadRotationMilliseconds = 600,
-    ...props
+    width,
+    height,
+    loadRotationMilliseconds = 600
 }) => {
     const isPending = useRouterState({ select: (state) => state.status === "pending" });
     const [iconIndex, setIconIndex] = useState(0);
@@ -60,7 +61,7 @@ const CSLoadingIcon: React.FC<CSLoadingIconProps> = ({
     };
 
     return (
-        <Box sx={getAnimationStyle()} {...props}>
+        <Box sx={{ width, height, ...getAnimationStyle() }}>
             {isPending && iconIndex === 1 ? <StyledDownIcon /> : <StyledUpIcon />}
         </Box>
     );

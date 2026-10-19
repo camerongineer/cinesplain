@@ -10,8 +10,9 @@ import {
     Typography
 } from "@mui/material";
 import { SxProps } from "@mui/system";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { getImagePath } from "../../../../api/moviesApi.ts";
+import useImageLoaded from "../../../../hooks/UseImageLoaded";
 import { PROFILE_SIZE } from "../../../../constants/ImageSizes";
 import listDisplayMovieCastCredit from "../../../../types/listDisplayMovieCastCredit.ts";
 
@@ -30,8 +31,9 @@ interface CastMemberCardProps {
 }
 
 const CastMemberCard: React.FC<CastMemberCardProps> = ({ castMember, sx }) => {
+    const imageRef = useRef<HTMLImageElement>(null);
+    const { imageLoaded, markImageLoaded } = useImageLoaded(imageRef);
     const [isHovered, setIsHovered] = useState<boolean>(false);
-    const [loading, setLoading] = useState<boolean>(true);
 
     const altSilhouette =
         castMember.gender === 1
@@ -47,7 +49,7 @@ const CastMemberCard: React.FC<CastMemberCardProps> = ({ castMember, sx }) => {
         <StyledCard
             elevation={5}
             sx={sx}
-            style={{ opacity: loading ? "0" : "1" }}
+            style={{ opacity: imageLoaded ? "1" : "0" }}
             onMouseEnter={handleViewDetails}
             onMouseLeave={handleCloseDetails}
             onTouchStart={handleViewDetails}
@@ -56,6 +58,7 @@ const CastMemberCard: React.FC<CastMemberCardProps> = ({ castMember, sx }) => {
             <ImageListItem>
                 <CardMedia
                     component="img"
+                    ref={imageRef}
                     loading="lazy"
                     image={
                         castMember.profilePath
@@ -65,7 +68,7 @@ const CastMemberCard: React.FC<CastMemberCardProps> = ({ castMember, sx }) => {
                     alt={castMember.name}
                     height={210}
                     style={{ objectPosition: "50% 15%" }}
-                    onLoad={() => setLoading(false)}
+                    onLoad={markImageLoaded}
                 />
                 {isHovered && (
                     <ImageListItemBar

@@ -2,8 +2,9 @@ import femaleSilhouette from "@assets/silhouette_female.svg";
 import maleSilhouette from "@assets/silhouette_male.svg";
 import neutralSilhouette from "@assets/silhouette_neutral.svg";
 import { Card, CardMedia, styled } from "@mui/material";
-import { useState } from "react";
+import { useRef } from "react";
 import { getImagePath } from "../../../../api/moviesApi.ts";
+import useImageLoaded from "../../../../hooks/UseImageLoaded";
 import { PROFILE_SIZE } from "../../../../constants/ImageSizes.ts";
 import Person from "../../../../types/person.ts";
 
@@ -21,17 +22,14 @@ interface ProfileCardProps {
 }
 
 const ProfileCard: React.FC<ProfileCardProps> = ({ person }) => {
-    const [imageLoaded, setImageLoaded] = useState(false);
+    const imageRef = useRef<HTMLImageElement>(null);
+    const { imageLoaded, markImageLoaded } = useImageLoaded(imageRef);
     const altSilhouette =
         person.gender === 1
             ? femaleSilhouette
             : person.gender === 2
               ? maleSilhouette
               : neutralSilhouette;
-
-    const handleImageLoad = () => {
-        setImageLoaded(true);
-    };
 
     return (
         <StyledCard
@@ -42,6 +40,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ person }) => {
         >
             <CardMedia
                 component="img"
+                ref={imageRef}
                 loading="lazy"
                 image={
                     person.profilePath
@@ -49,7 +48,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ person }) => {
                         : altSilhouette
                 }
                 alt={person.name}
-                onLoad={handleImageLoad}
+                onLoad={markImageLoaded}
                 sx={{ height: "100%", objectFit: "cover" }}
             />
         </StyledCard>

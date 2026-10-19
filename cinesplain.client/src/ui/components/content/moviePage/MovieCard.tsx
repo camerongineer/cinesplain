@@ -9,10 +9,11 @@ import {
     styled,
     Typography
 } from "@mui/material";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { getImagePath } from "../../../../api/moviesApi.ts";
 import { POSTER_SIZE } from "../../../../constants/ImageSizes";
 import Movie from "../../../../types/movie.ts";
+import useImageLoaded from "../../../../hooks/UseImageLoaded";
 import { getFormattedDisplayedDate } from "../../../../utils/formatUtils";
 import PopcornRating from "../../common/PopcornRating.tsx";
 
@@ -46,8 +47,9 @@ const MovieCard: React.FC<MovieCardProps> = ({
     isExpandable,
     ...props
 }) => {
+    const imageRef = useRef<HTMLImageElement>(null);
+    const { imageLoaded, markImageLoaded } = useImageLoaded(imageRef);
     const [isHovered, setIsHovered] = useState(false);
-    const [imageLoaded, setImageLoaded] = useState(false);
 
     const handleMouseHovered = () => {
         setIsHovered(true);
@@ -56,10 +58,6 @@ const MovieCard: React.FC<MovieCardProps> = ({
 
     const handleMouseNotHovered = () => {
         setIsHovered(false);
-    };
-
-    const handleImageLoad = () => {
-        setImageLoaded(true);
     };
 
     return (
@@ -77,9 +75,10 @@ const MovieCard: React.FC<MovieCardProps> = ({
             {movie.posterPath && (
                 <CardMedia
                     component="img"
+                    ref={imageRef}
                     image={getImagePath(movie.posterPath, posterSize)}
                     alt="Movie Poster"
-                    onLoad={handleImageLoad}
+                    onLoad={markImageLoaded}
                 />
             )}
             {isExpandable && (
