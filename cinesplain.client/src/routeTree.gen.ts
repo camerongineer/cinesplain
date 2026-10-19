@@ -13,6 +13,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as JoinRouteImport } from './routes/join'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ReportRouteImport } from './routes/report'
+import { Route as DotauthSplatRouteImport } from './routes/[.]auth.$'
+import { Route as ApiSplatRouteImport } from './routes/api.$'
 import { Route as MoviesMovieIdRouteImport } from './routes/movies.$movieId'
 import { Route as PersonPersonIdRouteImport } from './routes/person.$personId'
 
@@ -36,6 +38,16 @@ const ReportRoute = ReportRouteImport.update({
   path: '/report',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DotauthSplatRoute = DotauthSplatRouteImport.update({
+  id: '/.auth/$',
+  path: '/.auth/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiSplatRoute = ApiSplatRouteImport.update({
+  id: '/api/$',
+  path: '/api/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MoviesMovieIdRoute = MoviesMovieIdRouteImport.update({
   id: '/movies/$movieId',
   path: '/movies/$movieId',
@@ -52,6 +64,8 @@ export interface FileRoutesByFullPath {
   '/join': typeof JoinRoute
   '/login': typeof LoginRoute
   '/report': typeof ReportRoute
+  '/.auth/$': typeof DotauthSplatRoute
+  '/api/$': typeof ApiSplatRoute
   '/movies/$movieId': typeof MoviesMovieIdRoute
   '/person/$personId': typeof PersonPersonIdRoute
 }
@@ -60,6 +74,8 @@ export interface FileRoutesByTo {
   '/join': typeof JoinRoute
   '/login': typeof LoginRoute
   '/report': typeof ReportRoute
+  '/.auth/$': typeof DotauthSplatRoute
+  '/api/$': typeof ApiSplatRoute
   '/movies/$movieId': typeof MoviesMovieIdRoute
   '/person/$personId': typeof PersonPersonIdRoute
 }
@@ -69,6 +85,8 @@ export interface FileRoutesById {
   '/join': typeof JoinRoute
   '/login': typeof LoginRoute
   '/report': typeof ReportRoute
+  '/.auth/$': typeof DotauthSplatRoute
+  '/api/$': typeof ApiSplatRoute
   '/movies/$movieId': typeof MoviesMovieIdRoute
   '/person/$personId': typeof PersonPersonIdRoute
 }
@@ -79,6 +97,8 @@ export interface FileRouteTypes {
     | '/join'
     | '/login'
     | '/report'
+    | '/.auth/$'
+    | '/api/$'
     | '/movies/$movieId'
     | '/person/$personId'
   fileRoutesByTo: FileRoutesByTo
@@ -87,6 +107,8 @@ export interface FileRouteTypes {
     | '/join'
     | '/login'
     | '/report'
+    | '/.auth/$'
+    | '/api/$'
     | '/movies/$movieId'
     | '/person/$personId'
   id:
@@ -95,6 +117,8 @@ export interface FileRouteTypes {
     | '/join'
     | '/login'
     | '/report'
+    | '/.auth/$'
+    | '/api/$'
     | '/movies/$movieId'
     | '/person/$personId'
   fileRoutesById: FileRoutesById
@@ -104,6 +128,8 @@ export interface RootRouteChildren {
   JoinRoute: typeof JoinRoute
   LoginRoute: typeof LoginRoute
   ReportRoute: typeof ReportRoute
+  DotauthSplatRoute: typeof DotauthSplatRoute
+  ApiSplatRoute: typeof ApiSplatRoute
   MoviesMovieIdRoute: typeof MoviesMovieIdRoute
   PersonPersonIdRoute: typeof PersonPersonIdRoute
 }
@@ -138,6 +164,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ReportRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/.auth/$': {
+      id: '/.auth/$'
+      path: '/.auth/$'
+      fullPath: '/.auth/$'
+      preLoaderRoute: typeof DotauthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/$': {
+      id: '/api/$'
+      path: '/api/$'
+      fullPath: '/api/$'
+      preLoaderRoute: typeof ApiSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/movies/$movieId': {
       id: '/movies/$movieId'
       path: '/movies/$movieId'
@@ -160,6 +200,8 @@ const rootRouteChildren: RootRouteChildren = {
   JoinRoute: JoinRoute,
   LoginRoute: LoginRoute,
   ReportRoute: ReportRoute,
+  DotauthSplatRoute: DotauthSplatRoute,
+  ApiSplatRoute: ApiSplatRoute,
   MoviesMovieIdRoute: MoviesMovieIdRoute,
   PersonPersonIdRoute: PersonPersonIdRoute,
 }
