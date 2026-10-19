@@ -1,4 +1,4 @@
-import { QueryClient, queryOptions } from "@tanstack/react-query";
+import { queryOptions } from "@tanstack/react-query";
 import {
     getClassicMoviesPath,
     getMostHatedMoviesPath,
@@ -8,7 +8,7 @@ import {
     retrieveMovies
 } from "../api/moviesApi";
 
-const homePageQuery = queryOptions({
+export const homePageQuery = queryOptions({
     queryKey: ["homePage"],
     queryFn: async () => {
         const recentMoviesTask = retrieveMovies(getNowPlayingMoviesPath());
@@ -26,10 +26,3 @@ const homePageQuery = queryOptions({
         return { recentMovies, lovedMovies, hatedMovies, classicMovies, upcomingMovies };
     }
 });
-
-const homePageLoader = (queryClient: QueryClient) => async () => {
-    await queryClient.ensureQueryData(homePageQuery);
-};
-
-export { homePageLoader, homePageQuery };
-

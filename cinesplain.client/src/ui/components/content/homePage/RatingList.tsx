@@ -4,7 +4,6 @@ import { BACKDROP_SIZE } from "../../../../constants/ImageSizes";
 import useMovieBackdrop from "../../../../hooks/UseMovieBackdrop";
 import useRandomMovie from "../../../../hooks/UseRandomMovie";
 import Movie from "../../../../types/movie.ts";
-import { getFormattedMovieLinkId } from "../../../../utils/formatUtils.ts";
 import OverlaidImageBox from "../../common/OverlaidImageBox";
 import ListLabel from "./ListLabel";
 import RatingListRow from "./RatingListRow";
@@ -76,7 +75,6 @@ const RatingList: React.FC<RatingListProps> = ({
                                     <RatingListRow
                                         key={movie.id}
                                         movie={movie}
-                                        link={`/movies/${getFormattedMovieLinkId(movie)}`}
                                         backgroundColor={backgroundOverlayColor}
                                     />
                                 ))}

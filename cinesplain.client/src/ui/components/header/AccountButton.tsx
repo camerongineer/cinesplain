@@ -1,6 +1,6 @@
 import { Logout } from "@mui/icons-material";
 import { Button, IconButton, Stack, styled, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import CineSplainUser from "../../../types/cineSplainUser.ts";
 
 const StyledLoggedInDisplay = styled(Stack)`

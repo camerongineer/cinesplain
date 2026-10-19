@@ -1,8 +1,7 @@
 import { Stack, styled, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { personPageQuery } from "../../../../loaders/personPageLoader.ts";
+import { personPageQuery } from "../../../../queries/personPage.ts";
 import CreditsListsDisplay from "./CreditsListsDisplay.tsx";
 import PersonSideBar from "./PersonSideBar.tsx";
 import ProfileCard from "./ProfileCard.tsx";
@@ -11,9 +10,8 @@ const StyledStack = styled(Stack)`
     padding: 1em;
 `;
 
-const PersonPage: React.FC = () => {
-    const params = useParams();
-    const { data } = useQuery(personPageQuery(params.personId));
+const PersonPage: React.FC<{ personId: string }> = ({ personId }) => {
+    const { data } = useQuery(personPageQuery(personId));
     if (!data) return null;
     const { person, movieCastCredits, movieCrewCredits } = data;
     const theme = useTheme();

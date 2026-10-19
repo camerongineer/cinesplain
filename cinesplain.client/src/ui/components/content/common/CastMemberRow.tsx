@@ -1,5 +1,5 @@
 import { Stack, styled } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import listDisplayMovieCastCredit from "../../../../types/listDisplayMovieCastCredit.ts";
 import Person from "../../../../types/person.ts";
 import { getFormattedPersonLinkId } from "../../../../utils/formatUtils.ts";
@@ -30,7 +30,8 @@ const CastMemberRow: React.FC<CastMemberRowProps> = ({ castMembers }) => {
                     <StyledStack>
                         {castMembers.map((castMember) => (
                             <Link
-                                to={`/person/${getFormattedPersonLinkId(castMember as unknown as Person)}`}
+                                to="/person/$personId"
+                                params={{ personId: getFormattedPersonLinkId(castMember as unknown as Person) }}
                                 key={castMember.creditId}
                             >
                                 <CastMemberCard

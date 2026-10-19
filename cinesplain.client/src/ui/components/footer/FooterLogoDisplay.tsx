@@ -1,5 +1,5 @@
 import { Stack, styled } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@tanstack/react-router";
 import CSLoadingIcon from "../common/CSLoadingIcon.tsx";
 import CSLogoText from "../common/CSLogoText.tsx";
 
@@ -16,7 +16,7 @@ const StyledStack = styled(Stack)`
 const FooterLogoDisplay: React.FC = () => {
     const navigate = useNavigate();
 
-    const handleClick = () => navigate("/");
+    const handleClick = () => navigate({ to: "/" });
 
     return (
         <StyledStack onClick={handleClick}>

@@ -1,6 +1,5 @@
 import imdb from "@assets/imdb_logo.svg";
-import { Box, Link as MuiLink, Stack, styled } from "@mui/material";
-import { Link, Link as RouterLink } from "react-router-dom";
+import { Box, Link as MuiLink, Stack, styled, Typography } from "@mui/material";
 import { getImdbMoviePath } from "../../../../api/moviesApi.ts";
 import omdbMovieDetails from "../../../../types/OmdbMovieDetails.ts";
 import Movie from "../../../../types/movie.ts";
@@ -62,14 +61,17 @@ const MovieSideBar: React.FC<MovieSideBarProps> = ({ movie, omdbDetails }) => (
             {omdbDetails?.awards && omdbDetails?.awards !== "N/A" && <AccoladesDisplay awards={omdbDetails.awards} />}
             <Stack flexDirection="row" justifyContent="space-evenly" alignItems="center" width="100%">
                 {movie.homepage && (
-                    <RouterLink to={movie.homepage} target="_blank" rel="noopener noreferrer">
-                        <MuiLink component="span" variant="overline" fontSize="large" fontWeight="bolder">
-                            Webpage
-                        </MuiLink>
-                    </RouterLink>
+                    <MuiLink component="a" href={movie.homepage} target="_blank" rel="noopener noreferrer" variant="overline" fontSize="large" fontWeight="bolder">
+                        Webpage
+                    </MuiLink>
                 )}
                 {movie.imdbId && (
-                    <Link to={getImdbMoviePath(movie.imdbId)} target="_blank" rel="noopener noreferrer">
+                    <Box
+                        component="a"
+                        href={getImdbMoviePath(movie.imdbId)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
                         <Box
                             component="img"
                             height="25px"
@@ -77,7 +79,7 @@ const MovieSideBar: React.FC<MovieSideBarProps> = ({ movie, omdbDetails }) => (
                             alt="Link to IMDB"
                             mt={0.75}
                         />
-                    </Link>
+                    </Box>
                 )}
             </Stack>
         </Stack>

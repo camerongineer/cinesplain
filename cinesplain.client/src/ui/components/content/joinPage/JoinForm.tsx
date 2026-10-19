@@ -1,8 +1,11 @@
-import Github from "@assets/github.svg";
-import Microsoft from "@assets/microsoft.svg";
+import Github from "@assets/github_logo.svg";
+import Microsoft from "@assets/microsoft_logo.svg";
 import { LoadingButton } from "@mui/lab";
 import { Box, Paper, Stack, styled, TextField, Typography, useTheme } from "@mui/material";
-import { Form, useNavigation } from "react-router-dom";
+import { useRouter } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { useState } from "react";
+import { joinCineSplain } from "../../../../routes/join.tsx";
 import UserInfo from "../../../../types/userInfo.ts";
 
 const StyledStack = styled(Paper)`
@@ -22,10 +25,24 @@ const StyledStack = styled(Paper)`
 
 const JoinForm = ({ userInfo }: { userInfo: UserInfo | null }) => {
     const provider = userInfo?.identityProvider;
-    const navigation = useNavigation();
     const theme = useTheme();
+    const join = useServerFn(joinCineSplain);
+    const router = useRouter();
+    const [submitting, setSubmitting] = useState(false);
 
     const disabled = false;
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        setSubmitting(true);
+        try {
+            await join({ data: formData });
+            await router.navigate({ to: "/" });
+        } finally {
+            setSubmitting(false);
+        }
+    };
 
     return (
         <StyledStack>
@@ -33,17 +50,17 @@ const JoinForm = ({ userInfo }: { userInfo: UserInfo | null }) => {
                 Please enter your details below
             </Typography>
             {userInfo && <Box component="img" src={provider === "aad" ? Microsoft : Github} alt={`${provider} Logo`} />}
-            <Form method="post">
+            <form onSubmit={handleSubmit}>
                 <Stack minWidth={theme.breakpoints.values.sm} spacing={3}>
                     <TextField type="text" name="userName" label="Username" required />
                     <TextField type="text" name="firstName" label="First Name" required />
                     <TextField type="text" name="lastName" label="Last Name" required />
                     <TextField type="text" name="email" label="Email" required />
-                    <LoadingButton type="submit" disabled={disabled} loading={navigation.state === "submitting"}>
+                    <LoadingButton type="submit" disabled={disabled} loading={submitting}>
                         <span>Send</span>
                     </LoadingButton>
                 </Stack>
-            </Form>
+            </form>
         </StyledStack>
     );
 };

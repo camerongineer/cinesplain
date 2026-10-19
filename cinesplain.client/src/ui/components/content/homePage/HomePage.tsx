@@ -2,7 +2,7 @@ import { Grid, Stack } from "@mui/material";
 import { blue, pink, purple, red } from "@mui/material/colors";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { homePageQuery } from "../../../../loaders/homePageLoader";
+import { homePageQuery } from "../../../../queries/homePage";
 import Hero from "./Hero";
 import RatingList from "./RatingList";
 import RecentMoviesRow from "./RecentMoviesRow";

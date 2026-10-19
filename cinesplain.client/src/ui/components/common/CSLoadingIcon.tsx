@@ -1,8 +1,8 @@
 import DownIcon from "@assets/cinesplain_logo_down.svg?react";
 import UpIcon from "@assets/cinesplain_logo_up.svg?react";
 import { Box, BoxProps, styled } from "@mui/material";
+import { useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { useNavigation } from "react-router-dom";
 
 interface CSLoadingIconProps extends BoxProps {
     loadRotationMilliseconds?: number;
@@ -17,13 +17,13 @@ const StyledUpIcon = styled(UpIcon)`
 `;
 
 const CSLoadingIcon: React.FC<CSLoadingIconProps> = ({ loadRotationMilliseconds = 600, ...props }) => {
-    const navigation = useNavigation();
+    const isPending = useRouterState({ select: (state) => state.status === "pending" });
     const [iconIndex, setIconIndex] = useState(0);
 
     useEffect(() => {
         let intervalId: NodeJS.Timeout | null = null;
 
-        if (navigation.state === "loading") {
+        if (isPending) {
             intervalId = setInterval(() => {
                 setIconIndex((prevIndex) => (prevIndex === 0 ? 1 : 0));
             }, loadRotationMilliseconds / 3);
@@ -34,10 +34,10 @@ const CSLoadingIcon: React.FC<CSLoadingIconProps> = ({ loadRotationMilliseconds 
                 clearInterval(intervalId);
             }
         };
-    }, [navigation.state, loadRotationMilliseconds]);
+    }, [isPending, loadRotationMilliseconds]);
 
     const getAnimationStyle = () => {
-        if (navigation.state === "loading") {
+        if (isPending) {
             return {
                 animation: `wobble infinite ${loadRotationMilliseconds}ms alternate`,
                 "@keyframes wobble": {
@@ -56,7 +56,7 @@ const CSLoadingIcon: React.FC<CSLoadingIconProps> = ({ loadRotationMilliseconds 
 
     return (
         <Box sx={getAnimationStyle()} {...props}>
-            {navigation.state === "loading" && iconIndex === 1 ? <StyledDownIcon /> : <StyledUpIcon />}
+            {isPending && iconIndex === 1 ? <StyledDownIcon /> : <StyledUpIcon />}
         </Box>
     );
 };

@@ -1,5 +1,5 @@
 import { Stack, styled } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import Movie from "../../../../types/movie.ts";
 import { getFormattedMovieLinkId } from "../../../../utils/formatUtils.ts";
 import OuterCarousel from "../../common/OuterCarousel";
@@ -46,7 +46,7 @@ const MovieSearchRow: React.FC<MovieSearchRowProps> = ({ movies }) => {
                         {movies.length > 0 &&
                             movies.slice(0, 20).map((movie) => {
                                 return (
-                                    <Link key={movie.id} to={`/movies/${getFormattedMovieLinkId(movie)}`}>
+                                    <Link to="/movies/$movieId" params={{ movieId: getFormattedMovieLinkId(movie) }} key={movie.id}>
                                         <MovieCard
                                             key={movie.id}
                                             movie={movie}

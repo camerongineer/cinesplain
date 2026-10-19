@@ -1,5 +1,5 @@
 import { Box, Grid, styled, Typography, useTheme } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import useMovieBackdrop from "../../../../hooks/UseMovieBackdrop";
 import listDisplayMovieCrewCredit from "../../../../types/listDisplayMovieCrewCredit.ts";
 import Movie from "../../../../types/movie.ts";
@@ -103,16 +103,16 @@ const MovieTitleDisplay: React.FC<MovieTitleDisplayProps> = ({ movie, omdbDetail
                     )}
                 </Box>
                 {director && (
-                    <Typography
-                        component={Link}
-                        to={`/person/${getFormattedPersonLinkId(director as unknown as Person)}`}
-                        p={0.75}
-                        paddingBottom={2}
-                        sx={({palette}) =>({ color: palette.getContrastText("rgba(0, 0, 0, 0.4)") })}
-                    >
-                        <strong>Directed&nbsp;By:&nbsp;</strong>
-                        {director.name}
-                    </Typography>
+                    <Link to="/person/$personId" params={{ personId: getFormattedPersonLinkId(director as unknown as Person) }} style={{ textDecoration: "none" }}>
+                        <Typography
+                            p={0.75}
+                            paddingBottom={2}
+                            sx={({ palette }) => ({ color: palette.getContrastText("rgba(0, 0, 0, 0.4)") })}
+                        >
+                            <strong>Directed&nbsp;By:&nbsp;</strong>
+                            {director.name}
+                        </Typography>
+                    </Link>
                 )}
                 {movie.voteCount >= 10 && (
                     <>

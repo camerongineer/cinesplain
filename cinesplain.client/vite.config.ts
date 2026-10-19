@@ -1,5 +1,4 @@
 import { fileURLToPath, URL } from "node:url";
-
 import plugin from "@vitejs/plugin-react";
 import child_process from "child_process";
 import fs from "fs";
@@ -7,6 +6,7 @@ import path from "path";
 import { env } from "process";
 import { defineConfig } from "vite";
 import svgr from "vite-plugin-svgr";
+import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 
 const baseFolder =
     env.APPDATA !== undefined && env.APPDATA !== "" ? `${env.APPDATA}/ASP.NET/https` : `${env.HOME}/.aspnet/https`;
@@ -36,11 +36,12 @@ const target = env.ASPNETCORE_HTTPS_PORT
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [plugin(), svgr()],
+    // react's vite plugin must come after start's vite plugin
+    plugins: [tanstackStart(), plugin(), svgr()],
     resolve: {
         alias: {
             "@": fileURLToPath(new URL("./src", import.meta.url)),
-            "@assets": "/src/assets"
+            "@assets": fileURLToPath(new URL("./src/assets", import.meta.url))
         }
     },
     server: {
@@ -50,6 +51,11 @@ export default defineConfig({
                 secure: false,
                 changeOrigin: true,
                 rewrite: (path) => path.replace(/^\/api/, "/api")
+            },
+            "/.auth": {
+                target,
+                secure: false,
+                changeOrigin: true
             }
         },
         port: 5173,

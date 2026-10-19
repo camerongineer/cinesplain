@@ -1,9 +1,9 @@
-export const toggleParams = (prevSearchParams: URLSearchParams, key: string) => {
-    let updatedSearchParams = new URLSearchParams(prevSearchParams);
-    if (updatedSearchParams.get(key)) {
-        updatedSearchParams.delete(key);
+export const toggleParams = (prevSearch: Record<string, string | undefined> | undefined, key: string) => {
+    const updatedSearchParams: Record<string, string | undefined> = { ...(prevSearch ?? {}) };
+    if (updatedSearchParams[key]) {
+        delete updatedSearchParams[key];
     } else {
-        updatedSearchParams.set(key, "true");
+        updatedSearchParams[key] = "true";
     }
     return updatedSearchParams;
 };
