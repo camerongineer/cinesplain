@@ -2,7 +2,17 @@ import Github from "@assets/github_logo.svg";
 import Microsoft from "@assets/microsoft_logo.svg";
 import Signout from "@assets/signout.svg";
 import { LoadingButton } from "@mui/lab";
-import { Box, IconButton, InputAdornment, Paper, Stack, styled, TextField, Typography, useTheme } from "@mui/material";
+import {
+    Box,
+    IconButton,
+    InputAdornment,
+    Paper,
+    Stack,
+    styled,
+    TextField,
+    Typography,
+    useTheme
+} from "@mui/material";
 import { useLocation, useRouter } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
@@ -52,39 +62,63 @@ const ReportForm: React.FC<ReportFormProps> = ({ userInfo }) => {
 
     return (
         <StyledStack>
-            <Typography variant="overline" fontWeight="bold" fontSize="large">
+            <Typography
+                variant="overline"
+                sx={{
+                    fontWeight: "bold",
+                    fontSize: "large"
+                }}
+            >
                 Please report any bugs or issues below
             </Typography>
-            <Stack direction="row" alignItems="center">
+            <Stack
+                direction="row"
+                sx={{
+                    alignItems: "center"
+                }}
+            >
                 <Typography variant="overline">
                     Signed in as <strong>{userInfo.userDetails}</strong>
                 </Typography>
                 <Box component="a" href={`/.auth/logout?post_logout_redirect_uri=${pathname}`}>
                     <IconButton aria-label="Sign out" size="small" style={{ marginLeft: 2 }}>
-                        <Box component="img" src={Signout} width="fit-content" />
+                        <Box
+                            component="img"
+                            src={Signout}
+                            sx={{
+                                width: "fit-content"
+                            }}
+                        />
                     </IconButton>
                 </Box>
             </Stack>
             <form onSubmit={handleSubmit}>
-                <Stack minWidth={theme.breakpoints.values.sm} spacing={3}>
+                <Stack
+                    spacing={3}
+                    sx={{
+                        minWidth: theme.breakpoints.values.sm
+                    }}
+                >
                     <TextField
                         type="text"
                         name="username"
                         label="Username"
                         required
-                        InputProps={{
-                            readOnly: true,
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <Box
-                                        component="img"
-                                        src={provider === "Microsoft" ? Microsoft : Github}
-                                        alt={`${provider} Logo`}
-                                    />
-                                </InputAdornment>
-                            )
-                        }}
                         value={userInfo.userDetails}
+                        slotProps={{
+                            input: {
+                                readOnly: true,
+                                startAdornment: (
+                                    <InputAdornment position="start">
+                                        <Box
+                                            component="img"
+                                            src={provider === "Microsoft" ? Microsoft : Github}
+                                            alt={`${provider} Logo`}
+                                        />
+                                    </InputAdornment>
+                                )
+                            }
+                        }}
                     />
                     <TextField type="text" name="title" label="Title" required />
                     <TextField type="text" name="issue" label="Issue" multiline required fullWidth minRows={8} />

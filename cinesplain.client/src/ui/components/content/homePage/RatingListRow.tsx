@@ -25,12 +25,13 @@ const RatingListRow: React.FC<RatingListRowProps> = ({ movie, backgroundColor })
                     <MuiLink
                         component="span"
                         variant="overline"
-                        fontStyle="italic"
-                        fontSize="medium"
                         underline="none"
                         sx={{
+                            fontStyle: "italic",
+                            fontSize: "medium",
                             color: palette.getContrastText(backgroundColor),
                             fontWeight: 600,
+
                             "&:hover": {
                                 fontStyle: "normal",
                                 fontWeight: 900

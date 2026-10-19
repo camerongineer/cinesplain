@@ -1,4 +1,12 @@
-import { Stack, styled, Table, TableBody, TableContainer, useMediaQuery, useTheme } from "@mui/material";
+import {
+    Stack,
+    styled,
+    Table,
+    TableBody,
+    TableContainer,
+    useMediaQuery,
+    useTheme
+} from "@mui/material";
 import { SxProps } from "@mui/system";
 import { BACKDROP_SIZE } from "../../../../constants/ImageSizes";
 import useMovieBackdrop from "../../../../hooks/UseMovieBackdrop";
@@ -33,7 +41,10 @@ const RatingList: React.FC<RatingListProps> = ({
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
     const randomMovie = useRandomMovie(movies, backdropInterval, true);
-    const [movieBackdrop, movieBackdropLoading] = useMovieBackdrop(randomMovie, BACKDROP_SIZE.LG_W1280);
+    const [movieBackdrop, movieBackdropLoading] = useMovieBackdrop(
+        randomMovie,
+        BACKDROP_SIZE.LG_W1280
+    );
 
     return (
         <>
@@ -43,7 +54,7 @@ const RatingList: React.FC<RatingListProps> = ({
                     opacity: movieBackdropLoading ? 0 : 1
                 }}
             >
-                {!isSmallScreen && <ListLabel labelText={labelText} pb={1} pr={3} />}
+                {!isSmallScreen && <ListLabel labelText={labelText} sx={{ pb: 1, pr: 3 }} />}
                 <OverlaidImageBox
                     sx={innerSx}
                     backgroundImageUrl={movieBackdrop}
@@ -52,14 +63,17 @@ const RatingList: React.FC<RatingListProps> = ({
                     borderRadius="10px"
                     bottomLabelText={randomMovie.title}
                 >
-                    <TableContainer className="center" component={Stack} marginY={5}>
+                    <TableContainer className="center" component={Stack} sx={{ my: 5 }}>
                         {isSmallScreen && (
                             <ListLabel
                                 labelText={labelText}
-                                color={(theme) => theme.palette.getContrastText(backgroundOverlayColor)}
-                                fontWeight={900}
-                                pb={2}
-                                zIndex={1}
+                                sx={{
+                                    pb: 2,
+                                    zIndex: 1,
+                                    fontWeight: 900,
+                                    color: (theme) =>
+                                        theme.palette.getContrastText(backgroundOverlayColor)
+                                }}
                             />
                         )}
                         <Table

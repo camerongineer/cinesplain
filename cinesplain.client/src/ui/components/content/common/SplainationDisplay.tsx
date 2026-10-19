@@ -15,11 +15,22 @@ const SplainationDisplay: React.FC<SplainationDisplayProps> = ({ overview }) => 
     <>
         <StyledBox className="full center">
             <CSLoadingIcon height={30} loadRotationMilliseconds={750} />
-            <Typography variant="h6" fontWeight="bold" width="fit-content">
+            <Typography
+                variant="h6"
+                sx={{
+                    fontWeight: "bold",
+                    width: "fit-content"
+                }}
+            >
                 'Splaination
             </Typography>
         </StyledBox>
-        <Typography variant="body1" pb={2}>
+        <Typography
+            variant="body1"
+            sx={{
+                pb: 2
+            }}
+        >
             {overview}
         </Typography>
     </>

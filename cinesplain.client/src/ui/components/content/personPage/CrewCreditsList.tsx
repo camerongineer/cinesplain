@@ -8,7 +8,10 @@ interface CrewCreditsListProps {
     truncatedCreditsSize?: number;
 }
 
-const CrewCreditsList: React.FC<CrewCreditsListProps> = ({ crewCredits, truncatedCreditsSize = 8 }) => {
+const CrewCreditsList: React.FC<CrewCreditsListProps> = ({
+    crewCredits,
+    truncatedCreditsSize = 8
+}) => {
     return (
         <CollapsibleTable
             label="Crew"
@@ -27,7 +30,10 @@ const CrewCreditsList: React.FC<CrewCreditsListProps> = ({ crewCredits, truncate
             elements={
                 crewCredits.length
                     ? crewCredits.map((crewMemberCredit) => (
-                          <CrewCreditsListRow key={crewMemberCredit.creditId} crewMemberCredit={crewMemberCredit} />
+                          <CrewCreditsListRow
+                              key={crewMemberCredit.creditId}
+                              crewMemberCredit={crewMemberCredit}
+                          />
                       ))
                     : null
             }

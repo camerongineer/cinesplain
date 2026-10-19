@@ -16,18 +16,28 @@ const StyledMoviePage = styled(Stack)`
 
 const MoviePage: React.FC<{ movieId: string }> = ({ movieId }) => {
     const { data: movieData } = useQuery(moviePageQuery(movieId));
+    const movieImdbId = movieData?.movie.imdbId;
+    const { data: omdbDetails } = useQuery({
+        ...omdbQuery(movieImdbId ?? ""),
+        enabled: !!movieImdbId
+    });
+    const movieId = movieData?.movie.id;
+    const { data: recommendations } = useQuery({
+        ...movieRecommendationsQuery(movieId ?? 0),
+        enabled: !!movieId
+    });
+
+    const releaseYear = movieData ? new Date(movieData.movie.releaseDate ?? "").getFullYear() : null;
+    useEffect(() => {
+        if (movieData?.movie.title) {
+            document.title = `${movieData.movie.title} ${releaseYear ? `(${releaseYear}) ` : ""} - CineSplain - The Movie Info App`;
+        }
+    }, [movieData?.movie.title, movieData?.movie.releaseDate, releaseYear]);
+
     if (!movieData) return null;
     const { movie, credits } = movieData;
-    const { data: omdbDetails } = useQuery(omdbQuery(movie.imdbId));
-    const { data: recommendations } = useQuery(movieRecommendationsQuery(movie.id));
-
     const displayedCast = credits?.cast.filter((castMember) => castMember.profilePath) ?? null;
     const director = credits?.crew.find((crewMember) => crewMember.name === omdbDetails?.director);
-
-    useEffect(() => {
-        const releaseYear = new Date(movie.releaseDate ?? "").getFullYear();
-        document.title = `${movie.title} ${releaseYear ? `(${releaseYear}) ` : ""} - CineSplain - The Movie Info App`;
-    }, [movie.title]);
 
     return (
         <>
@@ -36,23 +46,30 @@ const MoviePage: React.FC<{ movieId: string }> = ({ movieId }) => {
                     <MovieTitleDisplay key={movie.id} movie={movie} omdbDetails={omdbDetails} director={director} />
                     {displayedCast && <CastMemberRow castMembers={displayedCast} />}
                     <Stack
-                        flexDirection={{
-                            lg: "row"
+                        sx={{
+                            flexDirection: {
+                                lg: "row"
+                            },
+
+                            alignItems: {
+                                xs: "center",
+                                lg: "start"
+                            },
+
+                            justifyContent: "space-evenly",
+                            padding: 1
                         }}
-                        alignItems={{
-                            xs: "center",
-                            lg: "start"
-                        }}
-                        justifyContent="space-evenly"
-                        padding={1}
                     >
                         <Stack
                             className="full center"
-                            pt={1}
                             spacing={2}
-                            flex={{
-                                md: 1,
-                                lg: 2
+                            sx={{
+                                pt: 1,
+
+                                flex: {
+                                    md: 1,
+                                    lg: 2
+                                }
                             }}
                         >
                             <TrailerDisplay movie={movie} trailer={movie.trailer} />

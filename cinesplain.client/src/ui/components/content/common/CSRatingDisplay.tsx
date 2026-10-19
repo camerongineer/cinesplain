@@ -8,13 +8,29 @@ interface CSRatingDisplayProps {
 }
 
 const CSRatingDisplay: React.FC<CSRatingDisplayProps> = ({ voteAverage }) => (
-    <Stack direction="row" alignItems="center" spacing={0.5}>
+    <Stack
+        direction="row"
+        spacing={0.5}
+        sx={{
+            alignItems: "center"
+        }}
+    >
         <CSLogoText height={15} />
         <CSPopcorn width={"20px"} color={getCSRatingColor(voteAverage)} />
-        <Typography display="inline" fontWeight="bold">
+        <Typography
+            sx={{
+                display: "inline",
+                fontWeight: "bold"
+            }}
+        >
             Rating:
         </Typography>
-        <Typography display="inline" variant="h6">
+        <Typography
+            variant="h6"
+            sx={{
+                display: "inline"
+            }}
+        >
             {voteAverage}
         </Typography>
     </Stack>

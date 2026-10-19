@@ -26,7 +26,7 @@ const CastMemberRow: React.FC<CastMemberRowProps> = ({ castMembers }) => {
     return (
         <>
             {castMembers.length > 0 && (
-                <OuterCarousel paddingY={1} style={{ overflow: "auto" }}>
+                <OuterCarousel sx={{ paddingY: 1 }} style={{ overflow: "auto" }}>
                     <StyledStack>
                         {castMembers.map((castMember) => (
                             <Link

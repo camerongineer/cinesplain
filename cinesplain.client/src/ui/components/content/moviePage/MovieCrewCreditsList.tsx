@@ -8,7 +8,10 @@ interface MovieCrewCreditsListProps {
     truncatedCreditsSize?: number;
 }
 
-const MovieCrewCreditsList: React.FC<MovieCrewCreditsListProps> = ({ crewCredits, truncatedCreditsSize = 5 }) => {
+const MovieCrewCreditsList: React.FC<MovieCrewCreditsListProps> = ({
+    crewCredits,
+    truncatedCreditsSize = 5
+}) => {
     return (
         <CollapsibleTable
             truncatedAmount={truncatedCreditsSize}
@@ -16,16 +19,24 @@ const MovieCrewCreditsList: React.FC<MovieCrewCreditsListProps> = ({ crewCredits
             tableHeaderRow={
                 <TableRow sx={{ "& td, & th": { border: 0 } }}>
                     <TableCell align="center">
-                        <Typography variant="overline" fontSize="large">
+                        <Typography
+                            variant="overline"
+                            sx={{
+                                fontSize: "large"
+                            }}
+                        >
                             Crew
                         </Typography>
                     </TableCell>
                 </TableRow>
             }
             elements={
-                !!crewCredits.length
+                crewCredits.length
                     ? crewCredits.map((crewCredit) => (
-                          <MovieCrewCreditsListRow key={crewCredit.creditId} crewCredit={crewCredit} />
+                          <MovieCrewCreditsListRow
+                              key={crewCredit.creditId}
+                              crewCredit={crewCredit}
+                          />
                       ))
                     : null
             }

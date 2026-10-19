@@ -20,7 +20,7 @@ const StyledPopcorn = styled(Popcorn)<CSPopcornProps>`
     }
 `;
 
-interface CSPopcornProps extends SVGProps<any> {
+interface CSPopcornProps extends SVGProps<SVGSVGElement> {
     color?: string;
 }
 

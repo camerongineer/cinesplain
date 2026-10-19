@@ -65,8 +65,19 @@ const NotFound = () => {
     return (
         <StyledStack className="full center" style={getErrorStyle()}>
             <WobblingStack>{waggingState ? <WagLeft /> : <WagRight />}</WobblingStack>
-            <Stack width="80%" textAlign="center">
-                <Typography variant="h2" textAlign="center" mb={1}>
+            <Stack
+                sx={{
+                    width: "80%",
+                    textAlign: "center"
+                }}
+            >
+                <Typography
+                    variant="h2"
+                    sx={{
+                        textAlign: "center",
+                        mb: 1
+                    }}
+                >
                     You don't belong here.
                 </Typography>
                 <Link to="/">

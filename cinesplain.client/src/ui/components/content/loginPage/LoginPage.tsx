@@ -32,7 +32,14 @@ const LoginPage = () => {
         <StyledBox>
             <StyledPaper>
                 <CSLoadingIcon height={150} />
-                <Typography variant="overline" fontWeight="bold" fontSize="large" pb={4}>
+                <Typography
+                    variant="overline"
+                    sx={{
+                        fontWeight: "bold",
+                        fontSize: "large",
+                        pb: 4
+                    }}
+                >
                     Please sign in
                 </Typography>
                 <Box component="a" href={`/.auth/login/aad?post_login_redirect_uri=/login`}>

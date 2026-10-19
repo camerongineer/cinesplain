@@ -6,12 +6,28 @@ interface MetascoreDisplayProps {
 }
 
 const MetascoreDisplay: React.FC<MetascoreDisplayProps> = ({ metaScore }) => (
-    <Stack direction="row" alignItems="center" spacing={0.5}>
+    <Stack
+        direction="row"
+        spacing={0.5}
+        sx={{
+            alignItems: "center"
+        }}
+    >
         <Metacritic width={18} />
-        <Typography display="inline" fontWeight="bold">
+        <Typography
+            sx={{
+                display: "inline",
+                fontWeight: "bold"
+            }}
+        >
             Metascore:
         </Typography>
-        <Typography display="inline" variant="h6">
+        <Typography
+            variant="h6"
+            sx={{
+                display: "inline"
+            }}
+        >
             {metaScore}
         </Typography>
     </Stack>

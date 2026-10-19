@@ -1,10 +1,12 @@
 import DownIcon from "@assets/cinesplain_logo_down.svg?react";
 import UpIcon from "@assets/cinesplain_logo_up.svg?react";
-import { Box, BoxProps, styled } from "@mui/material";
+import { Box, styled } from "@mui/material";
 import { useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 
-interface CSLoadingIconProps extends BoxProps {
+interface CSLoadingIconProps {
+    width?: number | string | { [breakpoint: string]: number | string };
+    height?: number | string;
     loadRotationMilliseconds?: number;
 }
 
@@ -21,7 +23,7 @@ const CSLoadingIcon: React.FC<CSLoadingIconProps> = ({ loadRotationMilliseconds 
     const [iconIndex, setIconIndex] = useState(0);
 
     useEffect(() => {
-        let intervalId: NodeJS.Timeout | null = null;
+        let intervalId: ReturnType<typeof setInterval> | null = null;
 
         if (isPending) {
             intervalId = setInterval(() => {

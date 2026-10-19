@@ -38,22 +38,41 @@ const CastCreditsListRow: React.FC<CastCreditsListRowProps> = ({ castMemberCredi
     return (
         <StyledTableRow onClick={onRowClick}>
             <TableCell>
-                <Stack direction="row" justifyContent="start" alignItems="center" spacing={2}>
+                <Stack
+                    direction="row"
+                    spacing={2}
+                    sx={{
+                        justifyContent: "start",
+                        alignItems: "center"
+                    }}
+                >
                     {castMemberCredit.posterPath && (
                         <Box
                             component="img"
                             src={getImagePath(castMemberCredit.posterPath, POSTER_SIZE.XXXS_W92)}
-                            width={45}
-                            minHeight={castMemberCredit.posterPath ? 67.5 : "auto"}
                             loading="lazy"
+                            sx={{
+                                width: 45,
+                                minHeight: castMemberCredit.posterPath ? 67.5 : "auto"
+                            }}
                         />
                     )}
                     <Stack>
-                        <Typography variant="subtitle2" fontWeight="bold">
+                        <Typography
+                            variant="subtitle2"
+                            sx={{
+                                fontWeight: "bold"
+                            }}
+                        >
                             {castMemberCredit.title}
                         </Typography>
                         {castMemberCredit.character && (
-                            <Typography variant="subtitle2" fontSize="small">
+                            <Typography
+                                variant="subtitle2"
+                                sx={{
+                                    fontSize: "small"
+                                }}
+                            >
                                 as {castMemberCredit.character}
                             </Typography>
                         )}
@@ -61,8 +80,15 @@ const CastCreditsListRow: React.FC<CastCreditsListRowProps> = ({ castMemberCredi
                 </Stack>
             </TableCell>
             <TableCell component="th" scope="row" align="right">
-                <Typography variant="subtitle2" fontWeight="bold">
-                    {castMemberCredit.releaseDate ? new Date(castMemberCredit.releaseDate).getFullYear() : "Upcoming"}
+                <Typography
+                    variant="subtitle2"
+                    sx={{
+                        fontWeight: "bold"
+                    }}
+                >
+                    {castMemberCredit.releaseDate
+                        ? new Date(castMemberCredit.releaseDate).getFullYear()
+                        : "Upcoming"}
                 </Typography>
             </TableCell>
         </StyledTableRow>

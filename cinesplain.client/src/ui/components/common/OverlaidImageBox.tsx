@@ -42,18 +42,47 @@ const OverlaidImageBox: React.FC<OverlaidImageBoxProps> = ({
     };
 
     return (
-        <Stack position="relative" sx={sx}>
-            <Stack className="full" position="absolute" style={colorOverlayStyle} />
-            <Stack className="full" position="absolute" style={backgroundImageStyle} />
+        <Stack
+            sx={[
+                {
+                    position: "relative"
+                },
+                ...(Array.isArray(sx) ? sx : [sx])
+            ]}
+        >
+            <Stack
+                className="full"
+                style={colorOverlayStyle}
+                sx={{
+                    position: "absolute"
+                }}
+            />
+            <Stack
+                className="full"
+                style={backgroundImageStyle}
+                sx={{
+                    position: "absolute"
+                }}
+            />
             <Box
-                display="block"
-                position="absolute"
-                width="100%"
-                textAlign="right"
-                bottom={0}
                 style={{ userSelect: "none" }}
+                sx={{
+                    display: "block",
+                    position: "absolute",
+                    width: "100%",
+                    textAlign: "right",
+                    bottom: 0
+                }}
             >
-                <Typography variant="overline" color="white" fontSize="x-small" fontWeight="bolder" pr={2}>
+                <Typography
+                    variant="overline"
+                    color="white"
+                    sx={{
+                        fontSize: "x-small",
+                        fontWeight: "bolder",
+                        pr: 2
+                    }}
+                >
                     {bottomLabelText}
                 </Typography>
             </Box>

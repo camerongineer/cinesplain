@@ -12,20 +12,26 @@ export const personPageQuery = (personId: string | undefined) =>
             if (!person) {
                 throw new Error("This page doesn't not exist.");
             }
-            const movieCastCredits = person.movieCredits.cast?.filter((movie) => movie.releaseDate) ?? [];
+            const movieCastCredits =
+                person.movieCredits.cast?.filter((movie) => movie.releaseDate) ?? [];
             const sortedMovieCastCredits: CastMember[] = movieCastCredits.sort((a, b) => {
                 if (a.releaseDate && b.releaseDate) {
                     return a.releaseDate < b.releaseDate ? 1 : -1;
                 }
                 return 0;
             });
-            const movieCrewCredits = person.movieCredits.crew?.filter((movie) => movie.releaseDate) ?? [];
+            const movieCrewCredits =
+                person.movieCredits.crew?.filter((movie) => movie.releaseDate) ?? [];
             const sortedMovieCrewCredits: CrewMember[] = movieCrewCredits.sort((a, b) => {
                 if (a.releaseDate && b.releaseDate) {
                     return a.releaseDate < b.releaseDate ? 1 : -1;
                 }
                 return 0;
             });
-            return { person, movieCastCredits: sortedMovieCastCredits, movieCrewCredits: sortedMovieCrewCredits };
+            return {
+                person,
+                movieCastCredits: sortedMovieCastCredits,
+                movieCrewCredits: sortedMovieCrewCredits
+            };
         }
     });

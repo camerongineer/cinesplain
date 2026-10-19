@@ -32,15 +32,39 @@ const PersonSideBar: React.FC<PersonSideBarProps> = ({ person }) => (
                 {getFormattedDisplayedDate(person.deathday)}
             </Typography>
         )}
-        <Stack direction="row" justifyContent="space-evenly" alignItems="center">
+        <Stack
+            direction="row"
+            sx={{
+                justifyContent: "space-evenly",
+                alignItems: "center"
+            }}
+        >
             {person.homepage && (
-                <MuiLink component="a" href={person.homepage} target="_blank" rel="noopener noreferrer" variant="overline" fontSize="large" fontWeight="bolder">
+                <MuiLink
+                    component="a"
+                    href={person.homepage}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    variant="overline"
+                    sx={{
+                        fontSize: "large",
+                        fontWeight: "bolder"
+                    }}
+                >
                     Webpage
                 </MuiLink>
             )}
             {person.imdbId && (
                 <Box component="a" href={getImdbPersonPath(person.imdbId)} target="_blank" rel="noopener noreferrer">
-                    <Box component="img" height="25px" src={imdb as unknown as string} alt="Link to IMDB" mt={0.75} />
+                    <Box
+                        component="img"
+                        src={imdb as unknown as string}
+                        alt="Link to IMDB"
+                        sx={{
+                            height: "25px",
+                            mt: 0.75
+                        }}
+                    />
                 </Box>
             )}
         </Stack>

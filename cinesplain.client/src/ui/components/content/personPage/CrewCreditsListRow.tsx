@@ -38,29 +38,55 @@ const CrewCreditsListRow: React.FC<CrewCreditsListRowProps> = ({ crewMemberCredi
     return (
         <StyledTableRow onClick={onRowClick}>
             <TableCell>
-                <Stack direction="row" justifyContent="start" alignItems="center" spacing={2}>
+                <Stack
+                    direction="row"
+                    spacing={2}
+                    sx={{
+                        justifyContent: "start",
+                        alignItems: "center"
+                    }}
+                >
                     {crewMemberCredit.posterPath && (
                         <Box
                             component="img"
                             src={getImagePath(crewMemberCredit.posterPath, POSTER_SIZE.XXXS_W92)}
-                            width={45}
-                            minHeight={crewMemberCredit.posterPath ? 67.5 : "auto"}
                             loading="lazy"
+                            sx={{
+                                width: 45,
+                                minHeight: crewMemberCredit.posterPath ? 67.5 : "auto"
+                            }}
                         />
                     )}
                     <Stack>
-                        <Typography variant="subtitle2" fontWeight="bold">
+                        <Typography
+                            variant="subtitle2"
+                            sx={{
+                                fontWeight: "bold"
+                            }}
+                        >
                             {crewMemberCredit.title}
                         </Typography>
-                        <Typography variant="subtitle2" fontSize="small">
+                        <Typography
+                            variant="subtitle2"
+                            sx={{
+                                fontSize: "small"
+                            }}
+                        >
                             {crewMemberCredit.job}
                         </Typography>
                     </Stack>
                 </Stack>
             </TableCell>
             <TableCell component="th" scope="row" align="right">
-                <Typography variant="subtitle2" fontWeight="bold">
-                    {crewMemberCredit.releaseDate ? new Date(crewMemberCredit.releaseDate).getFullYear() : "Upcoming"}
+                <Typography
+                    variant="subtitle2"
+                    sx={{
+                        fontWeight: "bold"
+                    }}
+                >
+                    {crewMemberCredit.releaseDate
+                        ? new Date(crewMemberCredit.releaseDate).getFullYear()
+                        : "Upcoming"}
                 </Typography>
             </TableCell>
         </StyledTableRow>

@@ -4,6 +4,6 @@ type UserInfo = {
     userDetails: string;
     userId: string;
     userRoles: string[];
-}
+};
 
 export default UserInfo;

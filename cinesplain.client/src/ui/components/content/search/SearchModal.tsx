@@ -36,7 +36,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ modalOpen, onModalEvent, auto
 
     useEffect(() => {
         let isMounted = true;
-        let timeoutId: NodeJS.Timeout | null = null;
+        let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
         const loadQueriedMovies = async () => {
             const queriedMovies = await retrieveMovies(getMoviesSearchPath(searchQuery));

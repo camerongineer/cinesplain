@@ -23,7 +23,7 @@ const CenteredToolbar = styled(Toolbar)`
 const Header: React.FC = () => {
     const [animateLogo, setAnimateLogo] = useState(true);
     const [searchModalOpen, setSearchModalOpen] = useState<boolean>(false);
-    
+
     const { data } = useQuery(headerQuery);
 
     const popularMovieTitles = data?.map((movie: { title: string }) => movie.title) ?? [];

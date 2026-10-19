@@ -15,7 +15,7 @@ import { toggleParams } from "../../../../utils/urlUtils.ts";
 import CollapsibleTableFooter from "./CollapsibleTableFooter.tsx";
 
 interface CollapsibleTableProps extends TableContainerProps {
-    label?: String;
+    label?: string;
     tableHeaderRow: ReactNode;
     truncatedAmount: number;
     paramKey: string;
@@ -31,7 +31,8 @@ const CollapsibleTable: React.FC<CollapsibleTableProps> = (props) => {
     const handleExpand = () =>
         navigate({
             search: (prev: Record<string, string | undefined> | undefined) => toggleParams(prev, paramKey),
-            replace: true
+            replace: true,
+            preventScrollReset: true
         });
 
     const isExpanded = !!searchParams.get(paramKey);
@@ -49,9 +50,11 @@ const CollapsibleTable: React.FC<CollapsibleTableProps> = (props) => {
                             <TableCell colSpan={2} align="right">
                                 <Typography
                                     variant="overline"
-                                    fontSize="large"
-                                    fontWeight="bold"
                                     style={{ userSelect: "none" }}
+                                    sx={{
+                                        fontSize: "large",
+                                        fontWeight: "bold"
+                                    }}
                                 >
                                     {label}
                                 </Typography>
@@ -73,7 +76,10 @@ const CollapsibleTable: React.FC<CollapsibleTableProps> = (props) => {
                         <TableBody>
                             {collapsedElements}
                             {collapsedElements && (
-                                <CollapsibleTableFooter onClick={handleExpand} expanded={isExpanded} />
+                                <CollapsibleTableFooter
+                                    onClick={handleExpand}
+                                    expanded={isExpanded}
+                                />
                             )}
                         </TableBody>
                     </Table>

@@ -6,10 +6,22 @@ interface AwardsDisplayProps {
 
 const AccoladesDisplay: React.FC<AwardsDisplayProps> = ({ awards }) => (
     <Stack>
-        <Typography display="inline" variant="overline" fontWeight="bold">
+        <Typography
+            variant="overline"
+            sx={{
+                display: "inline",
+                fontWeight: "bold"
+            }}
+        >
             Accolades
         </Typography>
-        <Typography display="inline">{awards}</Typography>
+        <Typography
+            sx={{
+                display: "inline"
+            }}
+        >
+            {awards}
+        </Typography>
     </Stack>
 );
 

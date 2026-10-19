@@ -6,10 +6,22 @@ interface StarringDisplayProps {
 
 const StarringDisplay: React.FC<StarringDisplayProps> = ({ stars }) => (
     <Stack>
-        <Typography display="inline" variant="overline" fontWeight="bold">
+        <Typography
+            variant="overline"
+            sx={{
+                display: "inline",
+                fontWeight: "bold"
+            }}
+        >
             Starring
         </Typography>
-        <Typography display="inline">{stars}</Typography>
+        <Typography
+            sx={{
+                display: "inline"
+            }}
+        >
+            {stars}
+        </Typography>
     </Stack>
 );
 
