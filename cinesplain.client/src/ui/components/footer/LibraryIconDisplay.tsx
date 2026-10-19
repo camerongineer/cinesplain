@@ -1,7 +1,6 @@
 import Mui from "@assets/mui_logo.svg?react";
 import ReactJs from "@assets/react_logo.svg?react";
-import ReactQuery from "@assets/react_query_logo.svg?react";
-import ReactRouter from "@assets/react_router_logo.svg?react";
+import TanStack from "@assets/tanstack_logo.svg?react";
 import Typescript from "@assets/typescript_logo.svg?react";
 import { Stack, styled } from "@mui/material";
 
@@ -16,8 +15,7 @@ const LibraryIconDisplay: React.FC = () => (
         <ReactJs />
         <Typescript />
         <Mui />
-        <ReactQuery />
-        <ReactRouter />
+        <TanStack />
     </StyledStack>
 );
 
