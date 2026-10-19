@@ -46,6 +46,10 @@ const RatingList: React.FC<RatingListProps> = ({
         BACKDROP_SIZE.LG_W1280
     );
 
+    if (!randomMovie) {
+        return null;
+    }
+
     return (
         <>
             <StyledStack

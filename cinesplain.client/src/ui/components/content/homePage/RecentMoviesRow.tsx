@@ -24,6 +24,10 @@ const RecentMoviesRow: React.FC<RecentMoviesRowProps> = ({ movies }) => {
         justifySelf: "end"
     };
 
+    if (!randomMovie) {
+        return null;
+    }
+
     const cardStyle = {
         width: {
             xs: theme.breakpoints.values.sm / 2,

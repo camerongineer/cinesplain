@@ -14,8 +14,8 @@ if (process.env.NODE_ENV !== "production") {
 
 /**
  * Absolute address of the ASP.NET backend. Required by the /api and /.auth proxy
- * routes. Server-side data fetching uses the SSR request's own origin by default
- * (single-origin proxying), and this endpoint only when explicitly configured.
+ * routes and by server-side data fetching in development (the SSR process sends
+ * backend requests straight here).
  */
 export const getBackendEndpoint = () => process.env.API_ENDPOINT ?? "https://localhost:7232";
 
@@ -23,15 +23,21 @@ export const getBackendEndpoint = () => process.env.API_ENDPOINT ?? "https://loc
  * Resolves the absolute base URL for server-side requests and forwards the
  * caller's cookies (required for Azure Easy Auth authorization).
  *
- * By default requests go to the same origin that served the page, which has the
- * /api and /.auth routes wired to the ASP.NET backend (dev: server routes in
- * this app, prod: the reverse proxy in front of them). Set API_ENDPOINT to send
- * requests to the backend directly instead.
+ * In production requests go to the same origin that served the page (single
+ * origin in front of the reverse proxy) unless API_ENDPOINT is set. In
+ * development the SSR process fetches the ASP.NET backend directly: it cannot
+ * reliably request its own origin (Node does not resolve Vite's TLS hostnames,
+ * and self-requests concurrent with SSR rendering fail) and the dev proxy
+ * routes would just hop to the backend anyway.
  */
 const getServerRequestInfo = () => {
     const request = getRequest();
     const url = new URL(request.url);
-    const base = process.env.API_ENDPOINT ?? `${url.protocol}//${url.host}`;
+    const base =
+        process.env.API_ENDPOINT ??
+        (process.env.NODE_ENV !== "production"
+            ? getBackendEndpoint()
+            : `${url.protocol}//${url.host}`);
     return {
         base,
         cookie: request.headers.get("cookie") ?? undefined
