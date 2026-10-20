@@ -36,14 +36,13 @@ const BackdropImageListItem: React.FC<BackdropImageListItemProps> = ({
     ...props
 }) => {
     const theme = useTheme();
-    const { lowRef, highRef, lowUrl, highUrl, lowLoaded, highLoaded, markLowLoaded, markHighLoaded } =
+    const { lowRef, highRef, lowUrl, highUrl, highLoaded, markLowLoaded, markHighLoaded } =
         useProgressiveImage(movie.backdropPath, BACKDROP_SIZE.SM_W300, BACKDROP_SIZE.MD_W780);
 
     return (
         <StyledCard
             elevation={5}
             sx={cardStyle}
-            style={{ opacity: lowLoaded || !movie.backdropPath ? "1" : "0" }}
             {...props}
         >
             <StyledImageListItem>
@@ -52,7 +51,7 @@ const BackdropImageListItem: React.FC<BackdropImageListItemProps> = ({
                     ref={lowRef}
                     image={lowUrl}
                     alt={movie.title}
-                    style={{ objectPosition: "50% 15%" }}
+                    style={{ objectPosition: "50% 15%", aspectRatio: "16 / 9", objectFit: "cover" }}
                     onLoad={markLowLoaded}
                 />
                 <CardMedia

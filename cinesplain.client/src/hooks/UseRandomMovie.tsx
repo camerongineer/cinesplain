@@ -1,20 +1,27 @@
 import { useEffect, useState } from "react";
 import Movie from "../types/movie.ts";
 
-const useRandomMovie = (movies: Movie[], interval: number, requireBackdrop: boolean = false) => {
-    const [randomMovieIndex, setRandomMovieIndex] = useState(0);
-    const [initialRender, setInitialRender] = useState(true);
-
+/*
+ * Picks the movie to feature in a spotlight section. The initial pick is
+ * derived from the spotlight seed that shipped with the list data, keeping the
+ * server render and the first client render in agreement; the interval then
+ * rotates through the list.
+ */
+const useRandomMovie = (
+    movies: Movie[],
+    spotlightSeed: number,
+    interval: number,
+    requireBackdrop: boolean = false
+) => {
     const filteredMovies = requireBackdrop ? movies.filter((movie) => movie.backdropPath) : movies;
-
-    useEffect(() => {
-        if (initialRender && filteredMovies.length) {
-            // Initial random pick happens once on the first meaningful render; preserved from original behavior
-            // oxlint-disable-next-line react/set-state-in-effect
-            setRandomMovieIndex(Math.floor(Math.random() * filteredMovies.length));
-            setInitialRender(false);
-        }
-    }, [initialRender, movies, filteredMovies.length]);
+    const [randomMovieIndex, setRandomMovieIndex] = useState(() =>
+        filteredMovies.length
+            ? Math.min(
+                  filteredMovies.length - 1,
+                  Math.floor(spotlightSeed * filteredMovies.length)
+              )
+            : 0
+    );
 
     useEffect(() => {
         if (filteredMovies.length) {

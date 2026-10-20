@@ -28,14 +28,13 @@ interface MovieTitleDisplayProps {
 
 const MovieTitleDisplay: React.FC<MovieTitleDisplayProps> = ({ movie, omdbDetails, director }) => {
     const theme = useTheme();
-    const [movieBackdrop, movieBackdropPreview, movieBackdropLoaded] = useMovieBackdrop(movie);
+    const [movieBackdrop, movieBackdropPreview] = useMovieBackdrop(movie);
 
     const backgroundStyle = {
         background: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url(${movieBackdrop}), url(${movieBackdropPreview})`,
         backgroundSize: "cover, cover, cover",
         backgroundPosition: "top left",
         color: theme.palette.getContrastText("rgba(0, 0, 0, 0.4)"),
-        opacity: movieBackdropLoaded || !movie?.posterPath ? 1 : 0,
         minHeight: "calc(100dvh - 70px)",
         [theme.breakpoints.up("sm")]: {
             minHeight: movie?.posterPath || movie?.backdropPath ? "600px" : "400px",

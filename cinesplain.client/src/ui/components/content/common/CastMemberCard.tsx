@@ -32,7 +32,7 @@ interface CastMemberCardProps {
 
 const CastMemberCard: React.FC<CastMemberCardProps> = ({ castMember, sx }) => {
     const theme = useTheme();
-    const { lowRef, highRef, lowUrl, highUrl, lowLoaded, highLoaded, markLowLoaded, markHighLoaded } =
+    const { lowRef, highRef, lowUrl, highUrl, highLoaded, markLowLoaded, markHighLoaded } =
         useProgressiveImage(
             castMember.profilePath ?? "",
             castMember.profilePath ? PROFILE_SIZE.SM_W45 : PROFILE_SIZE.MD_W185,
@@ -54,7 +54,6 @@ const CastMemberCard: React.FC<CastMemberCardProps> = ({ castMember, sx }) => {
         <StyledCard
             elevation={5}
             sx={sx}
-            style={{ opacity: lowLoaded ? "1" : "0" }}
             onMouseEnter={handleViewDetails}
             onMouseLeave={handleCloseDetails}
             onTouchStart={handleViewDetails}

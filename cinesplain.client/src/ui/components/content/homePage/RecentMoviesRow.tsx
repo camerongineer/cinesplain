@@ -1,25 +1,23 @@
 import { Typography, useTheme } from "@mui/material";
 import useMovieBackdrop from "../../../../hooks/UseMovieBackdrop";
 import useRandomMovie from "../../../../hooks/UseRandomMovie";
-import Movie from "../../../../types/movie.ts";
+import SpotlightList from "../../../../types/SpotlightList";
 import OverlaidImageBox from "../../common/OverlaidImageBox";
 import BackdropImageListRow from "../common/BackdropImageListRow";
 
 interface RecentMoviesRowProps {
-    movies: Movie[];
+    list: SpotlightList;
 }
 
-const RecentMoviesRow: React.FC<RecentMoviesRowProps> = ({ movies }) => {
-    const randomMovie = useRandomMovie(movies, 20000);
-    const [movieBackdrop, movieBackdropPreview, movieBackdropLoaded] = useMovieBackdrop(randomMovie);
+const RecentMoviesRow: React.FC<RecentMoviesRowProps> = ({ list }) => {
+    const randomMovie = useRandomMovie(list.movies, list.spotlightSeed, 20000);
+    const [movieBackdrop, movieBackdropPreview] = useMovieBackdrop(randomMovie);
     const theme = useTheme();
     const backdropStyle = {
         flex: 4,
         alignItems: "center",
         justifyContent: "end",
         width: "100%",
-        opacity: movieBackdropLoaded ? 1 : 0,
-        transition: `opacity ${theme.transitions.duration.short}ms ease-in-out`,
         justifySelf: "end"
     };
 
@@ -61,7 +59,7 @@ const RecentMoviesRow: React.FC<RecentMoviesRowProps> = ({ movies }) => {
             >
                 Now In Theaters
             </Typography>
-            <BackdropImageListRow movies={movies} cardStyle={cardStyle} />
+            <BackdropImageListRow movies={list.movies} cardStyle={cardStyle} />
         </OverlaidImageBox>
     );
 };

@@ -21,7 +21,7 @@ interface ProfileCardProps {
 
 const ProfileCard: React.FC<ProfileCardProps> = ({ person }) => {
     const theme = useTheme();
-    const { lowRef, highRef, lowUrl, highUrl, lowLoaded, highLoaded, markLowLoaded, markHighLoaded } =
+    const { lowRef, highRef, lowUrl, highUrl, highLoaded, markLowLoaded, markHighLoaded } =
         useProgressiveImage(
             person.profilePath ?? "",
             person.profilePath ? PROFILE_SIZE.MD_W185 : PROFILE_SIZE.LG_H632,
@@ -35,13 +35,8 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ person }) => {
               : neutralSilhouette;
 
     return (
-        <StyledCard
-            sx={{
-                opacity: lowLoaded || !person.profilePath ? 1 : 0,
-                minHeight: lowLoaded || !person.profilePath ? "" : "420px"
-            }}
-        >
-            <Box sx={{ position: "relative", height: "100%" }}>
+        <StyledCard>
+            <Box sx={{ position: "relative", aspectRatio: "2 / 3" }}>
                 <CardMedia
                     component="img"
                     ref={lowRef}

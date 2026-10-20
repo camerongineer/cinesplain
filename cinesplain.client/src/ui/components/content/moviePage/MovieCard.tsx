@@ -48,7 +48,7 @@ const MovieCard: React.FC<MovieCardProps> = ({
     ...props
 }) => {
     const theme = useTheme();
-    const { lowRef, highRef, lowUrl, highUrl, lowLoaded, highLoaded, markLowLoaded, markHighLoaded } =
+    const { lowRef, highRef, lowUrl, highUrl, highLoaded, markLowLoaded, markHighLoaded } =
         useProgressiveImage(movie.posterPath ?? "", POSTER_SIZE.XXS_W154, posterSize);
     const [isHovered, setIsHovered] = useState(false);
 
@@ -75,9 +75,7 @@ const MovieCard: React.FC<MovieCardProps> = ({
         <StyledCard
             variant="outlined"
             style={{
-                animation: `Card-Wobble infinite ${movie.voteAverage ? 4 * (movie.voteAverage / 10) : 3}s alternate`,
-                visibility: lowLoaded || !movie.posterPath ? "visible" : "hidden",
-                opacity: lowLoaded || !movie.posterPath ? 1 : 0
+                animation: `Card-Wobble infinite ${movie.voteAverage ? 4 * (movie.voteAverage / 10) : 3}s alternate`
             }}
             onMouseEnter={handleMouseHovered}
             onMouseLeave={handleMouseNotHovered}
@@ -90,6 +88,7 @@ const MovieCard: React.FC<MovieCardProps> = ({
                         ref={lowRef}
                         image={lowUrl}
                         alt="Movie Poster"
+                        sx={{ aspectRatio: "2 / 3", objectFit: "cover" }}
                         onLoad={markLowLoaded}
                     />
                     <CardMedia
@@ -108,7 +107,7 @@ const MovieCard: React.FC<MovieCardProps> = ({
                 <Box
                     className="hover-content"
                     style={{
-                        height: isHovered || !lowLoaded || !movie.posterPath ? "auto" : "0",
+                        height: isHovered || !movie.posterPath ? "auto" : "0",
                         overflow: "hidden"
                     }}
                 >
