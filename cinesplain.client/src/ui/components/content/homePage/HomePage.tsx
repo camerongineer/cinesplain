@@ -16,9 +16,9 @@ import RecentMoviesRow from "./RecentMoviesRow";
 /*
  * Reserved space for a streamed section that matches the final layout so the
  * already-visible content (hero, surrounding sections) never shifts when the
- * content arrives. The skeletons mimic the real sections' structure (dark
- * backdrop-style block, label + panel with rows) so nothing appears to be
- * covered or missing while a section streams in.
+ * content arrives. The skeletons mimic the real sections' look (dark washed
+ * backdrop-style panels, right-anchored labels, rows of light title bars) so
+ * nothing appears to be covered or missing while a section streams in.
  */
 const RecentMoviesSkeleton: React.FC = () => (
     <Box
@@ -30,7 +30,8 @@ const RecentMoviesSkeleton: React.FC = () => (
             display: "flex",
             flexDirection: "column",
             justifyContent: "end",
-            gap: 1
+            gap: 1,
+            position: "relative"
         }}
     >
         <Skeleton
@@ -41,73 +42,105 @@ const RecentMoviesSkeleton: React.FC = () => (
                 mr: 3,
                 alignSelf: "end",
                 borderRadius: "8px",
-                backgroundColor: "rgba(255, 255, 255, 0.25)"
+                backgroundColor: "rgba(255, 255, 255, 0.35)"
             }}
         />
-        <Box sx={{ display: "flex", gap: 1, overflow: "hidden", pb: 1 }}>
+        <Box sx={{ display: "flex", gap: 1, overflow: "hidden" }}>
             <Skeleton
                 variant="rectangular"
                 sx={{
                     width: { xs: "72%", md: "46%" },
                     aspectRatio: "16 / 9",
                     borderRadius: "10px",
-                    backgroundColor: "rgba(255, 255, 255, 0.18)",
+                    backgroundColor: "rgba(255, 255, 255, 0.15)",
+                    flexShrink: 0
+                }}
+            />
+            <Skeleton
+                variant="rectangular"
+                sx={{
+                    width: { xs: "72%", md: "46%" },
+                    aspectRatio: "16 / 9",
+                    borderRadius: "10px",
+                    backgroundColor: "rgba(255, 255, 255, 0.15)",
                     flexShrink: 0
                 }}
             />
         </Box>
+        <Skeleton
+            variant="rectangular"
+            sx={{
+                position: "absolute",
+                bottom: 8,
+                right: 16,
+                width: 70,
+                height: 12,
+                borderRadius: "6px",
+                backgroundColor: "rgba(255, 255, 255, 0.3)",
+                zIndex: 1
+            }}
+        />
     </Box>
 );
 
-const RatingListSkeleton: React.FC<{ tint: string }> = ({ tint }) => (
-    <Stack sx={{ borderRadius: "10px", pb: 1 }}>
-        <Stack direction="row" sx={{ alignItems: "center", gap: 2, pr: 3, pb: 1 }}>
-            <Skeleton variant="circular" sx={{ width: 30, height: 30 }} />
-            <Skeleton variant="rectangular" sx={{ width: 110, height: 20, borderRadius: "10px" }} />
-        </Stack>
-        <Stack
-            sx={{
-                borderRadius: "10px",
-                minHeight: { xs: "520px", md: "545px" },
-                background: `linear-gradient(${tint}cc, ${tint}88)`,
-                p: 2,
-                gap: 1,
-                justifyContent: "center"
-            }}
-        >
-            {Array.from({ length: 9 }).map((_, index) => (
-                <Stack
-                    key={index}
-                    direction="row"
-                    sx={{
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        px: 3,
-                        py: 0.5
-                    }}
-                >
-                    <Skeleton
-                        variant="rectangular"
+const RatingListSkeleton: React.FC<{ tint: string }> = ({ tint }) => {
+    const barWidths = ["45%", "38%", "30%", "52%", "28%", "40%", "46%", "33%", "41%", "36%"];
+    return (
+        <Stack sx={{ borderRadius: "10px", pb: 1 }}>
+            <Stack
+                direction="row"
+                sx={{ justifyContent: "end", alignItems: "center", gap: 0.5, pb: 1, pr: 3 }}
+            >
+                <Skeleton variant="circular" sx={{ width: 30, height: 30 }} />
+                <Skeleton variant="rectangular" sx={{ width: 110, height: 22, borderRadius: "10px" }} />
+            </Stack>
+            <Stack
+                sx={{
+                    borderRadius: "10px",
+                    minHeight: { xs: "500px", md: "545px" },
+                    background: `linear-gradient(${tint}3d, ${tint}59), #444449`,
+                    p: 2,
+                    gap: 1,
+                    justifyContent: "center",
+                    overflow: "hidden"
+                }}
+            >
+                {barWidths.map((width, index) => (
+                    <Stack
+                        key={index}
+                        direction="row"
                         sx={{
-                            width: "58%",
-                            height: 26,
-                            borderRadius: "8px",
-                            backgroundColor: "rgba(255, 255, 255, 0.25)"
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            px: "5%",
+                            py: 1
                         }}
-                    />
-                    <Skeleton
-                        variant="circular"
-                        sx={{
-                            width: 38,
-                            height: 38,
-                            backgroundColor: "rgba(255, 255, 255, 0.25)"
-                        }}
-                    />
-                </Stack>
-            ))}
+                    >
+                        <Skeleton
+                            variant="rectangular"
+                            sx={{
+                                width,
+                                height: 24,
+                                borderRadius: "6px",
+                                backgroundColor: "rgba(255, 255, 255, 0.3)"
+                            }}
+                        />
+                        {index === 3 && (
+                            <Skeleton
+                                variant="circular"
+                                sx={{
+                                    width: 38,
+                                    height: 38,
+                                    backgroundColor: "rgba(255, 255, 255, 0.3)"
+                                }}
+                            />
+                        )}
+                    </Stack>
+                ))}
+            </Stack>
         </Stack>
-    </Stack>
-);
+    );
+};
 
 const RecentMoviesSection: React.FC = () => {
     const { data } = useSuspenseQuery(recentMoviesQuery);
