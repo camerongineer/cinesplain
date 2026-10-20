@@ -1,4 +1,4 @@
-import { Grid, Skeleton, Stack, Box } from "@mui/material";
+import { Grid, Stack, Box } from "@mui/material";
 import { blue, pink, purple, red } from "@mui/material/colors";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { Suspense, useEffect } from "react";
@@ -16,131 +16,39 @@ import RecentMoviesRow from "./RecentMoviesRow";
 /*
  * Reserved space for a streamed section that matches the final layout so the
  * already-visible content (hero, surrounding sections) never shifts when the
- * content arrives. The skeletons mimic the real sections' look (dark washed
- * backdrop-style panels, right-anchored labels, rows of light title bars) so
- * nothing appears to be covered or missing while a section streams in.
+ * content arrives. The skeletons are deliberately quiet: just the shape of the
+ * section with a gentle pulse.
  */
+const SkeletonPulse = {
+    "@keyframes Skeleton-Pulse": {
+        "0%, 100%": { opacity: 1 },
+        "50%": { opacity: 0.65 }
+    },
+    animation: "Skeleton-Pulse 1.8s ease-in-out infinite"
+};
+
 const RecentMoviesSkeleton: React.FC = () => (
     <Box
         sx={{
+            ...SkeletonPulse,
             flex: 4,
             width: "100%",
             minHeight: { xs: "350px", md: "445px" },
-            background: "linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), #494949",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "end",
-            gap: 1,
-            position: "relative"
+            background: "linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), #494949"
         }}
-    >
-        <Skeleton
-            variant="rectangular"
-            sx={{
-                width: 190,
-                height: 32,
-                mr: 3,
-                alignSelf: "end",
-                borderRadius: "8px",
-                backgroundColor: "rgba(255, 255, 255, 0.35)"
-            }}
-        />
-        <Box sx={{ display: "flex", gap: 1, overflow: "hidden" }}>
-            <Skeleton
-                variant="rectangular"
-                sx={{
-                    width: { xs: "72%", md: "46%" },
-                    aspectRatio: "16 / 9",
-                    borderRadius: "10px",
-                    backgroundColor: "rgba(255, 255, 255, 0.15)",
-                    flexShrink: 0
-                }}
-            />
-            <Skeleton
-                variant="rectangular"
-                sx={{
-                    width: { xs: "72%", md: "46%" },
-                    aspectRatio: "16 / 9",
-                    borderRadius: "10px",
-                    backgroundColor: "rgba(255, 255, 255, 0.15)",
-                    flexShrink: 0
-                }}
-            />
-        </Box>
-        <Skeleton
-            variant="rectangular"
-            sx={{
-                position: "absolute",
-                bottom: 8,
-                right: 16,
-                width: 70,
-                height: 12,
-                borderRadius: "6px",
-                backgroundColor: "rgba(255, 255, 255, 0.3)",
-                zIndex: 1
-            }}
-        />
-    </Box>
+    />
 );
 
-const RatingListSkeleton: React.FC<{ tint: string }> = ({ tint }) => {
-    const barWidths = ["45%", "38%", "30%", "52%", "28%", "40%", "46%", "33%", "41%", "36%"];
-    return (
-        <Stack sx={{ borderRadius: "10px", pb: 1 }}>
-            <Stack
-                direction="row"
-                sx={{ justifyContent: "end", alignItems: "center", gap: 0.5, pb: 1, pr: 3 }}
-            >
-                <Skeleton variant="circular" sx={{ width: 30, height: 30 }} />
-                <Skeleton variant="rectangular" sx={{ width: 110, height: 22, borderRadius: "10px" }} />
-            </Stack>
-            <Stack
-                sx={{
-                    borderRadius: "10px",
-                    minHeight: { xs: "500px", md: "545px" },
-                    background: `linear-gradient(${tint}3d, ${tint}59), #444449`,
-                    p: 2,
-                    gap: 1,
-                    justifyContent: "center",
-                    overflow: "hidden"
-                }}
-            >
-                {barWidths.map((width, index) => (
-                    <Stack
-                        key={index}
-                        direction="row"
-                        sx={{
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                            px: "5%",
-                            py: 1
-                        }}
-                    >
-                        <Skeleton
-                            variant="rectangular"
-                            sx={{
-                                width,
-                                height: 24,
-                                borderRadius: "6px",
-                                backgroundColor: "rgba(255, 255, 255, 0.3)"
-                            }}
-                        />
-                        {index === 3 && (
-                            <Skeleton
-                                variant="circular"
-                                sx={{
-                                    width: 38,
-                                    height: 38,
-                                    backgroundColor: "rgba(255, 255, 255, 0.3)"
-                                }}
-                            />
-                        )}
-                    </Stack>
-                ))}
-            </Stack>
-        </Stack>
-    );
-};
+const RatingListSkeleton: React.FC<{ tint: string }> = ({ tint }) => (
+    <Box
+        sx={{
+            ...SkeletonPulse,
+            borderRadius: "10px",
+            minHeight: { xs: "550px", md: "590px" },
+            background: `linear-gradient(${tint}3d, ${tint}59), #444449`
+        }}
+    />
+);
 
 const RecentMoviesSection: React.FC = () => {
     const { data } = useSuspenseQuery(recentMoviesQuery);
