@@ -1,5 +1,7 @@
 import { Box, Modal, styled } from "@mui/material";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { ChangeEvent, useEffect, useState } from "react";
+import { headerQuery } from "../../../../queries/header.ts";
 import { getMoviesSearchPath, retrieveMovies } from "../../../../api/moviesApi.ts";
 import Movie from "../../../../types/movie.ts";
 import MovieSearchRow from "./MovieSearchRow";
@@ -18,12 +20,13 @@ const StyledSearchBox = styled(Box)`
 interface SearchModalProps {
     modalOpen: boolean;
     onModalEvent: () => void;
-    autoCompleteList: string[];
 }
 
-const SearchModal: React.FC<SearchModalProps> = ({ modalOpen, onModalEvent, autoCompleteList }) => {
+const SearchModal: React.FC<SearchModalProps> = ({ modalOpen, onModalEvent }) => {
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [movies, setMovies] = useState<Movie[]>([]);
+    const { data: popularMovies } = useSuspenseQuery(headerQuery);
+    const autoCompleteList = popularMovies?.map((movie: { title: string }) => movie.title) ?? [];
 
     const handleMovieSubmit = (query: string) => {
         setSearchQuery(query);

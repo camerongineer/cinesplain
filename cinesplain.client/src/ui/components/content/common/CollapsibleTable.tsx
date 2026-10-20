@@ -10,7 +10,7 @@ import {
     Typography
 } from "@mui/material";
 import { ReactNode } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate } from "@tanstack/react-router";
 import { toggleParams } from "../../../../utils/urlUtils.ts";
 import CollapsibleTableFooter from "./CollapsibleTableFooter.tsx";
 
@@ -24,15 +24,19 @@ interface CollapsibleTableProps extends TableContainerProps {
 
 const CollapsibleTable: React.FC<CollapsibleTableProps> = (props) => {
     const { label, tableHeaderRow, elements, truncatedAmount, paramKey, ...rest } = props;
-    const [searchParams, setSearchParams] = useSearchParams();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const searchParams = location.search;
 
     const handleExpand = () =>
-        setSearchParams(toggleParams(searchParams, paramKey), {
+        navigate({
+            to: ".",
+            search: (prev: Record<string, string | undefined>) => toggleParams(prev, paramKey),
             replace: true,
-            preventScrollReset: true
+            resetScroll: false
         });
 
-    const isExpanded = !!searchParams.get(paramKey);
+    const isExpanded = !!searchParams[paramKey];
 
     const allElements = elements ? [...elements] : [];
     const persistentElements = allElements.slice(0, truncatedAmount);

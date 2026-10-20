@@ -1,11 +1,10 @@
-import { QueryClient, queryOptions } from "@tanstack/react-query";
-import { Params } from "react-router-dom";
+import { queryOptions } from "@tanstack/react-query";
 import { retrievePerson } from "../api/moviesApi";
 import CastMember from "../types/castMember";
 import CrewMember from "../types/crewMember";
 import { getNumericId } from "../utils/formatUtils";
 
-const personPageQuery = (personId: string | undefined) =>
+export const personPageQuery = (personId: string | undefined) =>
     queryOptions({
         queryKey: ["personPage", personId],
         queryFn: async () => {
@@ -36,12 +35,3 @@ const personPageQuery = (personId: string | undefined) =>
             };
         }
     });
-
-const personPageLoader =
-    (queryClient: QueryClient) =>
-    async ({ params }: { params: Params }) => {
-        const personId = params.personId;
-        await queryClient.ensureQueryData(personPageQuery(personId));
-    };
-
-export { personPageLoader, personPageQuery };

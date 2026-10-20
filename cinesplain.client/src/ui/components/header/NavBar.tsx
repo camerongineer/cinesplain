@@ -1,6 +1,6 @@
 import SearchIcon from "@mui/icons-material/Search";
 import { Grid, IconButton } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import SlidingLogoDisplay from "./SlidingLogoDisplay";
 
 interface NavBarProps {

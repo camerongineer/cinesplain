@@ -1,6 +1,5 @@
 import github from "@assets/github_logo.svg";
 import { Box, Stack, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
 
 interface GithubLinkProps {
     link: string;
@@ -9,8 +8,8 @@ interface GithubLinkProps {
 
 const GithubLink: React.FC<GithubLinkProps> = ({ link, title }) => (
     <Stack
-        component={Link}
-        to={link}
+        component="a"
+        href={link}
         target="_blank"
         rel="noopener noreferrer"
         direction="row"

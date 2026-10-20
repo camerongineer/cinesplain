@@ -1,5 +1,5 @@
 import { Box, Stack, styled, TableCell, TableRow, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@tanstack/react-router";
 import { getImagePath } from "../../../../api/moviesApi.ts";
 import { POSTER_SIZE } from "../../../../constants/ImageSizes.ts";
 import CrewMember from "../../../../types/crewMember.ts";
@@ -26,12 +26,15 @@ interface CrewCreditsListRowProps {
 const CrewCreditsListRow: React.FC<CrewCreditsListRowProps> = ({ crewMemberCredit }) => {
     const navigate = useNavigate();
     const onRowClick = () =>
-        navigate(
-            `/movies/${getFormattedMovieLinkId({
-                title: crewMemberCredit.originalTitle,
-                id: crewMemberCredit.id
-            } as unknown as Movie)}`
-        );
+        navigate({
+            to: "/movies/$movieId",
+            params: {
+                movieId: getFormattedMovieLinkId({
+                    title: crewMemberCredit.originalTitle,
+                    id: crewMemberCredit.id
+                } as unknown as Movie)
+            }
+        });
     return (
         <StyledTableRow onClick={onRowClick}>
             <TableCell>

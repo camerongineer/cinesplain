@@ -1,5 +1,4 @@
-import { QueryClient, queryOptions } from "@tanstack/react-query";
-import { Params } from "react-router-dom";
+import { queryOptions } from "@tanstack/react-query";
 import {
     getRecommendedMoviesPath,
     retrieveCredits,
@@ -9,7 +8,7 @@ import {
 } from "../api/moviesApi";
 import { getNumericId } from "../utils/formatUtils";
 
-const moviePageQuery = (movieId: string | undefined) =>
+export const moviePageQuery = (movieId: string | undefined) =>
     queryOptions({
         queryKey: ["moviePage", movieId],
         queryFn: async () => {
@@ -17,13 +16,17 @@ const moviePageQuery = (movieId: string | undefined) =>
             if (!movie) {
                 throw new Error("This page doesn't not exist.");
             }
-            const credits = await retrieveCredits(movie.id);
-
-            return { movie, credits };
+            return movie;
         }
     });
 
-const movieRecommendationsQuery = (movieId: number) =>
+export const movieCreditsQuery = (movieId: number) =>
+    queryOptions({
+        queryKey: ["movieCredits", movieId],
+        queryFn: () => retrieveCredits(movieId)
+    });
+
+export const movieRecommendationsQuery = (movieId: number) =>
     queryOptions({
         queryKey: ["movieRecommendations", movieId],
         queryFn: async () => {
@@ -35,17 +38,8 @@ const movieRecommendationsQuery = (movieId: number) =>
         }
     });
 
-const omdbQuery = (imdbId: string) =>
+export const omdbQuery = (imdbId: string) =>
     queryOptions({
         queryKey: ["moviePageOmdb", imdbId],
         queryFn: async () => retrieveOmdbMovieDetails(imdbId)
     });
-
-const moviePageLoader =
-    (queryClient: QueryClient) =>
-    async ({ params }: { params: Params }) => {
-        const movieId = params.movieId;
-        await queryClient.ensureQueryData(moviePageQuery(movieId));
-    };
-
-export { moviePageLoader, moviePageQuery, movieRecommendationsQuery, omdbQuery };

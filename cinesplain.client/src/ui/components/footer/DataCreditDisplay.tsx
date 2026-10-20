@@ -1,6 +1,5 @@
 import tmdb from "@assets/tmdb_logo.svg";
 import { Box, Stack, styled, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
 
 const StyledStack = styled(Stack)`
     align-items: center;
@@ -19,7 +18,7 @@ const DataCreditDisplay: React.FC = () => (
         >
             Data Provided By
         </Typography>
-        <Link to="https://www.themoviedb.org/" target="_blank" rel="noopener noreferrer">
+        <a href="https://www.themoviedb.org/" target="_blank" rel="noopener noreferrer">
             <Box
                 component="img"
                 src={tmdb as unknown as string}
@@ -28,8 +27,8 @@ const DataCreditDisplay: React.FC = () => (
                     height: 12
                 }}
             />
-        </Link>
-        <Link to="https://www.omdbapi.com/" target="_blank" rel="noopener noreferrer">
+        </a>
+        <a href="https://www.omdbapi.com/" target="_blank" rel="noopener noreferrer">
             <Typography
                 sx={{
                     fontFamily: "Open Sans",
@@ -39,7 +38,7 @@ const DataCreditDisplay: React.FC = () => (
             >
                 OMDb API
             </Typography>
-        </Link>
+        </a>
     </StyledStack>
 );
 

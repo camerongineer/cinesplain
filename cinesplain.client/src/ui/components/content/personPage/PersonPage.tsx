@@ -1,8 +1,7 @@
 import { Stack, styled, Typography, useMediaQuery, useTheme } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { personPageQuery } from "../../../../loaders/personPageLoader.ts";
+import { personPageQuery } from "../../../../queries/personPage.ts";
 import CreditsListsDisplay from "./CreditsListsDisplay.tsx";
 import PersonSideBar from "./PersonSideBar.tsx";
 import ProfileCard from "./ProfileCard.tsx";
@@ -11,22 +10,19 @@ const StyledStack = styled(Stack)`
     padding: 1em;
 `;
 
-const PersonPage: React.FC = () => {
-    const params = useParams();
-    const { data } = useQuery(personPageQuery(params.personId));
+const PersonPage: React.FC<{ personId: string }> = ({ personId }) => {
+    const { data } = useSuspenseQuery(personPageQuery(personId));
     const theme = useTheme();
     const isXSScreen = useMediaQuery(theme.breakpoints.down("sm"));
     const isSMScreen = useMediaQuery(theme.breakpoints.down("md"));
-    const personName = data?.person.name;
+    const { person, movieCastCredits, movieCrewCredits } = data;
+    const personName = person.name;
 
     useEffect(() => {
         if (personName) {
             document.title = `${personName} - CineSplain - The Movie Info App`;
         }
     }, [personName]);
-
-    if (!data) return null;
-    const { person, movieCastCredits, movieCrewCredits } = data;
 
     return (
         <StyledStack className="full center">

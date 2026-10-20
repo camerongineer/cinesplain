@@ -1,5 +1,5 @@
-import Github from "@assets/github.svg?react";
-import Microsoft from "@assets/microsoft.svg?react";
+import Github from "@assets/github_logo.svg?react";
+import Microsoft from "@assets/microsoft_logo.svg?react";
 import { Box, Button, Paper, styled, Typography } from "@mui/material";
 import CSLoadingIcon from "../../common/CSLoadingIcon.tsx";
 

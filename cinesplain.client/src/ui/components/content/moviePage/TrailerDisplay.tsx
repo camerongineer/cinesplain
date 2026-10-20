@@ -1,5 +1,5 @@
 import { Skeleton, Stack, styled } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getYouTubeTrailerPath } from "../../../../api/moviesApi.ts";
 import Movie from "../../../../types/movie.ts";
 import Video from "../../../../types/video.ts";
@@ -24,6 +24,28 @@ interface TrailerCardProps {
 const TrailerDisplay: React.FC<TrailerCardProps> = ({ movie, trailer }) => {
     const [isError, setIsError] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const iframeRef = useRef<HTMLIFrameElement>(null);
+
+    useEffect(() => {
+        // An iframe server-rendered into the HTML can finish loading before
+        // React hydrates and attaches onLoad. Accessing contentWindow on a
+        // cross-origin document throws, while it resolves to about:blank
+        // while the initial navigation is still pending; so a thrown error
+        // means the document already loaded.
+        const iframe = iframeRef.current;
+        if (!iframe) {
+            return;
+        }
+        try {
+            if (iframe.contentWindow?.location.href === "about:blank") {
+                return;
+            }
+        } catch {
+            // ignore: the cross-origin document is loaded
+        }
+        setIsLoading(false);
+    }, []);
+
     if (!trailer || isError) return null;
     return (
         <StyledStack>
@@ -49,6 +71,7 @@ const TrailerDisplay: React.FC<TrailerCardProps> = ({ movie, trailer }) => {
             </Stack>
             <StyledIframe
                 className="center"
+                ref={iframeRef}
                 allow=""
                 src={getYouTubeTrailerPath(trailer.key)}
                 title={`${movie.title} trailer`}

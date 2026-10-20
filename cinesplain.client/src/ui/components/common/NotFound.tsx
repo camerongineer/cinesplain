@@ -1,8 +1,8 @@
 import WagLeft from "@assets/cinesplain_logo_wag_left.svg?react";
 import WagRight from "@assets/cinesplain_logo_wag_right.svg?react";
 import { alpha, Link as MuiLink, Stack, styled, Typography, useTheme } from "@mui/material";
+import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
 
 const StyledStack = styled(Stack)`
     position: absolute;
@@ -80,11 +80,11 @@ const NotFound = () => {
                 >
                     You don't belong here.
                 </Typography>
-                <RouterLink to="/">
+                <Link to="/">
                     <MuiLink component="span" variant="h4">
                         Click to go home
                     </MuiLink>
-                </RouterLink>
+                </Link>
             </Stack>
         </StyledStack>
     );

@@ -1,6 +1,6 @@
 import { Box, styled } from "@mui/material";
-import { useLoaderData } from "react-router-dom";
-import UserInfo from "../../../../types/userInfo.ts";
+import { useQuery } from "@tanstack/react-query";
+import { authQuery } from "../../../../queries/auth.ts";
 import JoinForm from "./JoinForm.tsx";
 
 const StyledBox = styled(Box)`
@@ -13,13 +13,13 @@ const StyledBox = styled(Box)`
 `;
 
 const JoinPage: React.FC = () => {
-    const userInfo = useLoaderData() as UserInfo;
+    const { data: userInfo } = useQuery(authQuery);
 
-    return (
+    return userInfo ? (
         <StyledBox>
             <JoinForm userInfo={userInfo} />
         </StyledBox>
-    );
+    ) : null;
 };
 
 export default JoinPage;

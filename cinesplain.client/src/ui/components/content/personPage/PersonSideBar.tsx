@@ -1,6 +1,5 @@
 import imdb from "@assets/imdb_logo.svg";
 import { Box, Link as MuiLink, Stack, Typography } from "@mui/material";
-import { Link, Link as RouterLink } from "react-router-dom";
 import { getImdbPersonPath } from "../../../../api/moviesApi.ts";
 import Person from "../../../../types/person.ts";
 import { getFormattedDisplayedDate } from "../../../../utils/formatUtils.ts";
@@ -41,22 +40,24 @@ const PersonSideBar: React.FC<PersonSideBarProps> = ({ person }) => (
             }}
         >
             {person.homepage && (
-                <RouterLink to={person.homepage} target="_blank" rel="noopener noreferrer">
-                    <MuiLink
-                        component="span"
-                        variant="overline"
-                        sx={{
-                            fontSize: "large",
-                            fontWeight: "bolder"
-                        }}
-                    >
-                        Webpage
-                    </MuiLink>
-                </RouterLink>
+                <MuiLink
+                    component="a"
+                    href={person.homepage}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    variant="overline"
+                    sx={{
+                        fontSize: "large",
+                        fontWeight: "bolder"
+                    }}
+                >
+                    Webpage
+                </MuiLink>
             )}
             {person.imdbId && (
-                <Link
-                    to={getImdbPersonPath(person.imdbId)}
+                <Box
+                    component="a"
+                    href={getImdbPersonPath(person.imdbId)}
                     target="_blank"
                     rel="noopener noreferrer"
                 >
@@ -69,7 +70,7 @@ const PersonSideBar: React.FC<PersonSideBarProps> = ({ person }) => (
                             mt: 0.75
                         }}
                     />
-                </Link>
+                </Box>
             )}
         </Stack>
     </Stack>

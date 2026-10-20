@@ -1,5 +1,5 @@
-import Github from "@assets/github.svg";
-import Microsoft from "@assets/microsoft.svg";
+import Github from "@assets/github_logo.svg";
+import Microsoft from "@assets/microsoft_logo.svg";
 import Signout from "@assets/signout.svg";
 import { LoadingButton } from "@mui/lab";
 import {
@@ -13,7 +13,10 @@ import {
     Typography,
     useTheme
 } from "@mui/material";
-import { Form, useNavigation } from "react-router-dom";
+import { useLocation, useRouter } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { useState } from "react";
+import { reportIssue } from "../../../../routes/report.tsx";
 import UserInfo from "../../../../types/userInfo.ts";
 
 const StyledStack = styled(Paper)`
@@ -36,12 +39,27 @@ interface ReportFormProps {
 }
 
 const ReportForm: React.FC<ReportFormProps> = ({ userInfo }) => {
-    const redirect = window.location.pathname;
+    const { pathname } = useLocation();
     const provider = userInfo?.identityDetails;
-    const navigation = useNavigation();
     const theme = useTheme();
+    const report = useServerFn(reportIssue);
+    const router = useRouter();
+    const [submitting, setSubmitting] = useState(false);
 
     const disabled = false;
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        setSubmitting(true);
+        try {
+            await report({ data: formData });
+            await router.navigate({ to: "/" });
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
     return (
         <StyledStack>
             <Typography
@@ -62,7 +80,7 @@ const ReportForm: React.FC<ReportFormProps> = ({ userInfo }) => {
                 <Typography variant="overline">
                     Signed in as <strong>{userInfo.userDetails}</strong>
                 </Typography>
-                <Box component="a" href={`/.auth/logout?post_logout_redirect_uri=${redirect}`}>
+                <Box component="a" href={`/.auth/logout?post_logout_redirect_uri=${pathname}`}>
                     <IconButton aria-label="Sign out" size="small" style={{ marginLeft: 2 }}>
                         <Box
                             component="img"
@@ -74,7 +92,7 @@ const ReportForm: React.FC<ReportFormProps> = ({ userInfo }) => {
                     </IconButton>
                 </Box>
             </Stack>
-            <Form method="post" action={"/report"}>
+            <form onSubmit={handleSubmit}>
                 <Stack
                     spacing={3}
                     sx={{
@@ -112,15 +130,11 @@ const ReportForm: React.FC<ReportFormProps> = ({ userInfo }) => {
                         fullWidth
                         minRows={8}
                     />
-                    <LoadingButton
-                        type="submit"
-                        disabled={disabled}
-                        loading={navigation.state === "submitting"}
-                    >
+                    <LoadingButton type="submit" disabled={disabled} loading={submitting}>
                         <span>Send</span>
                     </LoadingButton>
                 </Stack>
-            </Form>
+            </form>
         </StyledStack>
     );
 };

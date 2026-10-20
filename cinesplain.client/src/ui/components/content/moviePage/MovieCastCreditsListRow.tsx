@@ -2,7 +2,7 @@ import femaleSilhouette from "@assets/silhouette_female.svg";
 import maleSilhouette from "@assets/silhouette_male.svg";
 import neutralSilhouette from "@assets/silhouette_neutral.svg";
 import { Avatar, Stack, styled, TableCell, TableRow, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@tanstack/react-router";
 import { getImagePath } from "../../../../api/moviesApi.ts";
 import { PROFILE_SIZE } from "../../../../constants/ImageSizes.ts";
 import listDisplayMovieCastCredit from "../../../../types/listDisplayMovieCastCredit.ts";
@@ -29,7 +29,10 @@ interface MovieCastCreditsListRowProps {
 const MovieCastCreditsListRow: React.FC<MovieCastCreditsListRowProps> = ({ castCredit }) => {
     const navigate = useNavigate();
     const onRowClick = () =>
-        navigate(`/person/${getFormattedPersonLinkId(castCredit as unknown as Person)}`);
+        navigate({
+            to: "/person/$personId",
+            params: { personId: getFormattedPersonLinkId(castCredit as unknown as Person) }
+        });
 
     const altSilhouette =
         castCredit.gender === 1

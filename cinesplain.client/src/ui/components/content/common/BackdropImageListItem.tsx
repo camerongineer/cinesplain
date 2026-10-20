@@ -1,7 +1,6 @@
-import { Card, CardMedia, CardProps, ImageListItem, ImageListItemBar, styled } from "@mui/material";
+import { Card, CardMedia, CardProps, ImageListItem, ImageListItemBar, styled, useTheme } from "@mui/material";
 import { SxProps } from "@mui/system";
-import { useState } from "react";
-import { getImagePath } from "../../../../api/moviesApi.ts";
+import useProgressiveImage from "../../../../hooks/UseProgressiveImage";
 import { BACKDROP_SIZE } from "../../../../constants/ImageSizes";
 import Movie from "../../../../types/movie.ts";
 import { getFormattedDisplayedDate } from "../../../../utils/formatUtils";
@@ -36,22 +35,43 @@ const BackdropImageListItem: React.FC<BackdropImageListItemProps> = ({
     cardStyle,
     ...props
 }) => {
-    const [loading, setLoading] = useState(true);
+    const theme = useTheme();
+    const { lowRef, highRef, lowUrl, highUrl, highLoaded, markLowLoaded, markHighLoaded } =
+        useProgressiveImage(movie.backdropPath, BACKDROP_SIZE.SM_W300, BACKDROP_SIZE.MD_W780);
 
     return (
         <StyledCard
             elevation={5}
             sx={cardStyle}
-            style={{ opacity: loading ? "0" : "1" }}
             {...props}
         >
             <StyledImageListItem>
                 <CardMedia
                     component="img"
-                    image={getImagePath(movie.backdropPath, BACKDROP_SIZE.MD_W780)}
+                    ref={lowRef}
+                    image={lowUrl}
                     alt={movie.title}
-                    style={{ objectPosition: "50% 15%" }}
-                    onLoad={() => setLoading(false)}
+                    style={{ objectPosition: "50% 15%", aspectRatio: "16 / 9", objectFit: "cover" }}
+                    onLoad={markLowLoaded}
+                />
+                <CardMedia
+                    component="img"
+                    ref={highRef}
+                    image={highUrl}
+                    alt=""
+                    aria-hidden="true"
+                    loading="lazy"
+                    style={{
+                        position: "absolute",
+                        inset: 0,
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        objectPosition: "50% 15%",
+                        opacity: highLoaded ? 1 : 0,
+                        transition: `opacity ${theme.transitions.duration.standard}ms ease-in-out`
+                    }}
+                    onLoad={markHighLoaded}
                 />
                 <ImageListItemBar
                     title={movie.title}

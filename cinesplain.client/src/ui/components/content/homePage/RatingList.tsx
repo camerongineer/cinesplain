@@ -12,18 +12,26 @@ import { BACKDROP_SIZE } from "../../../../constants/ImageSizes";
 import useMovieBackdrop from "../../../../hooks/UseMovieBackdrop";
 import useRandomMovie from "../../../../hooks/UseRandomMovie";
 import Movie from "../../../../types/movie.ts";
-import { getFormattedMovieLinkId } from "../../../../utils/formatUtils.ts";
 import OverlaidImageBox from "../../common/OverlaidImageBox";
 import ListLabel from "./ListLabel";
 import RatingListRow from "./RatingListRow";
 
 const StyledStack = styled(Stack)`
     border-radius: 10px;
-    transition: opacity ${(props) => props.theme.transitions.duration.short}ms ease-in-out;
+    @keyframes Rating-List-Fade-In {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    animation: Rating-List-Fade-In 600ms ease-in-out;
 `;
 
 interface RatingListProps {
     movies: Movie[];
+    spotlightSeed: number;
     backgroundOverlayColor: string;
     labelText: string;
     backdropInterval: number;
@@ -33,6 +41,7 @@ interface RatingListProps {
 
 const RatingList: React.FC<RatingListProps> = ({
     movies,
+    spotlightSeed,
     backgroundOverlayColor,
     labelText,
     backdropInterval,
@@ -41,24 +50,24 @@ const RatingList: React.FC<RatingListProps> = ({
 }) => {
     const theme = useTheme();
     const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
-    const randomMovie = useRandomMovie(movies, backdropInterval, true);
-    const [movieBackdrop, movieBackdropLoading] = useMovieBackdrop(
+    const randomMovie = useRandomMovie(movies, spotlightSeed, backdropInterval, true);
+    const [movieBackdrop, movieBackdropPreview] = useMovieBackdrop(
         randomMovie,
         BACKDROP_SIZE.LG_W1280
     );
 
+    if (!randomMovie) {
+        return null;
+    }
+
     return (
         <>
-            <StyledStack
-                sx={{
-                    ...outerSx,
-                    opacity: movieBackdropLoading ? 0 : 1
-                }}
-            >
+            <StyledStack sx={outerSx}>
                 {!isSmallScreen && <ListLabel labelText={labelText} sx={{ pb: 1, pr: 3 }} />}
                 <OverlaidImageBox
                     sx={innerSx}
                     backgroundImageUrl={movieBackdrop}
+                    lowResolutionImageUrl={movieBackdropPreview}
                     imageAlt={`${labelText} backdrop`}
                     overlayColor={backgroundOverlayColor}
                     borderRadius="10px"
@@ -90,7 +99,6 @@ const RatingList: React.FC<RatingListProps> = ({
                                     <RatingListRow
                                         key={movie.id}
                                         movie={movie}
-                                        link={`/movies/${getFormattedMovieLinkId(movie)}`}
                                         backgroundColor={backgroundOverlayColor}
                                     />
                                 ))}

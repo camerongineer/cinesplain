@@ -1,6 +1,5 @@
 import imdb from "@assets/imdb_logo.svg";
 import { Box, Link as MuiLink, Stack, styled } from "@mui/material";
-import { Link, Link as RouterLink } from "react-router-dom";
 import { getImdbMoviePath } from "../../../../api/moviesApi.ts";
 import omdbMovieDetails from "../../../../types/OmdbMovieDetails.ts";
 import Movie from "../../../../types/movie.ts";
@@ -88,22 +87,24 @@ const MovieSideBar: React.FC<MovieSideBarProps> = ({ movie, omdbDetails }) => (
                 }}
             >
                 {movie.homepage && (
-                    <RouterLink to={movie.homepage} target="_blank" rel="noopener noreferrer">
-                        <MuiLink
-                            component="span"
-                            variant="overline"
-                            sx={{
-                                fontSize: "large",
-                                fontWeight: "bolder"
-                            }}
-                        >
-                            Webpage
-                        </MuiLink>
-                    </RouterLink>
+                    <MuiLink
+                        component="a"
+                        href={movie.homepage}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        variant="overline"
+                        sx={{
+                            fontSize: "large",
+                            fontWeight: "bolder"
+                        }}
+                    >
+                        Webpage
+                    </MuiLink>
                 )}
                 {movie.imdbId && (
-                    <Link
-                        to={getImdbMoviePath(movie.imdbId)}
+                    <Box
+                        component="a"
+                        href={getImdbMoviePath(movie.imdbId)}
                         target="_blank"
                         rel="noopener noreferrer"
                     >
@@ -116,7 +117,7 @@ const MovieSideBar: React.FC<MovieSideBarProps> = ({ movie, omdbDetails }) => (
                                 mt: 0.75
                             }}
                         />
-                    </Link>
+                    </Box>
                 )}
             </Stack>
         </Stack>

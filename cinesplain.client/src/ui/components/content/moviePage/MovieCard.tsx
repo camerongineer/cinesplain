@@ -7,12 +7,13 @@ import {
     CardProps,
     Stack,
     styled,
-    Typography
+    Typography,
+    useTheme
 } from "@mui/material";
 import { useState } from "react";
-import { getImagePath } from "../../../../api/moviesApi.ts";
 import { POSTER_SIZE } from "../../../../constants/ImageSizes";
 import Movie from "../../../../types/movie.ts";
+import useProgressiveImage from "../../../../hooks/UseProgressiveImage";
 import { getFormattedDisplayedDate } from "../../../../utils/formatUtils";
 import PopcornRating from "../../common/PopcornRating.tsx";
 
@@ -46,8 +47,10 @@ const MovieCard: React.FC<MovieCardProps> = ({
     isExpandable,
     ...props
 }) => {
+    const theme = useTheme();
+    const { lowRef, highRef, lowUrl, highUrl, highLoaded, markLowLoaded, markHighLoaded } =
+        useProgressiveImage(movie.posterPath ?? "", POSTER_SIZE.XXS_W154, posterSize);
     const [isHovered, setIsHovered] = useState(false);
-    const [imageLoaded, setImageLoaded] = useState(false);
 
     const handleMouseHovered = () => {
         setIsHovered(true);
@@ -58,35 +61,53 @@ const MovieCard: React.FC<MovieCardProps> = ({
         setIsHovered(false);
     };
 
-    const handleImageLoad = () => {
-        setImageLoaded(true);
+    const highResolutionPosterStyle = {
+        position: "absolute" as const,
+        inset: 0,
+        width: "100%",
+        height: "100%",
+        objectFit: "cover" as const,
+        opacity: highLoaded ? 1 : 0,
+        transition: `opacity ${theme.transitions.duration.complex}ms ease-in-out`
     };
 
     return (
         <StyledCard
             variant="outlined"
             style={{
-                animation: `Card-Wobble infinite ${movie.voteAverage ? 4 * (movie.voteAverage / 10) : 3}s alternate`,
-                visibility: imageLoaded || !movie.posterPath ? "visible" : "hidden",
-                opacity: imageLoaded || !movie.posterPath ? 1 : 0
+                animation: `Card-Wobble infinite ${movie.voteAverage ? 4 * (movie.voteAverage / 10) : 3}s alternate`
             }}
             onMouseEnter={handleMouseHovered}
             onMouseLeave={handleMouseNotHovered}
             {...props}
         >
             {movie.posterPath && (
-                <CardMedia
-                    component="img"
-                    image={getImagePath(movie.posterPath, posterSize)}
-                    alt="Movie Poster"
-                    onLoad={handleImageLoad}
-                />
+                <Box sx={{ position: "relative" }}>
+                    <CardMedia
+                        component="img"
+                        ref={lowRef}
+                        image={lowUrl}
+                        alt="Movie Poster"
+                        sx={{ aspectRatio: "2 / 3", objectFit: "cover" }}
+                        onLoad={markLowLoaded}
+                    />
+                    <CardMedia
+                        component="img"
+                        ref={highRef}
+                        image={highUrl}
+                        alt=""
+                        aria-hidden="true"
+                        loading="lazy"
+                        style={highResolutionPosterStyle}
+                        onLoad={markHighLoaded}
+                    />
+                </Box>
             )}
             {isExpandable && (
                 <Box
                     className="hover-content"
                     style={{
-                        height: isHovered || !imageLoaded || !movie.posterPath ? "auto" : "0",
+                        height: isHovered || !movie.posterPath ? "auto" : "0",
                         overflow: "hidden"
                     }}
                 >

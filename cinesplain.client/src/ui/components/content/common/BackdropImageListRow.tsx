@@ -1,6 +1,6 @@
 import { Stack, styled } from "@mui/material";
 import { SxProps } from "@mui/system";
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import Movie from "../../../../types/movie.ts";
 import { getFormattedMovieLinkId } from "../../../../utils/formatUtils.ts";
 import OuterCarousel from "../../common/OuterCarousel";
@@ -30,7 +30,11 @@ const BackdropImageListRow: React.FC<BackdropImageListRowProps> = ({ movies, car
     >
         <StyledStack>
             {movies.map((movie) => (
-                <Link key={movie.id} to={`/movies/${getFormattedMovieLinkId(movie)}`}>
+                <Link
+                    to="/movies/$movieId"
+                    params={{ movieId: getFormattedMovieLinkId(movie) }}
+                    key={movie.id}
+                >
                     <BackdropImageListItem movie={movie} cardStyle={cardStyle} />
                 </Link>
             ))}

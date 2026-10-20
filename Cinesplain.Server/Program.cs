@@ -5,6 +5,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddOutputCache();
 
+// In production, ASP.NET serves the API directly and reverse-proxies everything
+// else (pages and assets) to the Node SSR server built by TanStack Start
+// (.output/server/index.mjs).
+builder.Services
+    .AddReverseProxy()
+    .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment()) {
@@ -12,16 +19,16 @@ if (app.Environment.IsDevelopment()) {
     app.UseSwaggerUI();
 }
 
-app.UseFileServer();
-
 app.UseHttpsRedirection();
+
+app.UseOutputCache();
 
 app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapFallbackToFile("/index.html");
-
-app.UseOutputCache();
+if (!app.Environment.IsDevelopment()) {
+    app.MapReverseProxy();
+}
 
 app.Run();

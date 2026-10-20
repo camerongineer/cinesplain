@@ -1,6 +1,6 @@
 import { Box, styled } from "@mui/material";
-import { useLoaderData } from "react-router-dom";
-import UserInfo from "../../../../types/userInfo.ts";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { authQuery } from "../../../../queries/auth.ts";
 import LoginPage from "../loginPage/LoginPage.tsx";
 import ReportForm from "./ReportForm.tsx";
 
@@ -14,9 +14,15 @@ const StyledBox = styled(Box)`
 `;
 
 const ReportPage: React.FC = () => {
-    const userInfo = useLoaderData() as UserInfo;
+    const { data: userInfo } = useSuspenseQuery(authQuery);
 
-    return <StyledBox>{userInfo ? <ReportForm userInfo={userInfo} /> : <LoginPage />}</StyledBox>;
+    return userInfo ? (
+        <StyledBox>
+            <ReportForm userInfo={userInfo} />
+        </StyledBox>
+    ) : (
+        <LoginPage />
+    );
 };
 
 export default ReportPage;

@@ -1,8 +1,8 @@
 import DownIcon from "@assets/cinesplain_logo_down.svg?react";
 import UpIcon from "@assets/cinesplain_logo_up.svg?react";
 import { Box, styled } from "@mui/material";
+import { useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { useNavigation } from "react-router-dom";
 
 interface CSLoadingIconProps {
     width?: number | string | { [breakpoint: string]: number | string };
@@ -23,13 +23,13 @@ const CSLoadingIcon: React.FC<CSLoadingIconProps> = ({
     height,
     loadRotationMilliseconds = 600
 }) => {
-    const navigation = useNavigation();
+    const isPending = useRouterState({ select: (state) => state.status === "pending" });
     const [iconIndex, setIconIndex] = useState(0);
 
     useEffect(() => {
         let intervalId: ReturnType<typeof setInterval> | null = null;
 
-        if (navigation.state === "loading") {
+        if (isPending) {
             intervalId = setInterval(() => {
                 setIconIndex((prevIndex) => (prevIndex === 0 ? 1 : 0));
             }, loadRotationMilliseconds / 3);
@@ -40,10 +40,10 @@ const CSLoadingIcon: React.FC<CSLoadingIconProps> = ({
                 clearInterval(intervalId);
             }
         };
-    }, [navigation.state, loadRotationMilliseconds]);
+    }, [isPending, loadRotationMilliseconds]);
 
     const getAnimationStyle = () => {
-        if (navigation.state === "loading") {
+        if (isPending) {
             return {
                 animation: `wobble infinite ${loadRotationMilliseconds}ms alternate`,
                 "@keyframes wobble": {
@@ -62,11 +62,7 @@ const CSLoadingIcon: React.FC<CSLoadingIconProps> = ({
 
     return (
         <Box sx={{ width, height, ...getAnimationStyle() }}>
-            {navigation.state === "loading" && iconIndex === 1 ? (
-                <StyledDownIcon />
-            ) : (
-                <StyledUpIcon />
-            )}
+            {isPending && iconIndex === 1 ? <StyledDownIcon /> : <StyledUpIcon />}
         </Box>
     );
 };

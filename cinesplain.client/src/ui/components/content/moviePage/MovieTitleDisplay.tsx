@@ -1,5 +1,5 @@
 import { Box, Grid, styled, Typography, useTheme } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import useMovieBackdrop from "../../../../hooks/UseMovieBackdrop";
 import listDisplayMovieCrewCredit from "../../../../types/listDisplayMovieCrewCredit.ts";
 import Movie from "../../../../types/movie.ts";
@@ -28,14 +28,13 @@ interface MovieTitleDisplayProps {
 
 const MovieTitleDisplay: React.FC<MovieTitleDisplayProps> = ({ movie, omdbDetails, director }) => {
     const theme = useTheme();
-    const [movieBackdrop, movieBackdropLoading] = useMovieBackdrop(movie);
+    const [movieBackdrop, movieBackdropPreview] = useMovieBackdrop(movie);
 
     const backgroundStyle = {
-        background: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url(${movieBackdrop})`,
-        backgroundSize: "cover",
+        background: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), url(${movieBackdrop}), url(${movieBackdropPreview})`,
+        backgroundSize: "cover, cover, cover",
         backgroundPosition: "top left",
         color: theme.palette.getContrastText("rgba(0, 0, 0, 0.4)"),
-        opacity: !movieBackdropLoading || !movie?.posterPath ? 1 : 0,
         minHeight: "calc(100dvh - 70px)",
         [theme.breakpoints.up("sm")]: {
             minHeight: movie?.posterPath || movie?.backdropPath ? "600px" : "400px",
@@ -114,22 +113,28 @@ const MovieTitleDisplay: React.FC<MovieTitleDisplayProps> = ({ movie, omdbDetail
                     )}
                 </Box>
                 {director && (
-                    <Typography
-                        component={Link}
-                        to={`/person/${getFormattedPersonLinkId(director as unknown as Person)}`}
-                        sx={[
-                            {
-                                p: 0.75,
-                                paddingBottom: 2
-                            },
-                            ({ palette }) => ({
-                                color: palette.getContrastText("rgba(0, 0, 0, 0.4)")
-                            })
-                        ]}
+                    <Link
+                        to="/person/$personId"
+                        params={{
+                            personId: getFormattedPersonLinkId(director as unknown as Person)
+                        }}
+                        style={{ textDecoration: "none" }}
                     >
-                        <strong>Directed&nbsp;By:&nbsp;</strong>
-                        {director.name}
-                    </Typography>
+                        <Typography
+                            sx={[
+                                {
+                                    p: 0.75,
+                                    paddingBottom: 2
+                                },
+                                ({ palette }) => ({
+                                    color: palette.getContrastText("rgba(0, 0, 0, 0.4)")
+                                })
+                            ]}
+                        >
+                            <strong>Directed&nbsp;By:&nbsp;</strong>
+                            {director.name}
+                        </Typography>
+                    </Link>
                 )}
                 {movie.voteCount >= 10 && (
                     <>

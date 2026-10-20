@@ -1,28 +1,29 @@
 import { Typography, useTheme } from "@mui/material";
 import useMovieBackdrop from "../../../../hooks/UseMovieBackdrop";
 import useRandomMovie from "../../../../hooks/UseRandomMovie";
-import Movie from "../../../../types/movie.ts";
+import SpotlightList from "../../../../types/SpotlightList";
 import OverlaidImageBox from "../../common/OverlaidImageBox";
 import BackdropImageListRow from "../common/BackdropImageListRow";
 
 interface RecentMoviesRowProps {
-    movies: Movie[];
+    list: SpotlightList;
 }
 
-const RecentMoviesRow: React.FC<RecentMoviesRowProps> = ({ movies }) => {
-    const randomMovie = useRandomMovie(movies, 20000);
-    const [movieBackdrop, movieBackdropLoading] = useMovieBackdrop(randomMovie);
+const RecentMoviesRow: React.FC<RecentMoviesRowProps> = ({ list }) => {
+    const randomMovie = useRandomMovie(list.movies, list.spotlightSeed, 20000);
+    const [movieBackdrop, movieBackdropPreview] = useMovieBackdrop(randomMovie);
     const theme = useTheme();
-
     const backdropStyle = {
         flex: 4,
         alignItems: "center",
         justifyContent: "end",
         width: "100%",
-        opacity: movieBackdropLoading ? 0 : 1,
-        transition: `opacity ${theme.transitions.duration.short}ms ease-in-out`,
         justifySelf: "end"
     };
+
+    if (!randomMovie) {
+        return null;
+    }
 
     const cardStyle = {
         width: {
@@ -37,6 +38,7 @@ const RecentMoviesRow: React.FC<RecentMoviesRowProps> = ({ movies }) => {
         <OverlaidImageBox
             sx={backdropStyle}
             backgroundImageUrl={movieBackdrop}
+            lowResolutionImageUrl={movieBackdropPreview}
             imageAlt={`${randomMovie.title} backdrop`}
             imageGrayScalePercentage={75}
             overlayColor={"#000000"}
@@ -57,7 +59,7 @@ const RecentMoviesRow: React.FC<RecentMoviesRowProps> = ({ movies }) => {
             >
                 Now In Theaters
             </Typography>
-            <BackdropImageListRow movies={movies} cardStyle={cardStyle} />
+            <BackdropImageListRow movies={list.movies} cardStyle={cardStyle} />
         </OverlaidImageBox>
     );
 };

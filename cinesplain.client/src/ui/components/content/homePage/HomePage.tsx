@@ -1,21 +1,116 @@
-import { Grid, Stack } from "@mui/material";
+import { Grid, Stack, Box } from "@mui/material";
 import { blue, pink, purple, red } from "@mui/material/colors";
-import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
-import { homePageQuery } from "../../../../loaders/homePageLoader";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { Suspense, useEffect } from "react";
+import {
+    classicMoviesQuery,
+    hatedMoviesQuery,
+    lovedMoviesQuery,
+    recentMoviesQuery,
+    upcomingMoviesQuery
+} from "../../../../queries/homePage";
 import Hero from "./Hero";
 import RatingList from "./RatingList";
 import RecentMoviesRow from "./RecentMoviesRow";
 
+/*
+ * Reserved space for a streamed section that matches the final layout so the
+ * already-visible content (hero, surrounding sections) never shifts when the
+ * content arrives. The skeletons are deliberately quiet: just the shape of the
+ * section with a gentle pulse.
+ */
+const SkeletonPulse = {
+    "@keyframes Skeleton-Pulse": {
+        "0%, 100%": { opacity: 1 },
+        "50%": { opacity: 0.65 }
+    },
+    animation: "Skeleton-Pulse 1.8s ease-in-out infinite"
+};
+
+const RecentMoviesSkeleton: React.FC = () => (
+    <Box
+        sx={{
+            ...SkeletonPulse,
+            flex: 4,
+            width: "100%",
+            minHeight: { xs: "350px", md: "445px" },
+            background: "linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.7)), #494949"
+        }}
+    />
+);
+
+const RatingListSkeleton: React.FC<{ tint: string }> = ({ tint }) => (
+    <Box
+        sx={{
+            ...SkeletonPulse,
+            borderRadius: "10px",
+            minHeight: { xs: "550px", md: "590px" },
+            background: `linear-gradient(${tint}3d, ${tint}59), #444449`
+        }}
+    />
+);
+
+const RecentMoviesSection: React.FC = () => {
+    const { data } = useSuspenseQuery(recentMoviesQuery);
+    return <RecentMoviesRow list={data} />;
+};
+
+const UpcomingSection: React.FC = () => {
+    const { data } = useSuspenseQuery(upcomingMoviesQuery);
+    return (
+        <RatingList
+            movies={data.movies}
+            spotlightSeed={data.spotlightSeed}
+            backgroundOverlayColor={blue["900"]}
+            backdropInterval={25000}
+            labelText="Upcoming"
+        />
+    );
+};
+
+const LovedSection: React.FC = () => {
+    const { data } = useSuspenseQuery(lovedMoviesQuery);
+    return (
+        <RatingList
+            movies={data.movies}
+            spotlightSeed={data.spotlightSeed}
+            backgroundOverlayColor={pink["900"]}
+            backdropInterval={27500}
+            labelText="Most Loved"
+        />
+    );
+};
+
+const HatedSection: React.FC = () => {
+    const { data } = useSuspenseQuery(hatedMoviesQuery);
+    return (
+        <RatingList
+            movies={data.movies}
+            spotlightSeed={data.spotlightSeed}
+            backgroundOverlayColor={red["900"]}
+            backdropInterval={40000}
+            labelText="Most Hated"
+        />
+    );
+};
+
+const ClassicSection: React.FC = () => {
+    const { data } = useSuspenseQuery(classicMoviesQuery);
+    return (
+        <RatingList
+            movies={data.movies}
+            spotlightSeed={data.spotlightSeed}
+            backgroundOverlayColor={purple["900"]}
+            backdropInterval={22000}
+            labelText="Classics"
+        />
+    );
+};
+
 const HomePage: React.FC = () => {
-    const { data } = useQuery(homePageQuery);
     useEffect(() => {
         document.title = "CineSplain - The Movie Info App";
     }, []);
-    if (!data) {
-        return null;
-    }
-    const { recentMovies, lovedMovies, hatedMovies, classicMovies, upcomingMovies } = data;
 
     return (
         <Stack className="full">
@@ -28,7 +123,9 @@ const HomePage: React.FC = () => {
                     }
                 }}
             >
-                <RecentMoviesRow movies={recentMovies} />
+                <Suspense fallback={<RecentMoviesSkeleton />}>
+                    <RecentMoviesSection />
+                </Suspense>
                 <Hero />
             </Stack>
             <Grid
@@ -40,57 +137,25 @@ const HomePage: React.FC = () => {
                     margin: 0
                 }}
             >
-                <Grid
-                    size={{ xs: 12, md: 5 }}
-                    sx={{
-                        padding: 1
-                    }}
-                >
-                    <RatingList
-                        movies={upcomingMovies}
-                        backgroundOverlayColor={blue["900"]}
-                        backdropInterval={25000}
-                        labelText="Upcoming"
-                    />
+                <Grid size={{ xs: 12, md: 5 }} sx={{ padding: 1 }}>
+                    <Suspense fallback={<RatingListSkeleton tint={blue["900"]} />}>
+                        <UpcomingSection />
+                    </Suspense>
                 </Grid>
-                <Grid
-                    size={{ xs: 12, md: 7 }}
-                    sx={{
-                        padding: 1
-                    }}
-                >
-                    <RatingList
-                        movies={lovedMovies}
-                        backgroundOverlayColor={pink["900"]}
-                        backdropInterval={27500}
-                        labelText="Most Loved"
-                    />
+                <Grid size={{ xs: 12, md: 7 }} sx={{ padding: 1 }}>
+                    <Suspense fallback={<RatingListSkeleton tint={pink["900"]} />}>
+                        <LovedSection />
+                    </Suspense>
                 </Grid>
-                <Grid
-                    size={{ xs: 12, md: 7 }}
-                    sx={{
-                        padding: 1
-                    }}
-                >
-                    <RatingList
-                        movies={hatedMovies}
-                        backgroundOverlayColor={red["900"]}
-                        backdropInterval={40000}
-                        labelText="Most Hated"
-                    />
+                <Grid size={{ xs: 12, md: 7 }} sx={{ padding: 1 }}>
+                    <Suspense fallback={<RatingListSkeleton tint={red["900"]} />}>
+                        <HatedSection />
+                    </Suspense>
                 </Grid>
-                <Grid
-                    size={{ xs: 12, md: 5 }}
-                    sx={{
-                        padding: 1
-                    }}
-                >
-                    <RatingList
-                        movies={classicMovies}
-                        backgroundOverlayColor={purple["900"]}
-                        backdropInterval={22000}
-                        labelText="Classics"
-                    />
+                <Grid size={{ xs: 12, md: 5 }} sx={{ padding: 1 }}>
+                    <Suspense fallback={<RatingListSkeleton tint={purple["900"]} />}>
+                        <ClassicSection />
+                    </Suspense>
                 </Grid>
             </Grid>
         </Stack>

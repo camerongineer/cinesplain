@@ -1,12 +1,13 @@
 import { fileURLToPath, URL } from "node:url";
-
 import plugin from "@vitejs/plugin-react";
 import child_process from "child_process";
 import fs from "fs";
 import path from "path";
 import { env } from "process";
 import { defineConfig } from "vite";
+import { nitro } from "nitro/vite";
 import svgr from "vite-plugin-svgr";
+import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 
 const baseFolder =
     env.APPDATA !== undefined && env.APPDATA !== ""
@@ -38,30 +39,17 @@ if (!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) {
     }
 }
 
-const target = env.ASPNETCORE_HTTPS_PORT
-    ? `https://localhost:${env.ASPNETCORE_HTTPS_PORT}`
-    : env.ASPNETCORE_URLS
-      ? env.ASPNETCORE_URLS.split(";")[0]
-      : "https://localhost:7232";
-
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [plugin(), svgr()],
+    // react's vite plugin must come after start's vite plugin
+    plugins: [tanstackStart(), plugin(), svgr(), nitro()],
     resolve: {
         alias: {
             "@": fileURLToPath(new URL("./src", import.meta.url)),
-            "@assets": "/src/assets"
+            "@assets": fileURLToPath(new URL("./src/assets", import.meta.url))
         }
     },
     server: {
-        proxy: {
-            "/api": {
-                target,
-                secure: false,
-                changeOrigin: true,
-                rewrite: (path) => path.replace(/^\/api/, "/api")
-            }
-        },
         port: 5173,
         https: {
             key: fs.readFileSync(keyFilePath),
